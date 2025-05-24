@@ -1,0 +1,371 @@
+﻿@model IEnumerable<Hotel>
+
+@{
+    ViewData["Title"] = "Tìm kiếm";
+    var utilities = ViewBag.Utilities as List<Utility> ?? new List<Utility>();
+}
+
+<!--body-->
+<div class="container-main">
+    <div class="navigation">
+        <div class="navigation-left"><a href="hotel.html">Khách sạn</a></div>
+        <div class="navigation-icon">
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+        <div class="navigation-center">Hải phòng</div>
+        <div class="navigation-icon">
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+        <div class="navigation-center">Dream Dragon Resort</div>
+    </div>
+    <h2 class="title-main">Khách sạn nghỉ dưỡng</h2>
+    <div class="content-main">
+        <div class="content-main-left">
+            <div class="filter-title-hotelitem">
+                <div class="filter-icon"><i class="fa-solid fa-filter"></i></div>
+                <div class="filter-name-hotelitem">Bộ lọc</div>
+            </div>
+            <div class="list-filter">
+                <div class="filter-item">
+                    <h3>Loại hình lưu trú</h3>
+                    <form class="form form-1">
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Residence"
+                                   value="Vinpearl"
+                                   class="input-filter" />
+                            Vinpearl
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Residence"
+                                   value="Resort"
+                                   class="input-filter" />
+                            Resort - Nghỉ dưỡng
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Residence"
+                                   value="Villa"
+                                   class="input-filter" />
+                            Villa - Biệt thự
+                        </label><br />
+                    </form>
+                </div>
+                <div class="filter-item">
+                    <h3>Hạng sao</h3>
+                    <form class="form form-2">
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Star"
+                                   value="5"
+                                   class="input-filter" />
+                            Khách sạn 5*
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Star"
+                                   value="4"
+                                   class="input-filter" />
+                            Khách sạn 4*
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Star"
+                                   value="3"
+                                   class="input-filter" />
+                            Khách sạn 3*
+                        </label><br />
+                    </form>
+                </div>
+                <div class="filter-item">
+                    <h3>Mức giá trong khoảng</h3>
+                    <form class="form form-3">
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Price"
+                                   value="0"
+                                   class="input-filter" />
+                            Dưới 500 nghìn
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Price"
+                                   value="1"
+                                   class="input-filter" />
+                            Từ 500 nghìn đến 1 triệu
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Price"
+                                   value="2"
+                                   class="input-filter" />
+                            Từ 1 triệu đến 2 triệu
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Price"
+                                   value="3"
+                                   class="input-filter" />
+                            Từ 2 triệu đến 3 triệu
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Price"
+                                   value="4"
+                                   class="input-filter" />
+                            Trên 3 triệu
+                        </label><br />
+                    </form>
+                </div>
+                <div class="filter-item">
+                    <h3>Tiện nghi khách sạn</h3>
+                    <form class="form form-4">
+                        @foreach (var utility in utilities)
+                        {
+                            <label class="label-input">
+                                <input type="checkbox"
+                                       name="Utility"
+                                       value="@utility.Id"
+                                       class="input-filter" />
+                                @utility.UtilityName
+                            </label>
+                            <br />
+                        }
+                    </form>
+                    <div class="seemore-hide" id="toggleSeemoreHide">
+                        [+] Xem thêm
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="content-main-right">
+            <div class="bestoflike">
+                <img class="bestoflike-img" src="~/images/bestof2025.png" alt="" />
+                <div class="bestoflike-name">
+                    10 khách sạn được yêu thích nhất ở trong nước
+                </div>
+            </div>
+            <div class="arrange">
+                <div class="arrange-name">Sắp xếp</div>
+                <div class="arrange-item active">DiepTourist đề xuất</div>
+                <div class="arrange-item">Giá: Thấp đến cao</div>
+                <div class="arrange-item">Giá: Cao đến thấp</div>
+                <div class="arrange-item">Đánh giá cao nhất</div>
+            </div>
+            <div class="list-card">
+                @foreach (var hotel in Model)
+                {
+                    <div class="card-item">
+                        <div class="card-img">
+                            <a asp-controller="Home" asp-action="HotelDetails" asp-route-slug="@hotel.Slug">
+                                <img src="@hotel.Avatar" alt="@hotel.HotelName" />
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-title">
+                                <div class="card-name">
+                                    <a asp-controller="Home" asp-action="HotelDetails" asp-route-slug="@hotel.Slug">@hotel.HotelName</a>
+                                </div>
+                                <div class="card-star">
+                                    @for (int i = 0; i < hotel.Star; i++)
+                                    {
+                                        <i class="fa-solid fa-star"></i>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-location">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <div class="location-text">@hotel.Address</div>
+                            </div>
+                            <div class="card-evaluate">
+                                <div class="evaluate1">
+                                    <a href=""><span>9.0</span>Tuyệt vời</a>
+                                </div>
+                                <div class="evaluate2">
+                                    <a href=""><span>- 0</span>đánh giá</a>
+                                </div>
+                            </div>
+                            <div class="card-endow">
+                                <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                <div class="endow-text">@hotel.Tag</div>
+                            </div>
+                            <div class="highlights">
+                                <div class="highlights-title">
+                                    <div class="hl-name-hotelitem">Điểm nổi bật</div>
+                                    <i id="rotateIcon" class="fa-solid fa-chevron-down"></i>
+                                </div>
+                                <div class="highlights-content">
+                                    @foreach (var item in hotel.Outstanding.Split("\r\n"))
+                                    {
+                                        <div class="highlight-content-item">
+                                            <i class="fa-solid fa-check"></i>
+                                            <div class="item-text">@item</div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-price">
+                                <div class="price-original">
+                                    @if (hotel.Rooms.First().Discount != null)
+                                    {
+                                        <a asp-controller="Home" asp-action="HotelDetails" asp-route-slug="@hotel.Slug">
+                                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", hotel.Rooms.First().Discount)
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-controller="Home" asp-action="HotelDetails" asp-route-slug="@hotel.Slug">
+                                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", hotel.Rooms.First().Price)
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <button id="toggleButtonItems">Xem thêm</button>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+    <script>
+        $(function () {
+            const Toast = window.globalVariable;
+
+            $(".input-filter").change(function () {
+                var queryString = "Slug:@Context.Request.Query["slug"]";
+                $(".input-filter:checked").each(function () {
+                    var nameInput = $(this).attr('name');
+                    var valueInput = $(this).val();
+
+                    queryString = queryString == "null"
+                        ? `${nameInput}:${valueInput}`
+                        : queryString + `;${nameInput}:${valueInput}`;
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("HotelFilterHandle", "Home")',
+                    data: { filter: queryString },
+                    beforeSend: function () {
+                        // Hiển thị modal trước khi gọi AJAX
+                        $("#loadingModal").show();
+                    },
+                    success: function (res) {
+                        if (!res.success) {
+                            Toast.fire({
+                                icon: `error`,
+                                text: res.message
+                            });
+                            return;
+                        }
+
+                        var listCard = $(".list-card");
+                        listCard.empty();
+
+                        $.each(JSON.parse(res.data), function (index, hotel) {
+                            var stars = "";
+                            for (var i = 0; i < hotel.Star; i++) {
+                                stars += '<i class="fa-solid fa-star"></i> ';
+                            }
+
+                            var outstanding = "";
+                            $.each(hotel.Outstanding.split("\r\n"), function (index, item) {
+                                outstanding += `
+                                                <div class="highlight-content-item">
+                                                    <i class="fa-solid fa-check"></i>
+                                                    <div class="item-text">${item}</div>
+                                                </div>
+                                                `;
+                            });
+
+                            var price = "";
+
+                            if (hotel.Rooms[0].Discount != null) {
+                                price = `<a href="/khach-san/${hotel.Slug}">${hotel.Rooms[0].Discount.toLocaleString('vi-VN')} đ</a>`
+                            } else {
+                                price = `<a href="/khach-san/${hotel.Slug}">${hotel.Rooms[0].Price.toLocaleString('vi-VN')} đ</a>`
+                            }
+
+                            var hotelEle = `
+                                            <div class="card-item">
+                                                <div class="card-img">
+                                                    <a href="/khach-san/${hotel.Slug}">
+                                                        <img src="${hotel.Avatar}" alt="${hotel.HotelName}" />
+                                                    </a>
+                                                </div>
+                                                <div class="card-info">
+                                                    <div class="card-title">
+                                                        <div class="card-name">
+                                                            <a href="/khach-san/${hotel.Slug}">${hotel.HotelName}</a>
+                                                        </div>
+                                                        <div class="card-star">${stars}</div>
+                                                    </div>
+                                                    <div class="card-location">
+                                                        <i class="fa-solid fa-location-dot"></i>
+                                                        <div class="location-text">${hotel.Address}</div>
+                                                    </div>
+                                                    <div class="card-evaluate">
+                                                        <div class="evaluate1">
+                                                            <a href="/khach-san/${hotel.Slug}"><span>9.0</span>Tuyệt vời</a>
+                                                        </div>
+                                                        <div class="evaluate2">
+                                                            <a href="/khach-san/${hotel.Slug}"><span>- 0</span>đánh giá</a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-endow">
+                                                        <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                                        <div class="endow-text">${hotel.Tag}</div>
+                                                    </div>
+                                                    <div class="highlights">
+                                                        <div class="highlights-title">
+                                                            <div class="hl-name-hotelitem">Điểm nổi bật</div>
+                                                            <i id="rotateIcon" class="fa-solid fa-chevron-down"></i>
+                                                        </div>
+                                                        <div class="highlights-content">${outstanding}</div>
+                                                    </div>
+                                                    <div class="card-price">
+                                                        <div class="price-original">
+                                                            ${price}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            `;
+
+                            listCard.append(hotelEle);
+                        });
+                    },
+                    complete: function () {
+                        // Ẩn modal khi hoàn thành
+                        $("#loadingModal").hide();
+                    },
+                    error: function (xhr, status, error) {
+                        $("#loadingModal").hide();
+                        Toast.fire({
+                            icon: `error`,
+                            text: `Có lỗi xảy ra`
+                        });
+
+                        // Xử lý lỗi
+                        console.error('Lỗi: ' + error);
+                        console.error('Mã trạng thái: ' + xhr.status);
+                        console.error('Chi tiết lỗi: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $(document).on('click', '.highlights-title', function (event) {
+                $(this).next().toggleClass('shrink');
+            });
+        });
+    </script>
+}

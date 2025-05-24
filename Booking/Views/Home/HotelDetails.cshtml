@@ -1,0 +1,581 @@
+﻿@model Hotel
+
+@{
+    ViewData["Title"] = Model.HotelName;
+    var images = ViewBag.Images as List<Media> ?? new List<Media>();
+    var utilities = ViewBag.Utilities as List<Utility> ?? new List<Utility>();
+    // var rooms = ViewBag.Rooms as List<Room> ?? new List<Room>();
+}
+
+<div class="navigation">
+    <div class="navigation-left"><a href="hotel.html">Khách sạn</a></div>
+    <div class="navigation-icon">
+        <i class="fa-solid fa-chevron-right"></i>
+    </div>
+    <div class="navigation-center"><a href="">Hải phòng</a></div>
+    <div class="navigation-icon">
+        <i class="fa-solid fa-chevron-right"></i>
+    </div>
+    <div class="navigation-right">Dream Dragon Resort</div>
+</div>
+<!--slideshow-->
+<div class="slideshow-container">
+    <button class="arrow-left">&#10094;</button>
+    <div class="slide-wrapper-hotelbooking">
+        <div class="slide-hotelbooking">
+            @foreach (var image in images)
+            {
+                if (image.MediaType == "Image")
+                {
+                    <img class="imgs" src="@image.MediaUrl" alt="" />
+                }
+                else if (image.MediaType == "Video")
+                {
+                    <video class="imgs" src="@image.MediaUrl" controls></video>
+                }
+            }
+        </div>
+    </div>
+    <button class="arrow-right">&#10095;</button>
+</div>
+<!--introduce-->
+<div class="introduce-menu" id="introduceMenu">
+    <a href="#introduce-name" class="introduce-menu-item active">Giới thiệu</a>
+    <a href="#room-review-title" class="introduce-menu-item">Hạng phòng</a>
+    <a href="#regulations-1" class="introduce-menu-item">Quy định</a>
+    <a href="#evaluate-title" class="introduce-menu-item">Đánh giá</a>
+    <a href="#qa-title" class="introduce-menu-item">Hỏi đáp</a>
+</div>
+<div class="introduce">
+    <div class="introduce-content">
+        <div class="introduce-left">
+            <div class="introduce-title">
+                <div class="introduce-name" id="introduce-name">
+                    <a href="hotelBooking.html">@Model.HotelName</a>
+                </div>
+                <div class="introduce-star">
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+            </div>
+            <div class="introduce-location">
+                <i class="fa-solid fa-location-dot"></i>
+                <div class="location-text">@Model.Address</div>
+            </div>
+
+            <div class="title-utilities">Tiện ích khách sạn</div>
+            <div class="list-utilities">
+                <div class="utilities-left" id="utilities-left">
+                    @foreach (var utility in utilities)
+                    {
+                        <div class="utilities-item">
+                            @Html.Raw(utility.Icon)
+                            <div class="utilities-text">@utility.UtilityName</div>
+                        </div>
+                    }
+                </div>
+                <div class="utilities-right">
+                    <i id="up-down" class="fa-solid fa-arrows-up-down"></i>
+                </div>
+            </div>
+        </div>
+        <div class="introduce-right">
+            <div class="introduce-right-card">
+                <div class="introduce-right-above">
+                    <div class="above-1">
+                        <div class="above-1-left">9.0</div>
+                        <div class="above-1-right">
+                            <div class="right-1">Tuyệt vời</div>
+                            <div class="right-2"><span>3</span> đánh giá</div>
+                        </div>
+                    </div>
+                    <div class="above-2">
+                        <div class="above-2-original">
+                            @(Model.Rooms.First().Discount != null 
+                                ? @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Model.Rooms.First().Discount) 
+                                : @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Model.Rooms.First().Price))
+                        </div>
+                    </div>
+                </div>
+                <div class="introduce-right-center">
+                    <div class="card-endow">
+                        <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                        <div class="endow-text">@Model.Tag</div>
+                    </div>
+                </div>
+                <div class="introduce-right-below">
+                    <a href="#room-review-title">Xem giá phòng</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--highlights-->
+<div class="highlights-hb">
+    <div class="highlights-container-hb">
+        <div class="highlights-name-hb">Điểm nổi bật Dream Dragon Resort</div>
+        <div class="highlights-content-hb">
+            @foreach (var item in Model.Outstanding.Split("\r\n"))
+            {
+                <div class="highlight-content-item-hb">
+                    <i class="fa-solid fa-check"></i>
+                    <div class="item-text">@item</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!--room review-->
+<div class="list-select">
+    <div class="room-review-title select-container" id="room-review-title">Chọn ngày để xem giá</div>
+    <div class="select-container">
+        <div class="box-select">
+            <div class="picker-container" id="departureDatePicker">
+                <i class="fa-solid fa-calendar-days"></i>
+                <div class="picker-content">
+                    <div class="picker-name">Ngày Đi</div>
+                    <span id="departureDateText">@DateTime.UtcNow.AddDays(1).ToString("dd/MM/yyyy")</span>
+                </div>
+            </div>
+
+            <div class="picker-container" id="returnDatePicker">
+                <i class="fa-solid fa-calendar-days"></i>
+                <div class="picker-content">
+                    <div class="picker-name">Ngày Về</div>
+                    <span id="returnDateText">@DateTime.UtcNow.AddDays(2).ToString("dd/MM/yyyy")</span>
+                </div>
+            </div>
+
+            <div class="picker-container" id="guestPickerContainer">
+                <i class="fa-solid fa-user"></i>
+                <div class="picker-content">
+                    <div class="picker-name">Số Khách</div>
+                    <span id="guestCount">1 khách</span>
+                </div>
+            </div>
+
+            <div class="picker-container" id="roomPickerContainer">
+                <i class="fa-solid fa-bed"></i>
+                <div class="picker-content">
+                    <div class="picker-name">Số Phòng</div>
+                    <span id="roomCount">1 phòng</span>
+                </div>
+            </div>
+        </div>
+        <div class="btn-seeRoomRate" data-slug="@Model.Slug">
+            <a href="javascript:void(0)">Xem giá phòng</a>
+        </div>
+    </div>
+    <!--dropdown room-->
+    <div class="dropdown room-dropdown" id="roomDropdown">
+        <div class="room-item" data-value="1">1 Phòng</div>
+        <div class="room-item" data-value="2">2 Phòng</div>
+        <div class="room-item" data-value="3">3 Phòng</div>
+        <div class="room-item" data-value="4">4 Phòng</div>
+        <div class="room-item" data-value="5">5 Phòng</div>
+        <div class="room-item" data-value="6">6 Phòng</div>
+        <div class="room-item" data-value="7">7 Phòng</div>
+        <div class="room-item" data-value="8">8 Phòng</div>
+        <div class="room-item" data-value="9">9 Phòng</div>
+        <div class="room-item" data-value="10">10 Phòng</div>
+    </div>
+    <!-- Dropdowns -->
+    <div class="dropdown guest-dropdown"
+         style="width: 230px; position: absolute; top: 90%; left: 45%;" id="guestDropdown">
+        <div class="guest-item">
+            <label>
+                Người lớn
+                <br />
+                <span>(> 12 tuổi)</span>
+            </label>
+            <div class="select-quantity">
+                <button class="counter-btn" id="adultMinus"><i class="fa-solid fa-minus"></i></button>
+                <span class="counter-value" id="adultCount">1</span>
+                <button class="counter-btn" id="adultPlus"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="guest-item">
+            <label>
+                Trẻ em
+                <br />
+                <span>(2-12 tuổi)</span>
+            </label>
+            <div class="select-quantity">
+                <button class="counter-btn" id="childMinus"><i class="fa-solid fa-minus"></i></button>
+                <span class="counter-value" id="childCount">0</span>
+                <button class="counter-btn" id="childPlus"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        </div>
+        <div class="guest-item">
+            <label>
+                Em bé
+                <br />
+                <span>(&lt;2 tuổi)</span>
+            </label>
+            <div class="select-quantity">
+                <button class="counter-btn" id="infantMinus"><i class="fa-solid fa-minus"></i></button>
+                <span class="counter-value" id="infantCount">0</span>
+                <button class="counter-btn" id="infantPlus"><i class="fa-solid fa-plus"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="room-review">
+    <div class="room-review-container">
+        <div class="list-room-review">
+            @foreach (var room in Model.Rooms)
+            {
+                <div class="room-review-item">
+                    <div class="room-review-left">
+                        <img src="@room.Avatar" alt="" />
+                    </div>
+                    <div class="room-review-center">
+                        <div class="room-name">@room.RoomName</div>
+                        <div class="room-detail">Chi tiết phòng ></div>
+                        <div class="overview-hotelbooking">
+                            <div class="overview-item">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                                <div class="overview-text">@room.Area m<sup>2</sup></div>
+                            </div>
+                            <div class="overview-item">
+                                <i class="fa-solid fa-user"></i>
+                                <div class="overview-text">@room.AmountPeople</div>
+                            </div>
+                            <div class="overview-item">
+                                <i class="fa-solid fa-mountain-sun"></i>
+                                <div class="overview-text">@room.Direction</div>
+                            </div>
+                            <div class="overview-item">
+                                <i class="fa-solid fa-bed"></i>
+                                <div class="overview-text">@room.Bed</div>
+                            </div>
+                        </div>
+                        <div class="give">
+                            <div class="give-item">
+                                <i class="fa-solid fa-check"></i>
+                                <div class="give-text">
+                                    Chưa bao gồm thuế VAT và phí dịch vụ.
+                                </div>
+                            </div>
+                            <div class="give-item">
+                                <i class="fa-solid fa-check"></i>
+                                <div class="give-text">Đã bao gồm ăn sáng.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="room-review-right">
+                        <div class="total-container">
+                            <div class="buttons-quantity">
+                                <div class="number-room">Số phòng</div>
+                                <div class="list-btns">
+                                    <button class="btn-minus" onclick="decrease(this)">
+                                        <i class="fa-solid fa-minus"></i>
+                                    </button>
+                                    <span id="quantity">0</span>
+                                    <button class="btn-plus" onclick="increase(this)" data-max="@room.Quantity">
+                                        <i class="fa-solid fa-plus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="total-amount">
+                                <div class="classify">
+                                    @if (room.Discount == null)
+                                    {
+                                        <div id="price" data-price="@((int)room.Price)">
+                                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", room.Price)
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="price-promotion" data-price="@((int)room.Price)">
+                                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", room.Price)
+                                        </div>
+                                        <div id="price" data-price="@((int)room.Discount)">
+                                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", room.Discount)
+                                        </div>
+                                    }
+                                </div>
+                                <div class="tax" id="taxRow" style="display: none">
+                                    Thuế & phí: <span id="tax">0</span>đ
+                                </div>
+                                <div class="total" id="totalRow" style="display: none">
+                                    Tổng tiền: <span id="total">0</span><span>đ</span>
+                                </div>
+                                <div class="room-count" id="roomCount">/phòng/đêm</div>
+                            </div>
+                            <div class="btnBookNow" data-id="@room.Id" style="display: none">
+                                <a href="javascript:void(0)">Đặt ngay</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>
+<!--regulations-->
+<div class="regulations">
+    <div class="regulations-content">
+        <div class="regulations-1" id="regulations-1">
+            Quy định nhận & trả phòng
+        </div>
+        <div class="box-regulation-1">
+            <div class="letter-1">Quy định nhận phòng:</div>
+            <div class="letter-2">
+                Khi đến nhận phòng, quý khách vui lòng mang theo:
+            </div>
+            <div class="letter-3">- CCCD hoặc passport.</div>
+            <div class="letter-4">- Phiếu xác nhận đặt phòng của DiepTourist</div>
+            <div class="letter-5">*Lưu ý:</div>
+            <div class="letter-6">
+                Theo quy định của pháp luật Việt Nam, khi 1 khách nước ngoài + 1
+                khách Việt Nam ở chung một phòng thì yêu cầu phải có giấy đăng ký
+                kết hôn.
+            </div>
+        </div>
+        <div class="regulations-2" id="regulations-2">
+            Quy định hủy / đổi đặt phòng
+        </div>
+        <div class="box-regulation-2">
+            <div class="letter-7">
+                Phí hủy đổi đặt phòng = phí hủy/đổi của khách sạn + phí xử lý giao
+                dịch của DiepTourist.
+            </div>
+            <div class="letter-8">
+                Phí hủy/đổi của khách sạn được chính khách sạn quy định như sau:
+            </div>
+            <div class="letter-9">
+                Khách hàng đặt phòng sẽ không được quyền hoàn phòng, hủy đặt phòng
+                nhưng được phép thay đổi đơn đặt phòng.
+            </div>
+            <div class="letter-10">Phí xử lý giao dịch của DiepTourist:</div>
+            <div class="letter-11">
+                - Đặt dịch vụ dưới 3 triệu: 2% tổng giá trị đặt phòng (tối thiểu
+                30.000 đ)
+            </div>
+            <div class="letter-12">
+                - Đặt dịch vụ trên 3 triệu: 1,5% tổng giá trị đặt phòng
+            </div>
+        </div>
+        <div class="regulations-3" id="regulations-3">Trẻ em và giường phụ</div>
+        <div class="box-regulation-3">
+            <div class="letter-13">
+                Em bé (dưới 2 tuổi):Miễn phí 1 trẻ em dưới 2 tuổi ngủ chung với bố
+                mẹ
+            </div>
+            <div class="letter-14">
+                Trẻ em (2 đến 12 tuổi):Trẻ em từ 2 - 12 tuổi: phụ thu theo quy định
+                của khách sạn
+            </div>
+            <div class="letter-15">Khách trên 12 tuổi được coi là người lớn</div>
+            <div class="letter-16">
+                Thông tin giường phụ thì tùy thuộc vào mỗi phòng. Vui lòng kiểm tra
+                thông tin phòng để biết chi tiết.
+            </div>
+        </div>
+    </div>
+</div>
+<!--evaluate-->
+<div class="evaluate">
+    <div class="evaluate-container">
+        <div class="evaluate-title" id="evaluate-title">
+            Đánh giá của khách hàng
+        </div>
+        <div class="box-evaluate">
+            <div class="evaluate-item-left">9</div>
+            <div class="evaluate-item-right">
+                <div class="evaluate-item-1">Tuyệt vời</div>
+                <div class="evaluate-item-2"><span>3</span> đánh giá</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--question & answer-->
+<div class="question-answer">
+    <div class="qa-container">
+        <div class="qa-title" id="qa-title">Hỏi đáp</div>
+        <div class="qa-content">
+            <input type="text"
+                   class="input-text"
+                   placeholder="Mời bạn để lại câu hỏi ..." />
+            <div class="btn-askquestion"><a href="">Đặt câu hỏi</a></div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+    <script>
+        $(function() {
+            const Toast = window.globalVariable;
+
+            $(".btn-seeRoomRate").click(function () {
+                var slug = $(this).data("slug");
+                var boxSelect = $(this).prev();
+                var checkInDate = boxSelect.find("#departureDateText").text();
+                var checkOutDate = boxSelect.find("#returnDateText").text();
+                var numberRoom = parseInt(boxSelect.find("#roomCount").text().substring(0, 1));
+
+                var data = {
+                    slug,
+                    checkInDate,
+                    checkOutDate,
+                    numberRoom
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("RoomFilter", "Home")",
+                    data: data,
+                    beforeSend: function() {
+                        $("#loadingModal").show();
+                    },
+                    success: function(res){
+                        if (!res.success) {
+                            Toast.fire({
+                                icon: 'error',
+                                text: res.message
+                            });
+
+                            return false;
+                        }
+
+                        var listRoom = $(".list-room-review");
+                        listRoom.empty();
+
+                        $.each(JSON.parse(res.data), function (index, room) {
+                            var price = "";
+
+                            if(room.Discount == null){
+                                price = `
+                                    <div id="price" data-price="${parseInt(room.Price)}">
+                                        ${room.Price.toLocaleString('vi-VN')} đ
+                                    </div>
+                                `;
+                            } else {
+                                price = `
+                                    <div class="price-promotion" data-price="${parseInt(room.Price)}">
+                                        ${room.Price.toLocaleString('vi-VN')} đ
+                                    </div>
+                                    <div id="price" data-price="${parseInt(room.Discount)}">
+                                        ${room.Discount.toLocaleString('vi-VN')} đ
+                                    </div>
+                                `;
+                            }
+
+                            var roomEle = `
+                                <div class="room-review-item">
+                                    <div class="room-review-left">
+                                        <img src="${room.Avatar}" alt="" />
+                                    </div>
+                                    <div class="room-review-center">
+                                        <div class="room-name">${room.RoomName}</div>
+                                        <div class="room-detail">Chi tiết phòng ></div>
+                                        <div class="overview-hotelbooking">
+                                            <div class="overview-item">
+                                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i>
+                                                <div class="overview-text">${room.Area} m<sup>2</sup></div>
+                                            </div>
+                                            <div class="overview-item">
+                                                <i class="fa-solid fa-user"></i>
+                                                        <div class="overview-text">${room.AmountPeople}</div>
+                                            </div>
+                                            <div class="overview-item">
+                                                <i class="fa-solid fa-mountain-sun"></i>
+                                                        <div class="overview-text">${room.Direction}</div>
+                                            </div>
+                                            <div class="overview-item">
+                                                <i class="fa-solid fa-bed"></i>
+                                                        <div class="overview-text">${room.Bed}</div>
+                                            </div>
+                                        </div>
+                                        <div class="give">
+                                            <div class="give-item">
+                                                <i class="fa-solid fa-check"></i>
+                                                <div class="give-text">
+                                                    Chưa bao gồm thuế VAT và phí dịch vụ.
+                                                </div>
+                                            </div>
+                                            <div class="give-item">
+                                                <i class="fa-solid fa-check"></i>
+                                                <div class="give-text">Đã bao gồm ăn sáng.</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="room-review-right">
+                                        <div class="total-container">
+                                            <div class="buttons-quantity">
+                                                <div class="number-room">Số phòng</div>
+                                                <div class="list-btns">
+                                                    <button class="btn-minus" onclick="decrease(this)">
+                                                        <i class="fa-solid fa-minus"></i>
+                                                    </button>
+                                                    <span id="quantity">0</span>
+                                                            <button class="btn-plus" onclick="increase(this)" data-max="${room.Quantity}">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div class="total-amount">
+                                                        <div class="classify">${price}</div>
+                                                <div class="tax" id="taxRow" style="display: none">
+                                                    Thuế & phí: <span id="tax">0</span>đ
+                                                </div>
+                                                <div class="total" id="totalRow" style="display: none">
+                                                    Tổng tiền: <span id="total">0</span><span>đ</span>
+                                                </div>
+                                                <div class="room-count" id="roomCount">/phòng/đêm</div>
+                                            </div>
+                                                    <div class="btnBookNow" data-id="${room.Id}" style="display: none">
+                                                <a href="javascript:void(0)">Đặt ngay</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                `;
+
+                            listRoom.append(roomEle)
+                        });
+                    },
+                    complete: function() {
+                        $("#loadingModal").hide();
+                    },
+                    error: function (error) {
+                        $("#loadingModal").hide();
+                        Toast.fire({
+                            icon: 'error',
+                            text: "Có lỗi xảy ra"
+                        });
+
+                        console.log(error);
+                    }
+                });
+            });
+
+            $(".list-room-review").on("click", ".btnBookNow", function () {
+                console.log($(this));
+                var departureDate = $("#departureDateText").text();
+                var returnDate = $("#returnDateText").text();
+                var numberAdult = parseInt($("#adultCount").text());
+                var numberChildren = parseInt($("#childCount").text());
+                var numberInfant = parseInt($("#infantCount").text());
+                var numberRoom = parseInt($(this).parent().find("#quantity").text());
+                var idRoom = $(this).data("id");
+
+                var href = `/khach-san/order/${idRoom}` +
+                    `?checkindate=${departureDate}&checkoutdate=${returnDate}` +
+                    `&ADT=${numberAdult}&CHD=${numberChildren}&INF=${numberInfant}` +
+                    `&numberroom=${numberRoom}`;
+
+                console.log(href);
+
+                window.location.href = href;
+            });
+        })
+    </script>
+}

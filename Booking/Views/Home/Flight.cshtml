@@ -1,0 +1,670 @@
+﻿@{
+    ViewData["Title"] = "Đặt vé máy bay";
+    var codeIATA = ViewBag.CodeIATA as List<CityCodeIATA> ?? new List<CityCodeIATA>();
+}
+
+<!--filter-search air-->
+<div class="wrapper-air">
+    <div class="slide-show">
+        <div class="image">
+            <img src="~/images/slide5.jpg" alt="">
+        </div>
+        <div class="content">
+            <div class="title">Đặt vé máy bay giá rẻ</div>
+            <div class="text">
+                <div class="text-1">Luôn Có Vé Giá Rẻ - </div>
+                <div class="text-2"><a href="">Cơ hội trúng vé máy bay 0 đồng</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="filter-search-air">
+        <div id="containerAir1" class="container-air">
+            <div class="filter-air-1">
+                <div class="content-left">
+                    <div class="content-left-1">
+                        <div class="departure-point" onclick="toggleSelector('departureSelector')">
+                            <div class="icon"><i class="fa-solid fa-plane-departure"></i></div>
+                            <div class="text">
+                                <div class="text1">Điểm đi</div>
+                                <div class="swaptext1" id="swaptext1">Chọn địa điểm</div>
+                            </div>
+                        </div>
+                        <div class="swap" id="swap-air"><i class="fa-solid fa-right-left"></i></div>
+                        <div class="arrival-point" onclick="toggleSelector('arrivalSelector')">
+                            <div class="icon"><i class="fa-solid fa-plane-arrival"></i></div>
+                            <div class="text">
+                                <div class="text1">Điểm đến</div>
+                                <div class="swaptext2" id="swaptext2">Chọn địa điểm</div>
+                            </div>
+                        </div>
+
+                        <!-- Bảng chọn địa điểm cho điểm đi -->
+                        <div class="location-selector" id="departureSelector">
+                            <div class="location-selector-title">Chọn điểm đi</div>
+                            <div class="location-selector-content">
+                                <div class="location-categories">
+                                    <div class="location-category" onclick="showOptions('departure', 'vietnam')">Việt Nam</div>
+                                    <div class="location-category" onclick="showOptions('departure', 'asean')">Đông Nam Á</div>
+                                    <div class="location-category" onclick="showOptions('departure', 'asia')">Châu Á</div>
+                                    <div class="location-category" onclick="showOptions('departure', 'europe')">Châu Âu</div>
+                                    <div class="location-category" onclick="showOptions('departure', 'oceania')">Châu Úc</div>
+                                    <div class="location-category" onclick="showOptions('departure', 'americas')">Châu Mỹ</div>
+                                </div>
+                                <div class="location-options show" id="departure-vietnam">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "VN")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <div class="location-options" id="departure-asean">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "DNA")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <div class="location-options" id="departure-asia">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CA")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <div class="location-options" id="departure-europe">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CAU")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <div class="location-options" id="departure-oceania">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CU")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <div class="location-options" id="departure-americas">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CM")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <!-- Thêm các nhóm tùy chọn cho các khu vực khác -->
+                            </div>
+                        </div>
+
+                        <!-- Bảng chọn địa điểm cho điểm đến -->
+                        <div class="location-selector" id="arrivalSelector">
+                            <div class="location-selector-title">Chọn điểm đi</div>
+                            <div class="location-selector-content">
+                                <div class="location-categories">
+                                    <div class="location-category" onclick="showOptions('arrival', 'vietnam')">Việt Nam</div>
+                                    <div class="location-category" onclick="showOptions('arrival', 'asean')">Đông Nam Á</div>
+                                    <div class="location-category" onclick="showOptions('arrival', 'asia')">Châu Á</div>
+                                    <div class="location-category" onclick="showOptions('arrival', 'europe')">Châu Âu</div>
+                                    <div class="location-category" onclick="showOptions('arrival', 'oceania')">Châu Úc</div>
+                                    <div class="location-category" onclick="showOptions('arrival', 'americas')">Châu Mỹ</div>
+                                </div>
+                                <div class="location-options show" id="arrival-vietnam">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "VN")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <div class="location-options" id="arrival-asean">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "DNA")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <div class="location-options" id="arrival-asia">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CA")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <div class="location-options" id="arrival-europe">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CAU")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <div class="location-options" id="arrival-oceania">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CU")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                                <div class="location-options" id="arrival-americas">
+                                    @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CM")!.CityCodeIATAChildren)
+                                    {
+                                        <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-left-2">
+                        <div class="picker-container" id="departureDatePicker">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <div class="picker-content">
+                                <div class="picker-name">Ngày Đi</div>
+                                <span id="departureDateText">Chọn ngày</span>
+                            </div>
+                        </div>
+
+                        <div class="picker-container" id="returnDatePicker">
+                            <i class="fa-solid fa-calendar-days"></i>
+                            <div class="picker-content">
+                                <div class="picker-name">Ngày Về</div>
+                                <span id="returnDateText">Chọn ngày</span>
+                            </div>
+                        </div>
+
+                        <div class="picker-container" id="guestPickerContainer">
+                            <i class="fa-solid fa-user"></i>
+                            <div class="picker-content">
+                                <div class="picker-name">Số Khách</div>
+                                <span id="guestCount">1 khách</span>
+                            </div>
+                        </div>
+                        <!-- Dropdowns -->
+                        <div class="dropdown guest-dropdown"
+                             style="width: 230px; position: absolute; top: 90%; left: 70%;" id="guestDropdown">
+                            <div class="guest-item">
+                                <label>
+                                    Người lớn
+                                    <br />
+                                    <span>(> 12 tuổi)</span>
+                                </label>
+                                <div class="select-quantity">
+                                    <button class="counter-btn" id="adultMinus"><i class="fa-solid fa-minus"></i></button>
+                                    <span class="counter-value" id="adultCount">1</span>
+                                    <button class="counter-btn" id="adultPlus"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="guest-item">
+                                <label>
+                                    Trẻ em
+                                    <br />
+                                    <span>(2-12 tuổi)</span>
+                                </label>
+                                <div class="select-quantity">
+                                    <button class="counter-btn" id="childMinus"><i class="fa-solid fa-minus"></i></button>
+                                    <span class="counter-value" id="childCount">0</span>
+                                    <button class="counter-btn" id="childPlus"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="guest-item">
+                                <label>
+                                    Em bé
+                                    <br />
+                                    <span>(&lt;2 tuổi)</span>
+                                </label>
+                                <div class="select-quantity">
+                                    <button class="counter-btn" id="infantMinus"><i class="fa-solid fa-minus"></i></button>
+                                    <span class="counter-value" id="infantCount">0</span>
+                                    <button class="counter-btn" id="infantPlus"><i class="fa-solid fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <hr />
+                            <div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="TravelClass" id="thrifty" value="1" checked>
+                                    <label class="form-check-label" for="thrifty">
+                                        Tiết kiệm & phổ thông
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="TravelClass" id="universal" value="2">
+                                    <label class="form-check-label" for="universal">
+                                        Phổ thông linh hoạt
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="TravelClass" id="merchant" value="3">
+                                    <label class="form-check-label" for="merchant">
+                                        Thương gia
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-right">
+                    <div class="content-right-1">
+                        <div class="btn-check">
+                            <input type="checkbox" id="check">
+                            <label for="check" class="button-check"></label>
+                        </div>
+                        <div class="ticket-cheap">Tìm vé rẻ nhất</div>
+                    </div>
+                    <div class="content-right-2">
+                        <div class="find-flights"><a href="">Tìm chuyến bay</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--brand-->
+    <div class="brand-air">
+        <div class="list-brand">
+            <div class="journey">
+                <img class="journey-img" src="~/images/14-nam.png" alt="">
+                <div class="journey-text">
+                    <div class="journey-text-1">14 năm chặng đường</div>
+                    <div class="journey-text-2">chinh phục một niềm tin</div>
+                </div>
+            </div>
+            <div class="achievement">
+                <div class="achievement-content">
+                    <img class="achievement-img" src="~/images/thuonghieu4.png" alt="">
+                    <div class="achievement-text">Luôn có vé giá rẻ</div>
+                </div>
+                <div class="achievement-content">
+                    <img class="achievement-img" src="~/images/thuonghieu5.png" alt="">
+                    <div class="achievement-text">Đặt vé tiện lợi, thanh toán dễ dàng</div>
+                </div>
+                <div class="achievement-content">
+                    <img class="achievement-img" src="~/images/thuonghieu6.png" alt="">
+                    <div class="achievement-text">Hỗ trợ 24/7</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--why book-->
+<div class="why-book">
+    <div class="why-book-container">
+        <div class="why-book-info">
+            <h2>Vì sao nên đặt vé tại DiepTourist?</h2>
+            <ul>
+                <li class="why-book-item">
+                    <i class="fa-solid fa-check"></i>Nhiều ưu đãi đặc quyền cho khách hàng thân thiết
+                </li>
+                <li class="why-book-item">
+                    <i class="fa-solid fa-check"></i>Đội ngũ tư vấn tận tâm, <span>hỗ trợ 24/7</span>
+                </li>
+                <li class="why-book-item">
+                    <i class="fa-solid fa-check"></i>Phục vụ hơn 500.000 lượt khách mỗi năm với <span>99%</span> khách hàng hài lòng
+                </li>
+            </ul>
+        </div>
+        <div class="why-book-sup">
+            <div class="sup-left">
+                <div class="sup-left-1">Tổng đài hỗ trợ <span><a href="">1900 2605</a></span></div>
+                <div class="sup-left-2">HN: (024) 7307 2605</div>
+                <div class="sup-left-3">HCM: (028) 7307 2605</div>
+            </div>
+            <div class="sup-right">
+                <div class="sup-right-title">Chat với DiepTourist</div>
+                <div class="sup-right-content">
+                    <div class="contact messages"><a href=""><img src="~/images/mess.png" width="50px" alt=""></a></div>
+                    <div class=" contact zalo"><a href=""><img src="~/images/zalo.png" width="50px" alt=""></a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--partner-airline-->
+<div class="partner-airline">
+    <div class="partner-airline-container">
+        <div class="partner-airline-title">Đối tác hàng không</div>
+        <div class="partner-airline-content">
+            <a href=""><img src="~/images/airline-partner-1.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-2.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-3.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-4.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-5.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-6.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-7.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-8.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-9.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-10.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-11.png" alt=""></a>
+            <a href=""><img src="~/images/airline-partner-12.png" alt=""></a>
+        </div>
+    </div>
+</div>
+<!--question-->
+<div class="question">
+    <div class="question-container">
+        <div class="question-title">Câu hỏi thường gặp</div>
+        <div class="question-content">
+            <div class="question-name" id="toggle-question-1">
+                <div class="question-name-left">1. Vì sao nên đặt vé máy bay tại DiepTourist?</div>
+                <div class="question-name-right"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="question-item question-item-1" id="question-item-1">
+                <div class="btext-1">
+                    DiepTourist với hơn 13 năm kinh nghiệm trong ngành, phục vụ hàng TRIỆU lượt khách mỗi năm.
+                    Quý khách hoàn toàn yên tâm đặt vé tại DiepTourist.vn vì:
+                </div>
+                <div class="btext-2">
+                    <ul>
+                        <li>Hệ thống tìm, so sánh và đặt vé máy bay dễ dàng, tiện lợi, nhanh chóng.</li>
+                        <li>Đội ngũ tư vấn giàu kinh nghiệm, tận tâm, luôn hỗ trợ khách hàng tận tình.</li>
+                        <li>Hình thức thanh toán đa dạng và linh hoạt: online, chuyển khoản, tại văn phòng, tại các cửa hàng tiện lợi</li>
+                        <li>
+                            Nhiều ưu đãi đặc quyền cho khách hàng thân thiết: ưu đãi cho lần đặt sau, tặng voucher dịp sinh nhật, giảm giá trên các
+                            dịch vụ khác như phòng khách sạn, tour du lịch... và đặc biệt được ưu đãi khi mua tại Hệ thống nhà thuốc Pharmart cùng tập đoàn.
+                        </li>
+                    </ul>
+                    <div class="btext-3">Hãy gọi ngay <a href="">1900 2605</a> để được đội ngũ tư vấn của DiepTourist hỗ trợ nhé!</div>
+                </div>
+            </div>
+            <div class="question-name" id="toggle-question-2">
+                <div class="question-name-left">2. Làm thế nào để săn được vé giá rẻ?</div>
+                <div class="question-name-right"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="question-item question-item-2" id="question-item-2">
+                <div class="btext-1">Tham khảo ngay các mẹo sau để săn được vé giá rẻ nhất:</div>
+                <div class="btext-2">
+                    <ul>
+                        <li>Cập nhật thường xuyên các chương trình khuyến mãi của DiepTourist</li>
+                        <li>Bay vào mùa thấp điểm du lịch của điểm đến</li>
+                        <li>Săn vé rẻ sớm trước 3 - 6 tháng</li>
+                        <li>Chọn vé bay vào khung giờ tối muộn hoặc sáng sớm</li>
+                        <li>Trước khi săn vé chuẩn bị sẵn: thông tin hành khách, thẻ ATM, Visa, Master...</li>
+                        <li>Thực hành trước cho quen trước khi săn vé trực tuyến</li>
+                    </ul>
+                </div>
+                <div class="btext-3">Săn vé giá rẻ dễ dàng tại DiepTourist.vn!</div>
+            </div>
+            <div class="question-name" id="toggle-question-3">
+                <div class="question-name-left">3. Giá vé máy bay bao nhiêu tiền và gồm những gì?</div>
+                <div class="question-name-right"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="question-item question-item-3" id="question-item-3">
+                <div class="btext-1">
+                    Giá vé máy bay phụ thuộc vào chặng bay, hãng bay, giờ bay và hạng vé.
+                    Hiện tại giá vé nội địa rẻ nhất là chặng Sài Gòn đi Phú Quốc từ 608.000đ và cao nhất là chặng Hà Nội - Sài Gòn từ 1.318.000đ.
+
+                    Giá vé bao gồm như sau:
+                </div>
+                <div class="btext-2">
+                    <ul>
+                        <li>Giá vé = Giá vé cơ bản (giá net hay giá fare) + thuế VAT + Phí (phí soi chiếu an ninh, phí quản trị của hãng, phí xuất vé).</li>
+                        <li>
+                            Giá vé hiển thị sau khi bạn tìm chuyến bay là giá chưa thuế phí (giá net). Để biết giá thanh toán (đã bao gồm thuế phí) là bao
+                            nhiêu bạn nhấn vào ô giá bên trong bảng giá, hệ thống sẽ hiển thị giá vé cuối cùng mà bạn phải thanh toán.
+                        </li>
+                        <li>Giá vé thường sẽ bao gồm 7kg hành lý xách tay. Còn hành lý ký gửi thường không bao gồm trong các hạng vé siêu tiết kiệm, siêu khuyến mãi của các hãng.</li>
+                    </ul>
+                </div>
+                <div class="btext-3">Để biết giá phải thanh toán, bạn hãy sử dụng chức năng tìm kiếm vé máy bay của DiepTourist, sau đó chọn vé muốn xem giá. Hệ thống sẽ hiển thị giá cuối cùng mà bạn phải thanh toán.</div>
+            </div>
+            <div class="question-name" id="toggle-question-4">
+                <div class="question-name-left">4. Muốn đổi giờ bay, ngày bay, hành trình bay có được không?</div>
+                <div class="question-name-right"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="question-item question-item-4" id="question-item-4">
+                <div class="btext-1">
+                    Có thể đổi ngày bay, giờ bay hoặc hành trình nhưng phải tùy theo điều kiện vé đã mua. Khi đổi ngày bay,
+                    giờ bay hoặc hành trình, Quý khách thường sẽ phải trả thêm phí dịch vụ cùng chênh lệch giá vé. Cách nhanh nhất là liên hệ với nơi mua vé để được hỗ trợ đổi thông tin mới, cũng như đóng thêm phí theo quy định của hãng nếu có.
+                </div>
+                <div class="btext-3">> Xem thêm chi tiết: Quy định và mức phí nếu đổi giờ bay, ngày bay, hành trình vé.</div>
+            </div>
+            <div class="question-name" id="toggle-question-5">
+                <div class="question-name-left">5. Cần lưu ý gì khi mang hành lý xách tay, ký gửi đi máy bay?</div>
+                <div class="question-name-right"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="question-item question-item-5" id="question-item-5">
+                <div class="btext-1">- Tiêu chuẩn hành lý xách tay:</div>
+                <div class="btext-2">
+                    <ul>
+                        <li>Vietnam Airlines: 1 kiện tối đa 10kg và 1 phụ kiện tối đa 2kg</li>
+                        <li>Bamboo Airways, Vietjet Air, Pacific Airlines, Vietravel Airlines: Tối đa 7kg</li>
+                    </ul>
+                </div>
+                <div class="btext-1">- Tiêu chuẩn hành lý ký gửi:</div>
+                <div class="btext-2">
+                    <ul>
+                        <li>Vietnam Airlines: 1 kiện, tối đa 23kg</li>
+                        <li>Bamboo Airways: 20kg (trừ hạng Economy Saver Max)</li>
+                        <li>Vietjet Air, Pacific Airlines, Vietravel Airlines: Phải mua thêm</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="question-name" id="toggle-question-6">
+                <div class="question-name-left">6. Đi máy bay cần giấy tờ gì?</div>
+                <div class="question-name-right"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="question-item question-item-6" id="question-item-6">
+                <div class="btext-1">- Bay nội địa:</div>
+                <div class="btext-2">
+                    <ul>
+                        <li>Hành khách từ đủ 14 tuổi trở lên: Căn cước công dân, Chứng minh thư nhân dân, Hộ chiếu, Bằng lái xe...</li>
+                        <li>Hành khách dưới 14 tuổi: Giấy khai sinh bản gốc hoặc bản sao trích lục</li>
+                        <li>Em bé dưới 1 tháng tuổi: Giấy chứng sinh có dấu xác nhận còn hiệu lực</li>
+                    </ul>
+                </div>
+                <div class="btext-1">- Bay quốc tế:</div>
+                <div class="btext-2">
+                    <ul>
+                        <li>Hộ chiếu</li>
+                        <li>Visa (tùy yêu cầu của quốc gia nơi đến)</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="question-name" id="toggle-question-7">
+                <div class="question-name-left">7. Trẻ em, em bé đi máy bay cần lưu ý gì?</div>
+                <div class="question-name-right"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="question-item question-item-7" id="question-item-7">
+                <div class="btext-1">- Giấy tờ cho trẻ em đi máy bay:</div>
+                <div class="btext-2">
+                    <ul>
+                        <li>Dưới 1 tháng tuổi: Giấy chứng sinh</li>
+                        <li>Dưới 14 tuổi: Giấy khai sinh bản gốc hoặc bản sao trích lục</li>
+                    </ul>
+                </div>
+                <div class="btext-1">- Quy định độ tuổi trẻ em đi máy bay một mình:</div>
+                <div class="btext-2">
+                    <ul>
+                        <li>Vietnam Airlines, Vietjet Air, Pacific Airlines: Từ 12 đến dưới 14 tuổi</li>
+                        <li>
+                            Bamboo Airways:
+                            <ul>
+                                <li class="li-small">Từ 4 đến dưới 6 tuổi: Được phép, bắt buộc có tiếp viên đi kèm</li>
+                                <li class="li-small">Từ 6 tuổi đến dưới 18 tuổi: Được phép, không bắt buộc có tiếp viên đi kèm</li>
+                            </ul>
+                        </li>
+                        <li>
+                            Vietravel Airlines:
+                            <ul>
+                                <li class="li-small">Từ 4 đến dưới 6 tuổi: Được phép, bắt buộc có tiếp viên đi kèm</li>
+                                <li class="li-small">Từ 6 tuổi đến dưới 14 tuổi: Được phép, không bắt buộc có tiếp viên đi kèm</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="question-name" id="toggle-question-8">
+                <div class="question-name-left">8. Có hủy được vé máy bay đã đặt không?</div>
+                <div class="question-name-right"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="question-item question-item-8" id="question-item-8">
+                <div class="btext-1">
+                    Thông thường, vé máy bay khuyến mại, giá rẻ sẽ không được phép hoàn hủy. Còn đối với
+                    các hạng vé khác, điều kiện hoàn hủy vé máy bay sẽ áp dụng theo quy định cụ thể của các hãng hàng không.
+                </div>
+            </div>
+            <div class="question-name" id="toggle-question-9">
+                <div class="question-name-left">9. Nên ra sân bay trước bao lâu để làm thủ tục bay?</div>
+                <div class="question-name-right"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="question-item question-item-9" id="question-item-9">
+                <div class="btext-1">Để làm thủ tục đi máy bay, hành khách cần sắp xếp đến sân bay sớm, cụ thể:</div>
+                <div class="btext-2">
+                    <ul>
+                        <li>Bay Nội địa: Có mặt tại sân bay trước ít nhất 90 phút - 120 phút so với giờ khởi hành</li>
+                        <li>Bay Quốc tế: Có mặt tại sân bay trước ít nhất 150 phút đến 180 phút so với giờ khởi hành</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="question-name" id="toggle-question-10">
+                <div class="question-name-left">10. Hành lý đi máy bay bị cân thừa phải làm sao?</div>
+                <div class="question-name-right"><i class="fa-solid fa-chevron-down"></i></div>
+            </div>
+            <div class="question-item question-item-10" id="question-item-10">
+                <div class="btext-1">
+                    Nếu thừa 1 - 2 cân, Quý khách có thể dùng mẹo sử dụng túi nhỏ để san bớt và nhờ người thân cầm hộ.
+                    Tuy nhiên, nếu hành lý bị thừa số cân lớn hơn, hãy mua thêm hành lý ký gửi tại quầy của các hãng hàng không.
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--video-air-->
+<div class="video-air">
+    <div class="video-air-content">
+        <iframe src="https://www.youtube.com/embed/0pPOLazg7hI?si=qNXDv0_tsJsAOMN9"
+                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+</div>
+<!--promotional news-->
+<div class="promotional-news">
+    <div class="promotional-news-container">
+        <div class="promotional-news-title">Tin khuyến mại vé máy bay</div>
+        <div class="promotional-news-content">
+            <div class="promotional-news-item">
+                <a href="">
+                    <img src="~/images/promotional-new1.jpg" alt="">
+                    <div class="promotional-news-name">DiepTourist Travel x Pharmart: Vi vu trọn vẹn, sức khỏe ven toàn</div>
+                </a>
+            </div>
+            <div class="promotional-news-item">
+                <a href="">
+                    <img src="~/images/promotional-new2.jpg" alt="">
+                    <div class="promotional-news-name">Vietjet Air thông báo tăng tần suất mở bán chặng bay Hà Nội - Nagoya</div>
+                </a>
+            </div>
+            <div class="promotional-news-item">
+                <a href="">
+                    <img src="~/images/promotional-new3.jpg" alt="">
+                    <div class="promotional-news-name">Đặt ngay vé máy bay, trúng ngay vé 0 đồng cùng DiepTourist</div>
+                </a>
+            </div>
+            <div class="promotional-news-item">
+                <a href="">
+                    <img src="~/images/promotional-new4.jpg" alt="">
+                    <div class="promotional-news-name">Giảm tới 166k: Linh đình mừng sinh nhật cùng Bamboo Airwways</div>
+                </a>
+            </div>
+            <div class="promotional-news-item">
+                <a href="">
+                    <img src="~/images/promotional-new5.jpg" alt="">
+                    <div class="promotional-news-name">Vietjet Air tặng hành lý kí gửi đường bay Trung Quốc, Hong Kong, Đài Loan</div>
+                </a>
+            </div>
+            <div class="promotional-news-item">
+                <a href="">
+                    <img src="~/images/promotional-new6.jpg" alt="">
+                    <div class="promotional-news-name">Ưu đãi độc quyền từ DiepTourist Travel và Techcombank Rewwards</div>
+                </a>
+            </div>
+        </div>
+        <div class="btn-seemore"><a href="">Xem thêm</a></div>
+    </div>
+</div>
+<!--over-view-->
+<div class="overview">
+    <div class="overview-content">
+        <div class="overview-name">Tìm mua vé máy bay</div>
+        <div class="list-overview">
+            <div class="overview-title">Điểm đến nội địa</div>
+            <div class="overview-items">
+                <div class="item"><a href="">Hà Nội</a></div>
+                <div class="item"><a href="">Hồ Chí Minh</a></div>
+                <div class="item"><a href="">Đà Nẵng</a></div>
+                <div class="item"><a href="">Nha Trang</a></div>
+                <div class="item"><a href="">Phú Quốc</a></div>
+                <div class="item"><a href="">Huế</a></div>
+                <div class="item"><a href="">Hải Phòng</a></div>
+                <div class="item"><a href="">Cần Thơ</a></div>
+                <div class="item"><a href="">Côn Đảo</a></div>
+                <div class="item"><a href="">Thanh Hóa</a></div>
+                <div class="item"><a href="">Đà Lạt</a></div>
+                <div class="item"><a href="">Quy Nhơn</a></div>
+            </div>
+        </div>
+        <div class="list-overview">
+            <div class="overview-title">Điểm đến quốc tế</div>
+            <div class="overview-items">
+                <div class="item"><a href="">Thái Lan</a></div>
+                <div class="item"><a href="">Nhật Bản</a></div>
+                <div class="item"><a href="">Hàn Quốc</a></div>
+                <div class="item"><a href="">Úc</a></div>
+                <div class="item"><a href="">Singapore</a></div>
+                <div class="item"><a href="">Trung Quốc</a></div>
+                <div class="item"><a href="">Đài Loan</a></div>
+                <div class="item"><a href="">Mỹ</a></div>
+                <div class="item"><a href="">Pháp</a></div>
+                <div class="item"><a href="">Ấn Độ</a></div>
+                <div class="item"><a href="">Đức</a></div>
+                <div class="item"><a href="">Thụy Sĩ</a></div>
+            </div>
+        </div>
+        <div class="list-overview">
+            <div class="overview-title">Vé máy bay theo chủ đề</div>
+            <div class="overview-items">
+                <div class="item"><a href="">Vé máy bay nội địa</a></div>
+                <div class="item"><a href="">Vé máy bay quốc tế</a></div>
+                <div class="item"><a href="">Vé máy bay tết</a></div>
+                <div class="item"><a href="">Đại lý vé máy bay</a></div>
+                <div class="item"><a href="">Săn vé máy bay giá rẻ</a></div>
+                <div class="item"><a href="">Vé máy bay về Việt Nam</a></div>
+                <div class="item"><a href="">Vé máy bay khuyến mại</a></div>
+                <div class="item"><a href="">Vé rẻ trong tháng</a></div>
+                <div class="item"><a href="">Vé máy bay khứ hồi</a></div>
+                <div class="item"><a href="">Lịch bay</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            const Toast = window.globalVariable;
+
+            $(".find-flights > a").click(function (event) {
+                event.preventDefault();
+                var departure = $("#swaptext1").attr("data-code");
+                var destination = $("#swaptext2").attr("data-code");
+                var departureDate = $("#departureDateText").attr("data-date");
+                var returnDate = $("#returnDateText").attr("data-date") ?? "";
+                var numberAdult = $("#adultCount").text();
+                var numberChildren = $("#childCount").text();
+                var numberInfant = $("#infantCount").text();
+                var travelClass = $(".form-check .form-check-input:checked").val();
+
+                if (departure == undefined || destination == undefined || departureDate == undefined) {
+                    Swal.fire({
+                        title: "Thiếu thông tin!",
+                        text: "Vui lòng chọn điểm đi, điểm đến, ngày đi",
+                        icon: "warning",
+                    });
+
+                    return;
+                }
+
+                if (departure == destination){
+                    Swal.fire({
+                        title: "Sai thông tin!",
+                        text: "Điểm đến và điểm đi không thể cùng một nơi",
+                        icon: "warning",
+                    });
+
+                    return;
+                }
+
+                var url = "@Url.Action("FlightSearch")" + 
+                    `?From=${departure}&To=${destination}&DepartDate=${departureDate}&ReturnDate=${returnDate}&ADT=${numberAdult}&CHD=${numberChildren}&INF=${numberInfant}&TravelClass=${travelClass}`;
+
+                console.log(url);
+
+                window.location.href = url;
+            });
+        });
+    </script>
+}

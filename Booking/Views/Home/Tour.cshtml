@@ -1,0 +1,440 @@
+﻿@{
+    ViewData["Title"] = "Tour du lịch";
+    var listTour = ViewBag.ListTour as List<Tour> ?? new List<Tour>();
+    var listCateTour = ViewBag.ListCateTour as List<CategoryTour> ?? new List<CategoryTour>();
+}
+
+<!--slide-filterSearch-Brand-->
+<div class="wrapper">
+    <!--Slide-->
+    <div class="slide-show">
+        <div class="list-images">
+            <img class="imgs" src="~/images/slide1.jpg" alt="">
+            <img class="imgs" src="~/images/slide2.jpg" alt="">
+            <img class="imgs" src="~/images/slide3.jpg" alt="">
+            <img class="imgs" src="~/images/slide4.jpg" alt="">
+        </div>
+        <div class="arrow">
+            <div class="arrow-left btns"><i class="fa-solid fa-chevron-left"></i></div>
+            <div class="arrow-right btns"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+        <div class="index-images">
+            <div class="index-item index-item-0 active"></div>
+            <div class="index-item index-item-1"></div>
+            <div class="index-item index-item-2"></div>
+            <div class="index-item index-item-3"></div>
+        </div>
+    </div>
+    <!--Filter search-->
+    <div class="filter-search">
+        <div class="wrapper-filter">
+            <div class="filter-name">Tìm tour giá tốt</div>
+            <div id="container3" class="container">
+                <div class="filter-content-3">
+                    <div class="place">
+                        <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="place-text">
+                            <div class="place-text1">Địa điểm</div>
+                            <div class="place-text2" id="place-text2" data-slug="">Bạn muốn đi đâu</div>
+                        </div>
+                    </div>
+                    <div class="departure-location">
+                        <div class="dl-icon"><i class="fa-solid fa-location-dot"></i></div>
+                        <div class="dl-text">
+                            <div class="dl-text1">Khởi hành từ</div>
+                            <div class="dl-text2" id="dl-text2" data-departure="">Vui lòng chọn</div>
+                        </div>
+                    </div>
+                    <div class="find-now">
+                        <div class="btn-findNow"><a asp-controller="Home" asp-action="TourFilter">Tìm ngay</a></div>
+                    </div>
+                </div>
+                <div class="dropdown-please" id="dropdownPlease">
+                    <ul>
+                        <li data-value="Hồ Chí Minh">Hồ Chí Minh</li>
+                        <li data-value="Hà Nội">Hà Nội</li>
+                        <li data-value="Đà Nẵng">Đà Nẵng</li>
+                        <li data-value="Nha Trang">Nha Trang</li>
+                        <li data-value="Phú Quốc">Phú Quốc</li>
+                        <li data-value="Huế">Huế</li>
+                        <li data-value="Cần Thơ">Cần Thơ</li>
+                        <li data-value="Đà Lạt">Đà Lạt</li>
+                        <li data-value="Quy Nhơn">Quy Nhơn</li>
+                        <li data-value="Hạ Long">Hạ Long</li>
+                        <li data-value="Tây Nguyên">Tây Nguyên</li>
+                    </ul>
+                </div>
+                <!-- Dropdown -->
+                <div class="dropdown-container" id="dropdownContainer">
+
+                    <div class="tour-dropdown">
+                        <div class="dropdown-title">Địa điểm nổi bật</div>
+                        <div class="dropdown-section dropdown-section-1">
+                            @foreach (var cateTour in listCateTour.Where(ct => ct.IsOutstanding).Take(6))
+                            {
+                                <div class="dropdowns-item d-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug" data-slug="@cateTour.Slug">
+                                    <img src="@cateTour.Avatar" alt="@cateTour.Name">
+                                    <div class="dd-hotel-main">
+                                        <span class="dd-name">@cateTour.Name</span>
+                                        <div class="dd-hotel-text">@cateTour.Tours.Count tour</div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="travel-all">
+                        <!--Du lịch trong nước và nước ngoài -->
+                        <div class="dropdown-section-2">
+                            <div class="dropdown-items toggle-section" onclick="toggleSubMenu('domestic')">
+                                <i class="fa fa-chevron-right arrow-icon" id="arrow-international"></i>Du lịch trong nước
+                            </div>
+                            <div class="sub-options" id="domestic">
+                                <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('north')">
+                                    <i class="fa fa-chevron-right arrow-icon" id="arrow-north"></i> Miền Bắc
+                                </div>
+                                <div class="sub-options-inner" id="north">
+                                    @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "mien-bac")?.CateTourChildren!)
+                                    {
+                                        <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                    }
+                                </div>
+                                <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('central')">
+                                    <i class="fa fa-chevron-right arrow-icon" id="arrow-central"></i> Miền Trung
+                                </div>
+                                <div class="sub-options-inner" id="central">
+                                    @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "mien-trung")?.CateTourChildren!)
+                                    {
+                                        <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                    }
+                                </div>
+                                <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('south')">
+                                    <i class="fa fa-chevron-right arrow-icon" id="arrow-south"></i> Miền Nam
+                                </div>
+                                <div class="sub-options-inner" id="south">
+                                    @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "mien-nam")?.CateTourChildren!)
+                                    {
+                                        <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-section-2">
+                            <div class="dropdown-items toggle-section" onclick="toggleSubMenu('international')">
+                                <i class="fa fa-chevron-right arrow-icon" id="arrow-international"></i> Du lịch nước ngoài
+                            </div>
+                            <div class="sub-options" id="international">
+                                <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('southeast-asia')">
+                                    <i class="fa fa-chevron-right arrow-icon" id="arrow-southeast-asia"></i> Đông Nam Á
+                                </div>
+                                <div class="sub-options-inner" id="southeast-asia">
+                                    @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "dong-nam-a")?.CateTourChildren!)
+                                    {
+                                        <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                    }
+                                </div>
+                                <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('asia')">
+                                    <i class="fa fa-chevron-right arrow-icon" id="arrow-asia"></i> Châu Á
+                                </div>
+                                <div class="sub-options-inner" id="asia">
+                                    @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "chau-a")?.CateTourChildren!)
+                                    {
+                                        <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                    }
+                                </div>
+                                <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('europe')">
+                                    <i class="fa fa-chevron-right arrow-icon" id="arrow-europe"></i> Châu Âu
+                                </div>
+                                <div class="sub-options-inner" id="europe">
+                                    @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "chau-au")?.CateTourChildren!)
+                                    {
+                                        <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                    }
+                                </div>
+                                <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('australia')">
+                                    <i class="fa fa-chevron-right arrow-icon" id="arrow-australia"></i> Châu Úc
+                                </div>
+                                <div class="sub-options-inner" id="australia">
+                                    @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "chau-uc")?.CateTourChildren!)
+                                    {
+                                        <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Brand-->
+    <div class="brand">
+        <div class="list-brand">
+            <div class="journey">
+                <img class="journey-img" src="./images/14-nam.png" alt="">
+                <div class="journey-text">
+                    <div class="journey-text-1">14 năm chặng đường</div>
+                    <div class="journey-text-2">chinh phục một niềm tin</div>
+                </div>
+            </div>
+            <div class="achievement">
+                <div class="achievement-content">
+                    <img class="achievement-img" src="./images/thuonghieu1.png" alt="">
+                    <div class="achievement-text">Luôn có giá tốt</div>
+                </div>
+                <div class="achievement-content">
+                    <img class="achievement-img" src="./images/thuonghieu8.png" alt="">
+                    <div class="achievement-text">Đảm bảo chất lượng</div>
+                </div>
+                <div class="achievement-content">
+                    <img class="achievement-img" src="./images/thuonghieu9.png" alt="">
+                    <div class="achievement-text">Am hiểu tuyến điểm, tận tình chu đáo</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--domestic- nội địa-->
+<div class="domestic">
+    <div class="domestic-content">
+        <a href="javascripts:void(0)">
+            <div class="domestic-item">
+                <div class="domestic-text">Tour Du Lịch Mùa Lá Đỏ 2025</div>
+            </div>
+        </a>
+        <a href="javascripts:void(0)">
+            <div class="domestic-item">
+                <div class="domestic-text">Tour Du Lịch 2/9</div>
+            </div>
+        </a>
+        <a href="javascripts:void(0)">
+            <div class="domestic-item">
+                <div class="domestic-text">Tour Du Lịch MICE</div>
+            </div>
+        </a>
+        <a href="javascripts:void(0)">
+            <div class="domestic-item">
+                <div class="domestic-text">Tour Du Lịch Biển 2025</div>
+            </div>
+        </a>
+        <a href="javascripts:void(0)">
+            <div class="domestic-item">
+                <div class="domestic-text">Tour Trượt Tuyết HOT 2025</div>
+            </div>
+        </a>
+        <a href="javascripts:void(0)">
+            <div class="domestic-item">
+                <div class="domestic-text">Chùm Tour Hè HOT 2025</div>
+            </div>
+        </a>
+    </div>
+</div>
+<!--hot-promotion-->
+<div class="hot-promotion">
+    <div class="list-hot-promotion">
+        <div class="content">
+            <a href="javascript:void(0)"><img class="hp-img" src="~/images/hot-promotion1.jpg" alt=""></a>
+            <a href="javascript:void(0)"><img class="hp-img" src="~/images/hot-promotion4.jpg" alt=""></a>
+            <a href="javascript:void(0)"><img class="hp-img" src="~/images/hot-promotion5.jpg" alt=""></a>
+        </div>
+    </div>
+</div>
+<!--tour-hot-->
+<div class="tour-hot">
+    <div class="tour-hot-content">
+        <div class="tour-hot-title">Tour khuyến mãi HOT</div>
+        <div class="tour-hot-text">Nhanh tay chớp cơ hội săn tour giá tốt mỗi ngày!</div>
+        <div class="tour-hot-container">
+            @foreach (var tour in listTour)
+            {
+                <div class="tour-hot-item">
+                    <div class="tour-hot-img">
+                        <a asp-action="TourDetails" asp-route-slug="@tour.Slug">
+                            <img src="@tour.Avatar" alt="@tour.TourName">
+                        </a>
+                    </div>
+                    <div class="tour-hot-info">
+                        <div class="tour-hot-name"><a asp-action="TourDetails" asp-route-slug="@tour.Slug">@tour.TourName</a></div>
+                        <div class="tour-hot-evaluate">
+                            <div class="evaluate1"><a asp-action="TourDetails" asp-route-slug="@tour.Slug"><span>9.0</span>Tuyệt vời</a></div>
+                            <div class="evaluate2"><a asp-action="TourDetails" asp-route-slug="@tour.Slug"><span>- 0</span>đánh giá</a></div>
+                        </div>
+                        <div class="tour-hot-location">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div class="location-text">@tour.Sightseeing</div>
+                        </div>
+                        <div class="tour-hot-tag">
+                            @if (tour.Tag != null)
+                            {
+                                <div class="tour-hot-endow endow-1">
+                                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                    <div class="endow-text">@tour.Tag</div>
+                                </div>
+                            }
+                        </div>
+                        <div class="tour-hot-bottom">
+                            <div class="tour-hot-time">@tour.Duration.Split("-").First()</div>
+                            <div class="tour-hot-price">
+                                @if (tour.Discount != null)
+                                {
+                                    <a asp-action="TourDetails" asp-route-slug="@tour.Slug">
+                                        @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", tour.Discount)
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-action="TourDetails" asp-route-slug="@tour.Slug">
+                                        @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", tour.Price)
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hot"><img src="~/images/hot.png" alt="Hot"></div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!--discover-->
+<div class="discover">
+    <div class="discover-content">
+        <div class="discover-title">Khám phá địa danh trong nước</div>
+        <div class="discover-container">
+            @{
+                var cateTourIn = listCateTour.FirstOrDefault(ct => ct.Slug == "trong-nuoc");
+                var listcateTourIn = listCateTour.Where(ct => ct.IdParent == cateTourIn?.Id).ToList();
+
+                foreach (var cateTour in RenderCateTour(listcateTourIn, true))
+                {
+                    <a asp-action="TourFilter" asp-route-slug="@cateTour.Slug">
+                        <div class="discover-card">
+                            <img src="@cateTour.Avatar" alt="@cateTour.Name">
+                            <div class="discover-text">
+                                <div class="fl-text1">@cateTour.Name</div>
+                                <div class="fl-text2">@cateTour.Tours.Count tour</div>
+                            </div>
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+        <div class="btn-seenAll"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Xem tất cả</a></div>
+    </div>
+</div>
+<!--discover-->
+<div class="discover">
+    <div class="discover-content">
+        <div class="discover-title">Khám phá địa danh nước ngoài</div>
+        <div class="discover-container">
+            @{
+                var cateTourOut = listCateTour.FirstOrDefault(ct => ct.Slug == "nuoc-ngoai");
+                var listcateTourOut = listCateTour.Where(ct => ct.IdParent == cateTourOut?.Id).ToList();
+
+                foreach (var cateTour in RenderCateTour(listcateTourOut, true))
+                {
+                    <a asp-action="TourFilter" asp-route-slug="@cateTour.Slug">
+                        <div class="discover-card">
+                            <img src="@cateTour.Avatar" alt="@cateTour.Name">
+                            <div class="discover-text">
+                                <div class="fl-text1">@cateTour.Name</div>
+                                <div class="fl-text2">@cateTour.Tours.Count tour</div>
+                            </div>
+                        </div>
+                    </a>
+                }
+            }
+        </div>
+        <div class="btn-seenAll"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Xem tất cả</a></div>
+    </div>
+</div>
+<!--awards-->
+<div class="awards">
+    <div class="awards-content">
+        <div class="awards-title">Thành tựu và giải thưởng</div>
+        <div class="awards-container">
+            <div class="awards-item">
+                <img src="./images/awards-6.png" alt="">
+                <div class="awards-text">Chứng nhận Travelers'Choice từ Tripadvissor</div>
+            </div>
+            <div class="awards-item">
+                <img src="./images/awards-7.png" alt="">
+                <div class="awards-text">Công ty có khách đặt tour trực tuyến nhiều nhất</div>
+            </div>
+            <div class="awards-item">
+                <img src="./images/awards-8.png" alt="">
+                <div class="awards-text">Top đại lý xuất sắc nhất của các hãng hàng không</div>
+            </div>
+            <div class="awards-item">
+                <img src="./images/awards-9.png" alt="">
+                <div class="awards-text">Đối tác chiến lược hàng đầu của Vinpearl</div>
+            </div>
+            <div class="awards-item">
+                <img src="./images/awards-10.png" alt="">
+                <div class="awards-text">Top 10 dịch vụ du lịch được yêu thích nhất</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--tour/over-view-->
+<div class="overview">
+    <div class="overview-content">
+        <div class="list-overview">
+            <div class="overview-title">Tour trong nước</div>
+            <div class="overview-items">
+                @foreach (var cateTour in RenderCateTour(listcateTourIn))
+                {
+                    <div class="item"><a asp-action="TourFilter" asp-route-slug="@cateTour.Slug">@cateTour.Name</a></div>
+                }
+            </div>
+        </div>
+        <div class="list-overview">
+            <div class="overview-title">Tour nước ngoài</div>
+            <div class="overview-items">
+                @foreach (var cateTour in RenderCateTour(listcateTourOut))
+                {
+                    <div class="item"><a asp-action="TourFilter" asp-route-slug="@cateTour.Slug">@cateTour.Name</a></div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    List<CategoryTour> RenderCateTour(List<CategoryTour> cateTours, bool isOutstanding = false)
+    {
+        var newCateTour = new List<CategoryTour>();
+        foreach (var item in cateTours)
+        {
+            if (item.CateTourChildren.Count > 0)
+            {
+                newCateTour.AddRange(RenderCateTour(item.CateTourChildren.ToList(), isOutstanding));
+                continue;
+            }
+
+            if (isOutstanding)
+            {
+                if (item.IsOutstanding)
+                    newCateTour.Add(item);
+            }
+            else
+            {
+                newCateTour.Add(item);
+            }
+
+        }
+
+        return newCateTour;
+    }
+}
+
+@section Scripts {
+    <script>
+        $(function () {
+            $(".find-now .btn-findNow a").click(function () {
+                var slug = $("#place-text2").attr("data-slug");
+                var departure = $("#dl-text2").attr("data-departure");
+                $(this).attr("href", "@Url.Action("TourFilter")" + `?slug=${slug}&departure=${departure}`);
+            });
+        });
+    </script>
+}

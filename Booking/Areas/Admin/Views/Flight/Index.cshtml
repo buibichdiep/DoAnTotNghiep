@@ -1,0 +1,33 @@
+﻿@model Newtonsoft.Json.Linq.JToken
+
+@{
+    ViewData["Title"] = "Chuyến bay";
+    var flights = ViewBag.Flights as List<FlightVM> ?? new List<FlightVM>();
+}
+
+@foreach (var flight in flights)
+{
+    <div>
+        <div>
+            <span>Hãng bay: @flight.Airline</span>
+        </div>
+        <div>
+            <span>Logo: <img src="@flight.FlightLogo" style="width:40px; height:auto;" /></span>
+            <span>@flight.FlightNumber</span>
+        </div>
+        <div>
+            @flight.DepartureTime.Split(" ").First() -> @flight.ArrivalTime.Split(" ").First()
+        </div>
+        <div>
+            <span>Từ: @flight.Departure đến: @flight.Arrival</span>
+        </div>
+        <div>Giá: @flight.Price</div>
+        <div>
+            <span>@flight.DepartureTime</span> ->
+            <span>@flight.ArrivalTime</span>
+        </div>
+        <div>@flight.FlightNumber</div>
+        <div>@flight.Airplane</div>
+    </div>
+    <hr />
+}

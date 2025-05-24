@@ -1,0 +1,107 @@
+﻿@model RoomDTO
+
+@{
+    ViewData["Title"] = "Thông tin";
+}
+
+<div>
+    <h4>Thông tin phòng</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.RoomName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.RoomName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Style)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Style)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.Price.ToString("C", new System.Globalization.CultureInfo("vi-VN"))
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Discount)
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.Discount?.ToString("C", new System.Globalization.CultureInfo("vi-VN"))
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PriceShow)
+        </dt>
+        <dd class = "col-sm-10">
+            @Model.PriceShow
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Images)
+        </dt>
+        <dd class = "col-sm-10">
+            @if (!string.IsNullOrEmpty(Model.Images))
+            {
+                <img src="@Model.Images" alt="Ảnh phòng" style="max-width: 300px; height: auto;" />
+            }
+            else
+            {
+                <span>Không có ảnh</span>
+            }
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AvatarId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AvatarId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Area)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Area)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AmountPeople)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AmountPeople)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Direction)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Direction)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Bed)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Bed)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.BedMore)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.BedMore)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.IdHotel)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.HotelName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="RoomEdit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="RoomIndex">Back to List</a>
+</div>

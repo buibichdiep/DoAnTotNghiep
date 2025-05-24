@@ -1,0 +1,57 @@
+﻿@model RegisterDTO
+@{
+    ViewData["Title"] = "Đăng ký";
+}
+
+<section>
+    <div class="form-box">
+        <!-- đăng kí -->
+        <div id="registers" class="form-box-card form-register">
+            <form asp-area="Accounts" asp-controller="Account" asp-action="Register" method="post">
+                <div class="logo">
+                    <img src="~/images/logo.png" alt="">
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-2 alert alert-danger"></div>
+                <div class="input-box">
+                    <i class="icon fa-solid fa-user"></i>
+                    <input asp-for="UserName" id="username2" type="text" class="log-input" required>
+                    <label asp-for="UserName"></label>
+                    <span class="progress-nav"></span>
+                    <span asp-validation-for="UserName" class="text-danger small"></span>
+                </div>
+                <div class="input-box">
+                    <i class="icon fa-solid fa-envelope"></i>
+                    <input asp-for="Email" id="email2" type="text" class="log-input" required>
+                    <label asp-for="Email"></label>
+                    <span class="progress-nav"></span>
+                    <span asp-validation-for="Email" class="text-danger small"></span>
+                </div>
+                <div class="input-box">
+                    <i class="icon fa-solid fa-phone"></i>
+                    <input asp-for="PhoneNumber" id="phone-number" type="text" class="log-input" required>
+                    <label asp-for="PhoneNumber"></label>
+                    <span class="progress-nav"></span>
+                    <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+                </div>
+                <div class="input-box">
+                    <i class="icon showpassword fa-solid fa-eye-slash"></i>
+                    <input asp-for="Password" id="password2" type="password" class="log-input" required>
+                    <label asp-for="Password"></label>
+                    <span class="progress-nav"></span>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+                <div class="input-box">
+                    <i class="icon showpassword fa-solid fa-eye-slash"></i>
+                    <input asp-for="ConfirmPassword" id="compassword" type="password" class="log-input" required>
+                    <label asp-for="ConfirmPassword"></label>
+                    <span class="progress-nav"></span>
+                    <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                </div>
+                <a class="btn-submit-link" href="login.html"><input class="btn-submit" type="submit" value="Đăng kí"></a>
+                <div class="come-back">
+                    <p><a asp-area="Accounts" asp-controller="Account" asp-action="Login" id="btnlogin">Quay Lại Đăng Nhập</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

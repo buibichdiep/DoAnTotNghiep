@@ -1,0 +1,94 @@
+﻿@model Bill
+
+@{
+    ViewData["Title"] = "Thông tin chi tiết";
+    var billPayment = ViewBag.BillPayment as BillPayment ?? new BillPayment();
+}
+
+<div>
+    <h4>Thông tin hóa đơn</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Họ tên khách hàng</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+        <dt class="col-sm-2">Số điện thoại</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class="col-sm-2">Email</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-sm-2">Yêu cầu đặc biệt</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ContentRequest)
+        </dd>
+        <dt class="col-sm-2">Số lượng người lớn</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberAdult)
+        </dd>
+        <dt class="col-sm-2">Số lượng trẻ em</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberChildren)
+        </dd>
+        <dt class="col-sm-2">Số lượng em bé</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.NumberInfant)
+        </dd>
+        <dt class="col-sm-2">Kiểu dịch vụ</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ServiceType)
+        </dd>
+        <dt class="col-sm-2">Tên dịch vụ</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ServiceName)
+        </dd>
+        <dt class="col-sm-2">Giá dịch vụ</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">Thuế</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Tax)
+        </dd>
+        <dt class="col-sm-2">Giảm giá</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Discount)
+        </dd>
+        <dt class="col-sm-2">Tổng tiền</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.TotalPrice)
+        </dd>
+        <dt class="col-sm-2">Số lượng</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>
+        <dt class="col-sm-2">Trạng thái hóa đơn</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.StatusBill)
+        </dd>
+        <dt class="col-sm-2">Ngày đặt</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CheckInTime)
+        </dd>
+        <dt class="col-sm-2">Ngày kết thúc</dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CheckOutTime)
+        </dd>
+        <dt class="col-sm-2">Số tiền đã thanh toán</dt>
+        <dd class="col-sm-10">@billPayment.AmountPaid</dd>
+        <dt class="col-sm-2">Số tài khoản chuyển tiền</dt>
+        <dd class="col-sm-10">@billPayment.NumberAccountPayment</dd>
+        <dt class="col-sm-2">Tên tài khoản chuyển tiền</dt>
+        <dd class="col-sm-10">@billPayment.NameAccountPayment</dd>
+        <dt class="col-sm-2">Số tài khoản nhận tiền</dt>
+        <dd class="col-sm-10">@billPayment.NumberAccountReceived</dd>
+        <dt class="col-sm-2">Giờ thanh toán</dt>
+        <dd class="col-sm-10">@billPayment.PaymentTime</dd>
+    </dl>
+    <div>
+        <a asp-action="Revenue">Quay lại</a>
+    </div>
+</div>

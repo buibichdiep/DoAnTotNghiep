@@ -1,0 +1,359 @@
+﻿@model Tour
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager
+
+@{
+	ViewData["Title"] = "Đặt tour";
+	var userName = User.Identity?.Name ?? string.Empty;
+	var user = await userManager.FindByNameAsync(userName) ?? new User();
+	var priceAdult = Model.Discount ?? Model.Price;
+	var orderTax = Math.Round(priceAdult * 15 / 100 / 1000) * 1000;
+}
+
+<!--procedure-->
+<div class="procedure">
+	<div class="procedure-container">
+		<div class="proceduce-item">
+			<div class="proceduce-number-1">
+				<i class="fa-solid fa-check"></i>
+			</div>
+			<div class="proceduce-title-1">Xem giá tour</div>
+		</div>
+		<hr>
+		<div class="proceduce-item">
+			<div class="proceduce-number-2">2</div>
+			<div class="proceduce-title-2">Chi tiết đặt tour</div>
+		</div>
+		<hr>
+		<div class="proceduce-item">
+			<div class="proceduce-number-3">3</div>
+			<div class="proceduce-title-3">Xác nhận</div>
+		</div>
+	</div>
+</div>
+<!--book tour detail-->
+<div class="tourDetail">
+	<div class="tourDetail-container">
+		<div class="tourDetail-title">Chi tiết đặt tour</div>
+		<div class="tourDetail-name">@Model.TourName</div>
+		<div class="tourDetail-container-1">
+			<div class="info-tourDetail-item">
+				<i class="fa-solid fa-map"></i>
+				<div class="info-tourDetai-text">Lịch trình: @Model.Sightseeing</div>
+			</div>
+			<div class="info-tourDetail-item">
+				<i class="fa-solid fa-location-dot"></i>
+				<div class="info-tourDetail-text">@Model.Vehicle</div>
+			</div>
+			@if (Model.Tag != null)
+			{
+				<div class="info-tourDetail-other">
+					<i class="fa-solid fa-circle-dollar-to-slot"></i>
+					<div class="info-tourDetail-text">@Model.Tag</div>
+				</div>
+			}
+		</div>
+		<div class="tourDetail-container-2">
+			<div class="tourDetail-container-above">
+				<div class="tourDetail-above-1">1. Thông tin đoàn <span>(*)</span></div>
+				<div class="tourDetail-above-2">
+					<div class="dropdown tourDetail-dropdown" id="guestDropdown">
+						<div class="guest-item tourDetail-items">
+							<label>
+								Người lớn
+								<br />
+								<span>(>12 tuổi)</span>
+							</label>
+							<div class="select-quantity">
+								<button class="counter-btn" id="adultMinus"><i class="fa-solid fa-minus"></i></button>
+								<span class="counter-value" id="adultCount">1</span>
+								<button class="counter-btn" id="adultPlus"><i class="fa-solid fa-plus"></i></button>
+							</div>
+						</div>
+						<div class="guest-item tourDetail-items">
+							<label>
+								Trẻ em
+								<br />
+								<span>(2-12 tuổi)</span>
+							</label>
+							<div class="select-quantity">
+								<button class="counter-btn" id="childMinus"><i class="fa-solid fa-minus"></i></button>
+								<span class="counter-value" id="childCount">0</span>
+								<button class="counter-btn" id="childPlus"><i class="fa-solid fa-plus"></i></button>
+							</div>
+						</div>
+						<div class="guest-item tourDetail-items">
+							<label>
+								Em bé
+								<br />
+								<span>(&lt;2 tuổi)</span>
+							</label>
+							<div class="select-quantity">
+								<button class="counter-btn" id="infantMinus"><i class="fa-solid fa-minus"></i></button>
+								<span class="counter-value" id="infantCount">0</span>
+								<button class="counter-btn" id="infantPlus"><i class="fa-solid fa-plus"></i></button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tourDetail-container-center">
+				<div class="tourDetail-center-1">2. Ngày khởi hành:</div>
+				<div class="tourDetail-center-2">
+					<i class="fa-regular fa-calendar"></i>
+					<div id="selectDepartureDate">Chọn ngày</div>
+				</div>
+				<p id="departure-error" class="error-message mt-2 ms-2">Vui lòng ngày khởi hành.</p>
+			</div>
+			<div class="tourDetail-container-below">
+				<div class="tourDetail-below-1">3. Khởi hành từ:</div>
+				<div class="tourDetail-below-2">@Model.Departure</div>
+			</div>
+		</div>
+		<div class="d-flex justify-content-between p-4 border-bottom">
+			<div class="flex-grow-1 me-5">
+				<div class="price mb-2">
+					<span>1 người lớn</span>
+					<span id="price-adult" data-adult="@Convert.ToInt32(priceAdult)">
+						@String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", priceAdult)
+					</span>
+				</div>
+				<div class="price mb-2">
+					<span></span>
+					<span id="price-children" data-children="@(Math.Round(priceAdult / 100) * 70)"></span>
+				</div>
+				<div class="price mb-2">
+					<span></span>
+					<span id="price-infant" data-infant="0"></span>
+				</div>
+				<div class="price mb-2">
+					<span>Thuế & phí:</span>
+					<span id="order-tax" data-tax="@orderTax">
+						@String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", orderTax)
+					</span>
+				</div>
+			</div>
+			<div class="flex-grow-1 ms-5 tourDetair-total">
+				<input type="text" name="text" class="code-promotion" placeholder="Mã giảm giá (nếu có): Nhập mã giảm giá">
+				<div class="tourDetail-promotion d-none">
+					<div class="tourDetail-promotion-text">Giảm giá:</div>
+					<div class="tourDetail-promotion-price">- 1.000.000₫</div>
+				</div>
+				<div class="tourDetail-price">
+					<div class="tourDetail-price-text">Tổng tiền:</div>
+					<div class="tourDetail-price-original order-total" data-total="@(priceAdult + orderTax)">
+						@String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", priceAdult + orderTax)
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--contact-info-->
+		<div class="contact-info">
+			<div class="contact-container">
+				<div class="contact-title">Thông tin liên hệ</div>
+				<div class="list-input">
+					<div class="contact-left">
+						<div class="input-name">
+							<label for="fullname">Họ và Tên:</label>
+							<input type="text" id="fullname" placeholder="Nhập họ và tên">
+							<p id="name-error" class="error-message">Vui lòng nhập họ và tên.</p>
+						</div>
+						<div class="input-phone">
+							<label for="phone">Số điện thoại:</label>
+							<input type="text" id="phone" placeholder="Nhập số điện thoại">
+							<p id="phone-error" class="error-message">Vui lòng nhập số điện thoại.</p>
+							<p id="phone-format-error" class="error-message">Định dạng số điện thoại không đúng.</p>
+						</div>
+						<div class="input-email-contact">
+							<label for="email">Email:</label>
+							<input type="text" id="email" placeholder="Để gửi thông tin vé , lịch trình, thanh toán">
+							<p id="email-error" class="error-message">Vui lòng nhập email.</p>
+							<p id="email-format-error" class="error-message">Định dạng email không đúng.</p>
+						</div>
+					</div>
+					<div class="contact-right">
+						<div class="contact-right-title">Nội dung yêu cầu</div>
+						<textarea name="content-request" id="content-request"></textarea>
+					</div>
+				</div>
+				<form id="form-order" style="text-align: center;">
+					@if (Model.PercentDeposit != null && Model.PercentDeposit > 0)
+					{
+						<button type="submit" name="paymentMethod" value="percent" class="btn-request" onclick="validateForm()" style="display: inline-block; margin-right: 20px; background-color: transparent; color: #4caf50; border: 1px solid;">
+							Thanh toán cọc (@Model.PercentDeposit% - <span id="percent-deposit">@String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Math.Round((priceAdult + orderTax) / 100 * (Model.PercentDeposit ?? 100) / 1000) * 1000)</span>)
+						</button>
+					}
+					<button type="submit" name="paymentMethod" value="full" class="btn-request" onclick="validateForm()" style="display: inline-block;">Thanh toán</button>
+					@*<button class="btn-request" onclick="validateForm()">Gửi yêu cầu đặt tour</button>*@
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+	<script>
+		$(function () {
+			const Toast = window.globalVariable;
+
+			$("#form-order").on('submit', function (e) {
+				e.preventDefault();
+
+				var fullName = $("#fullname").val();
+				if (parseInt(fullName)) {
+					Toast.fire({
+						icon: 'error',
+						text: 'Vui lòng nhập đúng họ và tên'
+					});
+					return false;
+				}
+
+				var departureValid = $("#selectDepartureDate.invalid");
+
+				if ($(".contact-left input.invalid").length > 0 || departureValid.length > 0) {
+					Toast.fire({
+						icon: 'error',
+						text: 'Vui lòng nhập đầy đủ thông tin liên hệ'
+					});
+
+					return false;
+				}
+
+				const clickedButton = $(document.activeElement); // nút vừa được bấm
+				const paymentMethod = clickedButton.val(); // bank hoặc cash
+
+				var formOrder = new FormData(this);
+
+				formOrder.append('NumberAdult', parseInt($("#adultCount").text()));
+				formOrder.append('NumberChildren', parseInt($("#childCount").text()));
+				formOrder.append('NumberInfant', parseInt($("#infantCount").text()));
+				formOrder.append('DepartureDate', $('#selectDepartureDate').attr("data-departure"));
+				formOrder.append('UserName', $('#fullname').val());
+				formOrder.append('PhoneNumber', $('#phone').val());
+				formOrder.append('Email', $('#email').val());
+				formOrder.append('ContentRequest', $('#content-request').val());
+				formOrder.append('PaymentMethod', paymentMethod);
+
+				$.ajax({
+					type: 'POST',
+					url: '@Url.Action("TourOrder", "Home")',
+					data: formOrder,
+					contentType: false,
+					processData: false,
+					beforeSend: function () {
+						$("#loadingModal").show();
+					},
+					success: function (res) {
+						if(!res.success){
+							Toast.fire({
+								icon: 'error',
+								text: res.message
+							});
+
+							return false;
+						}
+
+						// console.log(res);
+
+						window.location.href = res.data;
+					},
+					complete: function () {
+						$("#loadingModal").hide();
+					},
+					error: function (error){
+						$("#loadingModal").hide();
+						Toast.fire({
+							icon: 'error',
+							text: 'Có lõi xảy ra'
+						});
+						console.log(error);
+					}
+				});
+			});
+
+			$("#adultPlus").click(HandleClickAdult);
+			$("#adultMinus").click(HandleClickAdult);
+
+			$("#childPlus").click(HandleClickChildren);
+			$("#childMinus").click(HandleClickChildren);
+
+			$("#infantPlus").click(HandleClickInfant);
+			$("#infantMinus").click(HandleClickInfant);
+
+			function HandleClickAdult() {
+				var count = $("#adultCount").text();
+				var price = $("#price-adult");
+				var tax = $("#order-tax");
+
+				HandlePrice(count, price, "adult", "người lớn");
+				HandleTax(count, tax, "tax");
+			}
+
+			function HandleClickChildren() {
+				var count = $("#childCount").text();
+				var price = $("#price-children");
+
+				if (count == '0') {
+					price.parent().css("display", "none");
+				} else {
+					price.parent().css("display", "flex");
+				}
+				HandlePrice(count, price, "children", "trẻ em");
+			}
+
+			function HandleClickInfant() {
+				var count = $("#infantCount").text();
+				var price = $("#price-infant");
+
+				if (count == '0') {
+					price.parent().css("display", "none");
+				} else {
+					price.parent().css("display", "flex");
+					HandlePrice(count, price, "infant", "em bé");
+				}
+			}
+
+			function HandlePrice(count, price, dataName, text) {
+				var total = parseInt(count) * parseInt(price.data(dataName));
+
+				price.attr(`data-${dataName}`, total);
+				price.prev().text(`${count} ${text}`);
+				price.text(`${total.toLocaleString()} ₫`)
+
+				UpdateTotalPrice();
+			}
+
+			function HandleTax(count, price, dataName, text) {
+				var total = parseInt(count) * parseInt(price.data(dataName));
+
+				price.attr(`data-${dataName}`, total);
+				price.text(`${total.toLocaleString()} ₫`)
+
+				UpdateTotalPrice();
+			}
+
+			function UpdateTotalPrice() {
+				var priceAdult = parseInt($("#price-adult").attr("data-adult"));
+				var priceChildren = parseInt($("#price-children").attr("data-children"));
+				var orderTax = parseInt($("#order-tax").attr("data-tax"));
+
+				if ($("#childCount").text() == '0') priceChildren = 0;
+
+				var totalPrice = priceAdult + priceChildren + orderTax;
+				var percentDeposit = totalPrice / 100 * parseInt("@Model.PercentDeposit")
+				percentDeposit = Math.round(percentDeposit / 1000) * 1000;
+
+				$(".order-total").attr("data-total", totalPrice);
+				$(".order-total").text(`${totalPrice.toLocaleString()} ₫`);
+				$("#percent-deposit").text(`${percentDeposit.toLocaleString()} ₫`);
+			}
+
+
+			$("#fullname").val("@user.FullName");
+			$("#phone").val("@user.PhoneNumber");
+			$("#email").val("@user.Email");
+		});
+	</script>
+}

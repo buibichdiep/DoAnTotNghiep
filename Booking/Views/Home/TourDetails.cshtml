@@ -1,0 +1,275 @@
+﻿@model Tour
+
+@{
+    ViewData["Title"] = Model.TourName;
+    var images = ViewBag.Images as List<Media> ?? new List<Media>();
+    var travelSchedule = ViewBag.TravelSchedule as List<TravelSchedule> ?? new List<TravelSchedule>();
+    var tourSimilar = ViewBag.TourSimilar as List<Tour> ?? new List<Tour>();
+    var count = 0;
+}
+
+<div class="navigation">
+    <div class="navigation-left"><a href="hotel.html">Tour du lịch</a></div>
+    <div class="navigation-icon">
+        <i class="fa-solid fa-chevron-right"></i>
+    </div>
+    <div class="navigation-center">Hà Nội</div>
+    <div class="navigation-icon">
+        <i class="fa-solid fa-chevron-right"></i>
+    </div>
+    <div class="navigation-center">Dream Dragon Resort</div>
+</div>
+<div class="tourBooking-main">
+    <div class="tourBooking-title">@Model.TourName</div>
+    <div class="tourBooking-header">
+        <div class="tourBooking-left">
+            <div class="slide-tourBooking">
+                <button class="arrow-left">&#10094;</button>
+                <div class="slide-wrapper-tourBooking">
+                    <div class="list-images">
+                        @foreach (var image in images)
+                        {
+                            if (image.MediaType == "Image")
+                            {
+                                <img class="imgs" src="@image.MediaUrl" alt="" />
+                            }
+                            else if (image.MediaType == "Video")
+                            {
+                                <video class="imgs" src="@image.MediaUrl" controls></video>
+                            }
+                        }
+                    </div>
+                </div>
+                <button class="arrow-right">&#10095;</button>
+            </div>
+        </div>
+        <div class="tourBooking-right">
+            <div class="information-tourBooking">
+                <div class="info-tourBooking">
+                    <div class="info-tourBooking-item">
+                        <i class="fa-solid fa-clock"></i>
+                        <div class="info-tourBooking-text">@Model.Duration.Split("-").Last()</div>
+                    </div>
+                    <div class="info-tourBooking-item">
+                        <i class="fa-regular fa-calendar-days"></i>
+                        <div class="info-tourBooking-text">
+                            Khởi hành từ @Model.Departure
+                        </div>
+                    </div>
+                    <div class="info-tourBooking-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div class="info-tourBooking-text">@Model.Sightseeing</div>
+                    </div>
+                    @if (Model.Tag is not null)
+                    {
+                        <div class="info-tourBooking-other">
+                            <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                            <div class="info-tourBooking-text">@Model.Tag</div>
+                        </div>
+                    }
+                </div>
+                <div class="tourBooking-price">
+                    <div class="tourBooking-price-text">Giá từ:</div>
+                    @if (Model.Discount == null)
+                    {
+                        <div class="tourBooking-promotion">
+                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Model.Price)
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="tourBooking-original">
+                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Model.Price)
+                        </div>
+                        <div class="tourBooking-promotion">
+                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Model.Discount)
+                        </div>
+                    }
+                </div>
+                <div class="btn-tourBooking-booknow">
+                    <a asp-action="TourOrder" asp-route-slug="@Model.Slug" asp-route-returnUrl="@Url.ActionLink()">Đặt ngay</a>
+                </div>
+                <div class="btn-seenSchedule"><a href="#tourBooking-schedule-name">Xem lịch trình</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="introduce-tourBooking" id="introduceTourBooking">
+    <a href="#tourBooking-overview-name"
+       class="introduce-menu-tourBooking active">Tổng quan</a>
+    <a href="#tourBooking-schedule-name" class="introduce-menu-tourBooking">Lịch trình</a>
+    <a href="#" class="introduce-menu-tourBooking">Quy định</a>
+    <a href="#evaluate-title-tb" class="introduce-menu-tourBooking">Đánh giá</a>
+    <a href="#qa-title-tb" class="introduce-menu-tourBooking">Hỏi đáp</a>
+    <a href="#tour-similar-name" class="introduce-menu-tourBooking">Tour tương tự</a>
+</div>
+<div class="introduce-tourBooking-container">
+    <div class="introduce-tourBooking-pharagraph">@Model.Description</div>
+    <div class="tourBooking-overview">
+        <div class="tourBooking-overview-name" id="tourBooking-overview-name">
+            Tổng quan
+        </div>
+        <div class="tourBooking-overview-content">
+            @foreach (var item in Model.Overview.Split("\r\n"))
+            {
+                <div class="tourBooking-overview-item">
+                    <i class="fa-solid fa-check"></i>
+                    <div class="tourBooking-overview-itemText">@item</div>
+                </div>
+            }
+        </div>
+    </div>
+    <!--schedule lịch trình-->
+    <div class="tourBooking-schedule-name" id="tourBooking-schedule-name">
+        Lịch trình tour
+    </div>
+    <div class="question-tourBooking">
+        @foreach (var item in travelSchedule)
+        {
+            <div class="question-tourBookingname" id="toggle-tb-@(++count)">
+                <div class="question-tb-name-left">
+                    <i class="fa-regular fa-circle"></i><b>@item.Title</b>
+                </div>
+                <div class="question-tb-name-right">
+                    <i class="fa-solid fa-chevron-down"></i>
+                </div>
+            </div>
+            <div class="question-tb-item question-tb-item-@(count)" id="question-tb-@(count)">
+                @Html.Raw(item.Content)
+            </div>
+        }
+    </div>
+    <!--regulations-->
+    <div class="tb-regulation">
+        <div class="tb-regulation-container">
+            <div class="tb-regulation-title" id="tb-regulation-title">
+                Quy định dịch vụ
+            </div>
+            <div class="tb-regulation-item">
+                <div class="tb-regulation-hd">
+                    <div class="tb-regulation-icon">
+                        <i class="fa-regular fa-circle-check"></i>
+                    </div>
+                    <div class="tb-regulation-name">Giá bao gồm</div>
+                </div>
+                <ul class="tb-regulation-content">
+                    @foreach (var item in Model.ServiceInclude.Split("\r\n"))
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
+            </div>
+            <div class="tb-regulation-item">
+                <div class="tb-regulation-hd">
+                    <div class="tb-regulation-icon">
+                        <i class="fa-solid fa-ban"></i>
+                    </div>
+                    <div class="tb-regulation-name">Giá không bao gồm</div>
+                </div>
+                <ul class="tb-regulation-content">
+                    @foreach (var item in Model.ServiceNotInclude.Split("\r\n"))
+                    {
+                        <li>@item</li>
+                    }
+                </ul>
+            </div>
+            <div class="tb-regulation-item">
+                <div class="tb-regulation-hd">
+                    <div class="tb-regulation-icon">
+                        <i class="fa-regular fa-rectangle-xmark"></i>
+                    </div>
+                    <div class="tb-regulation-name">Quy định hủy/đổi đặt tour</div>
+                </div>
+                <div class="tb-regulation-content">
+                    Khách hàng đặt tour sẽ không được quyền hoàn tour, hủy đặt tour.
+                </div>
+            </div>
+            <div class="tb-regulation-item">
+                <div class="tb-regulation-hd">
+                    <div class="tb-regulation-icon">
+                        <i class="fa-solid fa-bed"></i>
+                    </div>
+                    <div class="tb-regulation-name">Quy định trẻ em và em bé</div>
+                </div>
+                <div class="tb-regulation-content">
+                    <div class="tb-r-content-1">
+                        <div class="tb-r-1">Em bé (dưới 5 tuổi)</div>
+                        <span>
+                            Dưới 05 tuổi: 50% giá tour người lớn. Sử dụng dịch vụ chung
+                            với người lớn. Chi phí phát sinh trên tour gia đình tự chi
+                            trả. Hai người lớn chỉ được kèm theo 01 trẻ. Nếu có trẻ thứ
+                            hai đi kèm, vui lòng tính giá áp dụng như trẻ từ 5- đến 10
+                            tuổi.
+                        </span>
+                    </div>
+                    <div class="tb-r-content-2">
+                        <div class="tb-r-2">Trẻ em (5 đến 10 tuổi)</div>
+                        <span>
+                            Từ 05 – dưới 10 tuổi: 90% giá tour người lớn. Ngủ ghép với
+                            gia đình. Hai người lớn chỉ được kèm theo 01 trẻ, từ trẻ thứ
+                            hai tính giá áp dụng như người lớn. Từ 10 tuổi trở lên: giá
+                            tour như người lớn.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--evaluate-->
+    <div class="evaluate-tb">
+        <div class="evaluate-container-tb">
+            <div class="evaluate-title-tb" id="evaluate-title-tb">
+                Đánh giá của khách hàng
+            </div>
+            <div class="box-evaluate-tb">
+                <div class="evaluate-item-tb-left">9</div>
+                <div class="evaluate-item-tb-right">
+                    <div class="evaluate-item-tb-1">Tuyệt vời</div>
+                    <div class="evaluate-item-tb-2"><span>3</span> đánh giá</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--question & answer-->
+    <div class="question-answer-tb">
+        <div class="qa-container-tb">
+            <div class="qa-title-tb" id="qa-title-tb">Hỏi đáp</div>
+            <div class="qa-content-tb">
+                <input type="text"
+                       class="input-text-tb"
+                       placeholder="Mời bạn để lại câu hỏi ..." />
+                <div class="btn-askquestion-tb"><a href="">Đặt câu hỏi</a></div>
+            </div>
+        </div>
+    </div>
+    <!--tour tương tự - tour similar-->
+    @if (tourSimilar.Count > 0)
+    {
+        <div class="tour-similar-name" id="tour-similar-name">
+            Tour du lịch tương tự
+        </div>
+        <div class="tour-tb-container">
+            @foreach (var tour in tourSimilar)
+            {
+                <div class="tour-hot-item tour-similar-item">
+                    <div class="tour-hot-img">
+                        <a href=""><img src="@tour.Avatar" alt="@tour.TourName" /></a>
+                    </div>
+                    <div class="tour-hot-info">
+                        <div class="tour-hot-name">
+                            <a href="">@tour.TourName</a>
+                        </div>
+                        <div class="tour-hot-location">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div class="location-text">@tour.Sightseeing</div>
+                        </div>
+                        <div class="tour-hot-bottom">
+                            <div class="tour-hot-time">3N2Đ</div>
+                            <div class="tour-hot-price"><a href="">@String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Model.Discount)</a></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

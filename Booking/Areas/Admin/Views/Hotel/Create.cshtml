@@ -1,0 +1,140 @@
+﻿@model HotelDTO
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="content">
+    <h3>Thêm khách sạn</h3>
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills card-header-pills" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a href="#info-tab"
+                       class="nav-link active"
+                       data-bs-toggle="tab"
+                       role="tab"
+                       aria-selected="true">Thông tin chung</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a href="#image-tab"
+                       class="nav-link"
+                       data-bs-toggle="tab"
+                       role="tab"
+                       aria-selected="false">Hình ảnh</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body tab-content">
+            <div class="tab-pane active" id="info-tab" role="tabpanel">
+                <form asp-action="Create" method="post" id="formHotel">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="IdCateHotel" class="control-label"></label>
+                        <select asp-for="IdCateHotel" class="form-control" asp-items="ViewBag.CateHotel">
+                            <option value="">-- Không có --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="HotelName" class="control-label"></label>
+                        <input asp-for="HotelName" class="form-control" />
+                        <span asp-validation-for="HotelName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address" class="control-label"></label>
+                        <input asp-for="Address" class="form-control" />
+                        <span asp-validation-for="Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Images" type="hidden" class="form-control" id="imageInput" />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="AvatarId" type="hidden" class="form-control" id="avatarInput" />
+                    </div>
+                    @* <div class="form-group">
+                        <label asp-for="CityCode" class="control-label"></label>
+                        <select asp-for="CityCode" class="form-control" id="cities">
+                            <option value="">Chọn Tỉnh/TP</option>
+                        </select>
+                        <span asp-validation-for="CityCode" class="text-danger"></span>
+                    </div> *@
+                    <div class="form-group">
+                        <label asp-for="ResidenceType" class="control-label"></label>
+                        <select asp-for="ResidenceType" class="form-control" id="cities">
+                            <option value="Hotel">Hotel</option>
+                            <option value="Vinpearl">Vinpearl</option>
+                            <option value="Resort">Resort - Nghỉ dưỡng</option>
+                            <option value="Villa">Villa - Biệt thự</option>
+                        </select>
+                        <span asp-validation-for="ResidenceType" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Star" class="control-label"></label>
+                        <select asp-for="Star" class="form-control" id="cities">
+                            <option value="3">Khách sạn 3*</option>
+                            <option value="4">Khách sạn 4*</option>
+                            <option value="5">Khách sạn 5*</option>
+                        </select>
+                        <span asp-validation-for="Star" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Tag" class="control-label"></label>
+                        <textarea asp-for="Tag" class="form-control"></textarea>
+                        <span asp-validation-for="Tag" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Outstanding" class="control-label"></label>
+                        <textarea asp-for="Outstanding" class="form-control"></textarea>
+                        <span asp-validation-for="Outstanding" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Utilities"></label><br />
+                        @foreach (var utility in Model.Utilities ?? new List<Utility>())
+                        {
+                            <div class="form-check user-select-none">
+                                <input type="checkbox" class="form-check-input" name="SelectedUtilityIds" value="@utility.Id" id="@utility.Id" />
+                                <label class="form-check-label" for="@utility.Id">@utility.UtilityName</label>
+                            </div>
+                        }
+                    </div>
+                    <div class="form-group mt-2">
+                        <input type="submit" value="Tạo" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="image-tab" role="tabpanel">
+                <div>
+                    <button type="button" class="btn btn-success float-end mb-3" id="uploadButton">
+                        Tải ảnh
+                    </button>
+                    <input type="file" id="fileInput" multiple name="file" style="display:none;" />
+                </div>
+                <table class="table table-hover align-middle text-center table-create_product">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Ảnh</th>
+                            <th>Ảnh đại diện</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="imageTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Quay lại</a>
+</div>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_HandleImagePartial");
+    }
+}

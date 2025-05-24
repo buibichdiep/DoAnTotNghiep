@@ -1,0 +1,49 @@
+﻿@model CategoryHotelDTO
+
+@{
+    ViewData["Title"] = "CateHotel Create";
+}
+
+<h4>Thêm danh mục khách sạn</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        <form asp-action="CateHotelCreate" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="IdParent" class="control-label"></label>
+                <select asp-for="IdParent" class="form-control" asp-items="ViewBag.CateHotel">
+                    <option value="">-- Không có --</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Avatar" class="control-label"></label>
+                <input asp-for="Avatar" class="form-control" />
+                <span asp-validation-for="Avatar" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="IsOutstanding" /> @Html.DisplayNameFor(model => model.IsOutstanding)
+                </label>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Tạo" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="CateHotelIndex">Quay lại</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

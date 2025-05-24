@@ -1,0 +1,178 @@
+﻿@model IEnumerable<HotelDTO>
+
+@{
+    ViewData["Title"] = "Khách sạn";
+    int count = 0;
+    int.TryParse(Context.Request.Query["page"], out int currentPage);
+    currentPage = currentPage < 1 ? 1 : currentPage;
+    int.TryParse(ViewBag.CountPage.ToString(), out int countPage);
+}
+
+<div class="content pe-3">
+    <div class="top-content mb-3">
+        <div class="float-start d-flex form-group">
+            @* <div class="me-2 position-relative">
+                <input type="text"
+                       class="form-control"
+                       placeholder="Tìm theo tên hoặc mã sp..." />
+                <button>
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </div> *@
+            @* <select class="form-control find-product">
+                <option value="0">Không có</option>
+                <option value="1">Nữ</option>
+                <option value="2">Nam</option>
+                <option value="3">Trẻ em</option>
+                <option value="4">Trẻ em asd aksd kash kldlaksd</option>
+            </select> *@
+        </div>
+        <div class="float-end mb-3">
+            <button class="btn btn-outline-danger me-2 btn-remove">
+                Xóa
+            </button>
+            <a class="btn btn-outline-secondary" asp-action="Create">+ Thêm khách sạn</a>
+        </div>
+    </div>
+    <div class="main-content">
+        <table class="table table-hover text-center">
+            <thead>
+                <tr>
+                    <th scope="col">
+                        <input class="form-check-input"
+                               type="checkbox"
+                               id="checkboxNoLabel" />
+                    </th>
+                    <th>STT</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Images)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.HotelName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Address)
+                    </th>
+                    <th scope="col">Thao tác</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">
+                            <input class="form-check-input"
+                                   type="checkbox"
+                                   id="checkboxNoLabel" />
+                        </th>
+                        <th>@(++count)</th>
+                        <td>
+                            <img src="@item.Images" alt="Image" style="width:80px; height:auto;" />
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.HotelName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            <div class="btn-group">
+                                <button type="button"
+                                        class="btn"
+                                        data-bs-toggle="dropdown"
+                                        aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li>
+                                        <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Id">Sửa</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" data-id="@item.Id" class="dropdown-item delete-hotel">Xóa</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination float-end me-5">
+        <li class="page-item">
+            <a class="page-link" href="@Url.Action("Index", new { page = 1 })" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        @for (int i = 1; i <= countPage; i++)
+        {
+            <li class="page-item @(i == currentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = i })">@i</a>
+            </li>
+        }
+        <li class="page-item">
+            <a class="page-link" href="@Url.Action("Index", new { page = countPage })" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+    <script>
+        $(function () {
+            const Toast = window.globalVariable;
+
+            $(".delete-hotel").click(function () {
+                Swal.fire({
+                    title: "Bạn chắc chứ?",
+                    text: "Thao tác này sẽ không được hoàn lại!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Đồng ý",
+                    cancelButtonText: "Không"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: '@Url.Action("Delete", "Hotel")',
+                            type: 'DELETE',
+                            data: { id: $(this).data('id') },
+                            beforeSend: function () {
+                                $("#loadingModal").show();
+                            },
+                            success: function (res) {
+                                if (!res.success) {
+                                    Toast.fire({
+                                        icon: `error`,
+                                        text: res.message
+                                    });
+                                    return;
+                                }
+
+                                window.location.href = "@Url.Action("Index", "Hotel")";
+                            },
+                            complete: function () {
+                                $("#loadingModal").hide();
+                            },
+                            error: function (error) {
+                                Toast.fire({
+                                    icon: `error`,
+                                    text: `Có lỗi xảy ra`
+                                });
+
+                                console.log(error);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

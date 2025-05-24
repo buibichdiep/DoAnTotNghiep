@@ -1,0 +1,44 @@
+﻿@model LoginDTO
+@inject SignInManager<User> SignInManager
+@{
+    ViewData["Title"] = "Đăng nhập";
+}
+
+<section>
+    <div class="form-box">
+        <!-- đăng nhập -->
+        <div id="login" class="form-box-card form-login">
+            <form asp-area="Accounts" asp-controller="Account" asp-action="Login" method="post" asp-route-returnUrl="@ViewData["ReturnUrl"]">
+                <div class="logo">
+                    <img src="~/images/logo.png" alt="">
+                </div>
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-2 alert alert-danger"></div>
+                <div class="input-box ">
+                    <i class="icon fa-solid fa-user"></i>
+                    <input asp-for ="EmailOrPhoneNumber" id="username" type="text" class="log-input" required>
+                    <label asp-for="EmailOrPhoneNumber"></label>
+                    <span class="progress-nav"></span>
+                    <span asp-validation-for="EmailOrPhoneNumber" class="text-danger small"></span>
+                </div>
+                <div class="input-box">
+                    <i class="icon showpassword fa-solid fa-eye-slash"></i>
+                    <input asp-for="Password" id="password" type="password" class="log-input" required>
+                    <label asp-for="Password"></label>
+                    <span class="progress-nav"></span>
+                    <span asp-validation-for="Password" class="text-danger small"></span>
+                </div>
+                <div class="forget">
+                    <label asp-for="RememberMe"><input asp-for="RememberMe" class="save-inf" type="checkbox">Lưu Thông Tin</label>
+                    <a asp-area="Accounts" asp-controller="Account" asp-action="ForgotPassword" id="btnforget">Quên Mật Khẩu</a>
+                </div>
+                <a class="btn-submit-link" href="#"><input class="btn-submit" type="submit" value="Đăng nhập"></a>
+                <div class="come-back">
+                    <p>Bạn Chưa Có Tài Khoản ?<a asp-area="Accounts" asp-controller="Account" asp-action="Register" id="btnregister">Đăng Kí</a></p>
+                </div>
+                <div class="come-back">
+                    <p><a href="/" id="btnlogin">Quay Lại Trang Chủ</a></p>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,304 @@
+﻿@{
+    ViewData["Title"] = "Khách sạn";
+    var listCateHotel = ViewBag.ListCateHotel as List<CategoryHotel> ?? new List<CategoryHotel>();
+}
+
+<!--slide-filterSearch-Brand-->
+<div class="wrapper">
+    <!--Slide-->
+    <div class="slide-show">
+        <div class="list-images">
+            <img class="imgs" src="~/images/slide1.jpg" alt="" />
+            <img class="imgs" src="~/images/slide2.jpg" alt="" />
+            <img class="imgs" src="~/images/slide3.jpg" alt="" />
+            <img class="imgs" src="~/images/slide4.jpg" alt="" />
+        </div>
+        <div class="arrow">
+            <div class="arrow-left btns">
+                <i class="fa-solid fa-chevron-left"></i>
+            </div>
+            <div class="arrow-right btns">
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </div>
+        <div class="index-images">
+            <div class="index-item index-item-0 active"></div>
+            <div class="index-item index-item-1"></div>
+            <div class="index-item index-item-2"></div>
+            <div class="index-item index-item-3"></div>
+        </div>
+    </div>
+    <!--Filter search-->
+    <div class="filter-search">
+        <div class="wrapper-filter">
+            <div class="filter-name">Tìm khách sạn giá tốt</div>
+            <div id="container2" class="container">
+                <div class="filter-content-2">
+                    <div class="content-left">
+                        <div class="left-1">
+                            <div class="location-all">
+                                <div class="location-icon">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                </div>
+                                <div class="location-main-text">
+                                    <div class="location-main-text1">Địa điểm</div>
+                                    <div class="location-main-text2" id="locationText2">
+                                        Thành phố, địa danh, khách sạn...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="left-2">
+                            <div class="picker-container" id="departureDatePicker">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <div class="picker-content">
+                                    <div class="picker-name">Ngày Đi</div>
+                                    <span id="departureDateText">Chọn ngày</span>
+                                </div>
+                            </div>
+
+                            <div class="picker-container" id="returnDatePicker">
+                                <i class="fa-solid fa-calendar-days"></i>
+                                <div class="picker-content">
+                                    <div class="picker-name">Ngày Về</div>
+                                    <span id="returnDateText">Chọn ngày</span>
+                                </div>
+                            </div>
+                            <div class="picker-container" id="guestPickerContainer">
+                                <i class="fa-solid fa-user"></i>
+                                <div class="picker-content">
+                                    <div class="picker-name">Số Khách</div>
+                                    <span style="font-weight: bold; cursor: pointer"
+                                          id="guestCount">Chọn số người</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-right">
+                        <div class="find-hotels">
+                            <div class="btn-findHotels">
+                                <a asp-controller="Home" asp-action="HotelFilter">Tìm khách sạn</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dropdown hotel -main 1 -->
+                <div class="location-dropdown" id="locationDropdown2">
+                    <div class="dropdown-title">Địa điểm nổi bật</div>
+                    <div class="dropdown-section">
+                        @foreach (var cateHotel in listCateHotel.Where(ch => ch.IsOutstanding))
+                        {
+                            <div class="dropdown-item" data-location="@cateHotel.Name" data-slug="@cateHotel.Slug">
+                                <img src="@cateHotel.Avatar" alt="@cateHotel.Name" />
+                                <div class="dd-hotel-main">
+                                    <span class="dd-name">@cateHotel.Name</span>
+                                    <div class="dd-hotel-text">@cateHotel.Hotels.Count khách sạn</div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="dropdown-title">Điểm đến ưa thích</div>
+                    <div class="dropdown-section">
+                        @foreach (var cateHotel in listCateHotel.Where(ch => !ch.IsOutstanding))
+                        {
+                            <div class="dropdown-item dropdown-item-name"
+                                 data-location="@cateHotel.Name" data-slug="@cateHotel.Slug">
+                                @cateHotel.Name
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Dropdowns - hotel -main 2-->
+                <div class="dropdown guest-dropdown"
+                     style="width: 230px; position: absolute; top: 90%; left: 45%;" id="guestDropdown">
+                    <div class="guest-item">
+                        <label>
+                            Người lớn
+                            <br />
+                            <span>(> 12 tuổi)</span>
+                        </label>
+                        <div class="select-quantity">
+                            <button class="counter-btn" id="adultMinus"><i class="fa-solid fa-minus"></i></button>
+                            <span class="counter-value" id="adultCount">1</span>
+                            <button class="counter-btn" id="adultPlus"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="guest-item">
+                        <label>
+                            Trẻ em
+                            <br />
+                            <span>(2-12 tuổi)</span>
+                        </label>
+                        <div class="select-quantity">
+                            <button class="counter-btn" id="childMinus"><i class="fa-solid fa-minus"></i></button>
+                            <span class="counter-value" id="childCount">0</span>
+                            <button class="counter-btn" id="childPlus"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="guest-item">
+                        <label>
+                            Em bé
+                            <br />
+                            <span>(&lt;2 tuổi)</span>
+                        </label>
+                        <div class="select-quantity">
+                            <button class="counter-btn" id="infantMinus"><i class="fa-solid fa-minus"></i></button>
+                            <span class="counter-value" id="infantCount">0</span>
+                            <button class="counter-btn" id="infantPlus"><i class="fa-solid fa-plus"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Brand-->
+    <div class="brand-hotels">
+        <div class="list-brands">
+            <div class="journey">
+                <img class="journey-img" src="./images/14-nam.png" alt="" />
+                <div class="journey-text">
+                    <div class="journey-text-1">14 năm chặng đường</div>
+                    <div class="journey-text-2">chinh phục một niềm tin</div>
+                </div>
+            </div>
+            <div class="achievement">
+                <div class="achievement-content">
+                    <img class="achievement-img"
+                         src="./images/thuonghieu7.png"
+                         alt="" />
+                    <div class="achievement-text">Hơn 5,000+ đối tác</div>
+                </div>
+                <div class="achievement-content">
+                    <img class="achievement-img"
+                         src="./images/thuonghieu1.png"
+                         alt="" />
+                    <div class="achievement-text">Luôn có giá tốt</div>
+                </div>
+                <div class="achievement-content">
+                    <img class="achievement-img"
+                         src="./images/thuonghieu6.png"
+                         alt="" />
+                    <div class="achievement-text">Hỗ trợ tận tình chu đáo</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--domestic- nội địa-->
+<div class="domestic">
+    <div class="domestic-content">
+        <a asp-action="HotelFilter">
+            <div class="domestic-items">
+                <i class="fa-solid fa-font-awesome"></i>
+                <div class="domestic-text">Voucher khách sạn</div>
+            </div>
+        </a>
+        <a asp-action="HotelFilter">
+            <div class="domestic-items">
+                <i class="fa-solid fa-earth-americas"></i>
+                <div class="domestic-text">Khách sạn toàn quốc</div>
+            </div>
+        </a>
+        <a asp-action="HotelFilter">
+            <div class="domestic-items">
+                <i class="fa-solid fa-lightbulb"></i>
+                <div class="domestic-text">Nghỉ dưỡng gần Hà Nội</div>
+            </div>
+        </a>
+    </div>
+</div>
+<!--Featured Locations-địa điểm nổi bật-->
+<div class="featured-locations">
+    <div class="featured-locations-content">
+        <div class="featured-locations-left">
+            <div class="featured-locations-title">
+                Điểm đến trong nước nổi bật
+            </div>
+            <div class="featured-locations-title2">
+                Cơ hội đặt phòng khách sạn tại những điểm đến trong nước nổi bật,
+                được nhiều du khách lựa chọn với giá tốt nhất. Khám phá ngay!
+            </div>
+            <div class="featured-locations-btn">
+                <a asp-action="HotelFilter">Xem khách sạn toàn quốc</a>
+            </div>
+        </div>
+        <div class="featured-locations-right">
+            <div class="featured-locations-list">
+                @foreach (var cateTour in listCateHotel.Where(ch => ch.IsOutstanding))
+                {
+                    <a asp-controller="Home" asp-action="HotelFilter" asp-route-slug="@cateTour.Slug">
+                        <div class="featured-locations-card">
+                            <img src="@cateTour.Avatar" alt="@cateTour.Name" />
+                            <div class="featured-locations-text">
+                                <div class="fl-text1">@cateTour.Name</div>
+                                <div class="fl-text2">@cateTour.Hotels.Count khách sạn</div>
+                            </div>
+                        </div>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<!--hotel-partner-->
+<div class="hotel-partner">
+    <div class="hotel-partner-content">
+        <div class="hotel-partner-left">
+            <div class="title">Đối tác khách sạn hàng đầu</div>
+            <div class="text">
+                DiepTourist liên kết chọn lọc với những đối tác uy tín, chất lượng để
+                mang đến bạn những trải nghiệm tuyệt vời.
+            </div>
+        </div>
+        <div class="hotel-partner-right">
+            <a href="javascript:void(0)"><img src="~/images/hotel-partner-1.png" alt="" /></a>
+            <a href="javascript:void(0)"><img src="~/images/hotel-partner-2.png" alt="" /></a>
+            <a href="javascript:void(0)"><img src="~/images/hotel-partner-3.png" alt="" /></a>
+            <a href="javascript:void(0)"><img src="~/images/hotel-partner-4.png" alt="" /></a>
+            <a href="javascript:void(0)"><img src="~/images/hotel-partner-5.png" alt="" /></a>
+            <a href="javascript:void(0)"><img src="~/images/hotel-partner-6.png" alt="" /></a>
+            <a href="javascript:void(0)"><img src="~/images/hotel-partner-7.png" alt="" /></a>
+            <a href="javascript:void(0)"><img src="~/images/hotel-partner-8.png" alt="" /></a>
+            <a href="javascript:void(0)"><img src="~/images/hotel-partner-9.png" alt="" /></a>
+            <a href="javascript:void(0)"><img src="~/images/hotel-partner-10.png" alt="" /></a>
+        </div>
+    </div>
+</div>
+<!--hotel-location// over-view-->
+<div class="overview">
+    <div class="overview-content">
+        <div class="overview-name">Khách sạn theo địa điểm</div>
+        <div class="list-overview">
+            <div class="overview-title">Khách sạn trong nước</div>
+            <div class="overview-items">
+                @foreach (var cateHotel in listCateHotel)
+                {
+                    <div class="item"><a asp-action="HotelFilter" asp-route-slug="@cateHotel.Slug">Khách sạn @cateHotel.Name</a></div>
+                }
+            </div>
+        </div>
+        <div class="list-overview">
+            <div class="overview-title">Chủ đề khách sạn</div>
+            <div class="overview-items">
+                <div class="item"><a asp-action="HotelFilter">Nghỉ dưỡng gần Hà Nội</a></div>
+                <div class="item"><a asp-action="HotelFilter">Nghỉ dưỡng gần Hồ Chí Minh</a></div>
+                <div class="item"><a asp-action="HotelFilter">Dịp Quốc Khánh 2/9</a></div>
+                <div class="item"><a asp-action="HotelFilter">Hội nghị MICE</a></div>
+                <div class="item"><a asp-action="HotelFilter">Dành cho cặp đôi</a></div>
+                <div class="item"><a asp-action="HotelFilter">Nghỉ lễ 30/4 & 1/5</a></div>
+                <div class="item"><a asp-action="HotelFilter">Du xuân đón lộc vàng</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $(".btn-findHotels a").click(function () {
+                const slug = $("#locationText2").attr("data-slug");
+                $(this).attr("href", "@Url.Action("HotelFilter")" + `?slug=${slug}`);
+            });
+        });
+    </script>
+}

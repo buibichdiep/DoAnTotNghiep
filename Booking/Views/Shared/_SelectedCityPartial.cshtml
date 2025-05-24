@@ -1,0 +1,39 @@
+﻿@model int
+
+<script>
+    $(function () {
+        const Toast = window.globalVariable;
+
+        $.ajax({
+            type: "GET",
+            url: "@Url.Action("GetLocation", "Home")",
+            success: function (data) {
+                var location = $.parseJSON(data);
+
+                // Sắp xếp các tỉnh/thành phố theo phần tên mà không bao gồm tiền tố
+                location.sort(function (a, b) {
+                    // Loại bỏ tiền tố "Tỉnh" hoặc "Thành phố" trước khi so sánh
+                    var nameA = a.name.replace(/^(Tỉnh|Thành phố)\s*/, '').trim();
+                    var nameB = b.name.replace(/^(Tỉnh|Thành phố)\s*/, '').trim();
+                    return nameA.localeCompare(nameB);
+                });
+
+                location.forEach(item => {
+                    var option = $('<option>')
+                        .val(item.code)
+                        .text(item.name)
+                        .prop('selected', item.code == @Model ? 'selected' : '');
+                    $("#cities").append(option);
+                });
+            },
+            error: function () {
+                $("#loadingSpinner").hide();
+
+                Toast.fire({
+                    icon: `error`,
+                    text: `Lỗi lấy dữ liệu thành phố`
+                });
+            }
+        });
+    });
+</script>

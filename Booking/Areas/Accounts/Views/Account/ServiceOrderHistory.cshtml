@@ -1,0 +1,222 @@
+﻿@model IEnumerable<Bill>
+
+@{
+    ViewData["Title"] = "Dịch vụ của bạn";
+    var count = 0;
+}
+
+<div class="setting-main">
+    <div class="setting-container">
+        <div class="setting-wrapper">
+            <!-- Sidebar -->
+            <div class="setting-sidebar">
+                <ul class="setting-listItem">
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="InfoUser">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24"
+                                         data-rtl-flip="true"
+                                         width="18"
+                                         height="18">
+                                        <path d="M22.5 17.25a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0m1.5 0a6.75 6.75 0 1 0-13.5 0 6.75 6.75 0 0 0 13.5 0m-7.5-3v6a.75.75 0 0 0 1.5 0v-6a.75.75 0 0 0-1.5 0M14.25 18h6a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5M1.5 17.25a6.003 6.003 0 0 1 8.356-5.518.75.75 0 0 0 .588-1.38A7.504 7.504 0 0 0 0 17.25a.75.75 0 0 0 1.5 0m9.375-12.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0m1.5 0a4.875 4.875 0 1 0-9.75 0 4.875 4.875 0 0 0 9.75 0"></path>
+                                    </svg>
+                                </span>
+                                <div class="setting-titleItem">Thông tin cá nhân</div>
+                            </div>
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="SecurityUser">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24"
+                                         width="18"
+                                         height="18">
+                                        <path d="M19.5 16.5v5.25a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75v-10.5a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 .75.75zm1.5 0v-5.25A2.25 2.25 0 0 0 18.75 9H5.25A2.25 2.25 0 0 0 3 11.25v10.5A2.25 2.25 0 0 0 5.25 24h13.5A2.25 2.25 0 0 0 21 21.75zM7.5 9.75V6a4.5 4.5 0 0 1 9 0v3.75a.75.75 0 0 0 1.5 0V6A6 6 0 0 0 6 6v3.75a.75.75 0 0 0 1.5 0M12 15a1.125 1.125 0 1 0 .004 0h-.006a.75.75 0 0 0 .004 1.5H12a.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5"
+                                              fill=""></path>
+                                    </svg>
+                                </span>
+                                <div class="setting-titleItem">
+                                    An toàn và bảo mật
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="ServiceOrderHistory">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 128 128"
+                                         data-rtl-flip="true"
+                                         width="18"
+                                         height="18"
+                                         fill="#006CE4">
+                                        <path d="M116 0H28c-6.627 0-12 5.373-12 12v20a4 4 0 0 0 8 0h96v40a4 4 0 0 0 8 0V12c0-6.627-5.373-12-12-12M24 24V12a4 4 0 0 1 4-4h88a4 4 0 0 1 4 4v12zm76 20H12C5.373 44 0 49.373 0 56v60c0 6.627 5.373 12 12 12h88c6.627 0 12-5.373 12-12V56c0-6.627-5.373-12-12-12m-88 8h88a4 4 0 0 1 4 4v12H8V56a4 4 0 0 1 4-4m88 68H12a4 4 0 0 1-4-4V76h96v40a4 4 0 0 1-4 4M89.14 84.25h-23A5.88 5.88 0 0 0 60 89.859v12.261a5.88 5.88 0 0 0 6.09 5.63h23a5.89 5.89 0 0 0 6.1-5.63V89.88a5.89 5.89 0 0 0-6.05-5.63m-1.9 15.5H68v-7.5h19.24zM36 96a4 4 0 0 1-4 4H20a4 4 0 0 1 0-8h12a4 4 0 0 1 4 4"></path>
+                                    </svg>
+                                </span>
+                                <div class="setting-titleItem" style="color: #006ce4">Dịch vụ của bạn</div>
+                            </div>
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="LogOut">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <i class="fa-solid fa-door-open"></i>
+                                </span>
+                                <div class="setting-titleItem">Đăng xuất</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Sidebar End -->
+            <!-- Setting content -->
+            <div class="setting-content">
+                <div style="display: flex; flex-direction: row">
+                    <div style="margin-bottom: 20px; flex-grow: 1; width: 0">
+                        <h1>Thông tin dịch vụ</h1>
+                        <p style="margin-top: 8px; color: #595959">
+                            Những dịch vụ của bạn sẽ có ở đây.
+                        </p>
+                    </div>
+                </div>
+                <div class="setting-edit-wrapper">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">
+                                    <input class="form-check-input"
+                                           type="checkbox"
+                                           id="checkboxNoLabel" />
+                                </th>
+                                <th>STT</th>
+                                <th class="white-space-nowrap">Loại dịch vụ</th>
+                                <th style="max-width: 370px;">Tên dịch vụ</th>
+                                <th class="text-end">Số tiền</th>
+                                <th class="text-center">Trạng thái</th>
+                                <th class="text-center">Ngày đặt</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <th scope="row">
+                                        <input class="form-check-input"
+                                               type="checkbox"
+                                               id="checkboxNoLabel" />
+                                    </th>
+                                    <th class="text-center">@(++count)</th>
+                                    <td class="text-center">
+                                        @Html.DisplayFor(modelItem => item.ServiceType)
+                                    </td>
+                                    <td style="max-width: 370px;">
+                                        <a asp-action="ServiceOrderDetails" asp-route-id="@item.Id" class="hover-link">
+                                            @Html.DisplayFor(modelItem => item.ServiceName)
+                                        </a>
+                                    </td>
+                                    <td class="text-end white-space-nowrap">
+                                        @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", item.TotalPrice)
+                                    </td>
+                                    <td class="text-center white-space-nowrap">
+                                        @Html.DisplayFor(modelItem => item.StatusBill)
+                                    </td>
+                                    <td class="text-center">
+                                        @item.CreateAt.ToString("dd/MM/yyyy HH:mm:ss")
+                                    </td>
+                                    <td class="text-center">
+                                        @if (DateTime.UtcNow > item.CreateAt.AddDays(1) || item.StatusBill == "Hủy dịch vụ")
+                                        {
+                                            @* <button type="button" class="btn btn-dark">Hủy</button> *@
+                                        }
+                                        else
+                                        {
+                                            <button type="button" class="btn btn-danger" data-id="@item.Id">Hủy</button>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Setting content end -->
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+    <script>
+        $(function () {
+            const Toast = window.globalVariable;
+
+            $("button.btn-danger").click(function () {
+                var id = $(this).data("id");
+
+                Swal.fire({
+                    title: "Bạn chắc chứ?",
+                    text: "Thao tác này sẽ không được hoàn lại!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Đồng ý",
+                    cancelButtonText: "Không"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("ServiceCancel", "Account")',
+                            data: { id: id },
+                            beforeSend: function () {
+                                $("#loadingModal").show();
+                            },
+                            success: function (res) {
+                                if (!res.success) {
+                                    Toast.fire({
+                                        icon: `error`,
+                                        text: res.message
+                                    });
+                                    return;
+                                }
+
+                                window.location.href = "@Url.Action("ServiceOrderHistory", "Account")";
+
+                                Toast.fire({
+                                    icon: `success`,
+                                    text: 'Hủy dịch vụ thành công'
+                                });
+                            },
+                            complete: function () {
+                                $("#loadingModal").hide();
+                            },
+                            error: function (error) {
+                                $("#loadingModal").hide();
+                                Toast.fire({
+                                    icon: `error`,
+                                    text: `Có lỗi xảy ra`
+                                });
+
+                                console.log(error);
+                            }
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+}

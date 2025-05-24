@@ -1,0 +1,376 @@
+﻿@using Newtonsoft.Json
+@model FlightInfo
+
+<div class="air-booking">
+    @if (Model.OutboundFlight.Count > 0)
+    {
+        <div class="air-booking-container" id="OutboundFlight">
+            <div class="air-booking-title">
+                <div class="ab-title-1">@Model.OutboundFlight.First().Departure.Split("(").First()</div>
+                <div class="ab-title-2"><i class="fa-solid fa-plane"></i></div>
+                <div class="ab-title-3">@Model.OutboundFlight.First().Arrival.Split("(").First()</div>
+            </div>
+            <div class="filter-navigation">
+                <div class="filter-navigation-left">
+                    <div class="fn-left-1">Sắp xếp:</div>
+                    <div class="fn-left-2">
+                        <select class="select-box select-box-1">
+                            <option value="1">DiepTourist đề xuất</option>
+                            <option value="2">Giá rẻ nhất</option>
+                            <option value="3">Hãng bay</option>
+                            <option value="4">Cất cánh sớm nhất</option>
+                            <option value="5">Cất cánh muộn nhất</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-navigation-right">
+                    <div class="fn-right-1">
+                        <div class="fn-right-1-name">Lọc:</div>
+                        <div class="fn-right-checkbox">
+                            <input type="checkbox" />
+                            <img src="~/images/air-vietravelairlines.png" alt="" />
+                        </div>
+                        <div class="fn-right-checkbox">
+                            <input type="checkbox" />
+                            <img src="~/images/air-vietjet.png" alt="" />
+                        </div>
+                        <div class="fn-right-checkbox">
+                            <input type="checkbox" />
+                            <img src="~/images/air-bambooairways.png" alt="" />
+                        </div>
+                        <div class="fn-right-checkbox">
+                            <input type="checkbox" />
+                            <img src="~/images/air-vietnamairlines.png" alt="" />
+                        </div>
+                    </div>
+                    <div class="fn-right-2">
+                        <select class="select-box select-box-2">
+                            <option value="1">Buổi sáng (5:00 - 11h59)</option>
+                            <option value="2">Buổi chiều (12h - 17h59)</option>
+                            <option value="3">Buổi tối (18h - 23h59)</option>
+                            <option value="4">Ban đêm (0h - 4h59)</option>
+                        </select>
+                    </div>
+                    <div class="fn-right-3">
+                        <select class="select-box select-box-3">
+                            <option value="1">Tất cả hạng vé</option>
+                            <option value="2">Tiết kiệm và phổ thông</option>
+                            <option value="3">Phổ thông linh hoạt</option>
+                            <option value="4">Thương gia</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            @foreach (var flight in Model.OutboundFlight)
+            {
+                var json = JsonConvert.SerializeObject(flight);
+
+                <div class="air-booking-item">
+                    <div class="ab-item-content1">
+                        <img src="@flight.FlightLogo" alt="@flight.Airline" />
+                        <div class="ab-item-code">@flight.FlightNumber</div>
+                    </div>
+                    <div class="ab-item-content2">
+                        <div class="ab-time">@flight.DepartureTime.Split(" ").First()</div>
+                        <div class="ab-time"><i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="ab-time">@flight.ArrivalTime.Split(" ").First()</div>
+                    </div>
+                    <div class="ab-item-content3" id="ab-item-content3-col1">
+                        <a href="javascript:void(0);">
+                            <div class="ab-ticket-detail">Chi tiết vé</div>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </a>
+                    </div>
+                    <div class="ab-item-content4">
+                        <div class="ab-airprice">
+                            <a href="javascript:void(0)" class="save-flight" data-model='@Html.Raw(json)' data-field="OutboundFlight">
+                                @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", flight.Price)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="air-booking-content">
+                    <div class="ab-content-title">Lộ trình chuyến bay</div>
+                    <div class="ab-content-combo">
+                        <div class="ab-content-container">
+                            <div class="ab-content-1">
+                                <div class="ab-content-text-1">
+                                    Từ: <span>@flight.Departure</span>
+                                </div>
+                                <div class="ab-content-text-2">@flight.DepartureTime</div>
+                                <div class="ab-content-text-3">@flight.FlightNumber</div>
+                            </div>
+                            <div class="ab-content-2">
+                                <div class="ab-content-text-1">
+                                    Đến: <span>@flight.Arrival</span>
+                                </div>
+                                <div class="ab-content-text-2">@flight.ArrivalTime</div>
+                                <div class="ab-content-text-3">@flight.Airplane</div>
+                            </div>
+                        </div>
+                        <div class="ab-content-3">
+                            <div class="abr-item">
+                                <div class="abr-name">Giá vé:</div>
+                                <div class="abr-price">
+                                    @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", flight.Price)
+                                </div>
+                            </div>
+                            <div class="abr-item">
+                                <div class="abr-name">Thuế & Phí:</div>
+                                <div class="abr-price">
+                                    @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", flight.Tax)
+                                </div>
+                            </div>
+                            <div class="abr-total">
+                                <div class="abr-totalTitle">Tổng tiền:</div>
+                                <div class="abr-totalPrice">
+                                    @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", flight.TotalPrice)
+                                </div>
+                            </div>
+                            <div class="btn-air-booking"><a href="javascript:void(0)" class="save-flight-2" data-model='@Html.Raw(json)' data-field="OutboundFlight">Đặt ngay</a></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    @if (Model.ReturnFlight.Count > 0)
+    {
+        <div class="air-booking-container mt-3" id="ReturnFlight">
+            <div class="air-booking-title">
+                <div class="ab-title-1">@Model.ReturnFlight.First().Departure.Split("(").First()</div>
+                <div class="ab-title-2"><i class="fa-solid fa-plane"></i></div>
+                <div class="ab-title-3">@Model.ReturnFlight.First().Arrival.Split("(").First()</div>
+            </div>
+            <div class="filter-navigation">
+                <div class="filter-navigation-left">
+                    <div class="fn-left-1">Sắp xếp:</div>
+                    <div class="fn-left-2">
+                        <select class="select-box select-box-1">
+                            <option value="1">DiepTourist đề xuất</option>
+                            <option value="2">Giá rẻ nhất</option>
+                            <option value="3">Hãng bay</option>
+                            <option value="4">Cất cánh sớm nhất</option>
+                            <option value="5">Cất cánh muộn nhất</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="filter-navigation-right">
+                    <div class="fn-right-1">
+                        <div class="fn-right-1-name">Lọc:</div>
+                        <div class="fn-right-checkbox">
+                            <input type="checkbox" />
+                            <img src="~/images/air-vietravelairlines.png" alt="" />
+                        </div>
+                        <div class="fn-right-checkbox">
+                            <input type="checkbox" />
+                            <img src="~/images/air-vietjet.png" alt="" />
+                        </div>
+                        <div class="fn-right-checkbox">
+                            <input type="checkbox" />
+                            <img src="~/images/air-bambooairways.png" alt="" />
+                        </div>
+                        <div class="fn-right-checkbox">
+                            <input type="checkbox" />
+                            <img src="~/images/air-vietnamairlines.png" alt="" />
+                        </div>
+                    </div>
+                    <div class="fn-right-2">
+                        <select class="select-box select-box-2">
+                            <option value="1">Buổi sáng (5:00 - 11h59)</option>
+                            <option value="2">Buổi chiều (12h - 17h59)</option>
+                            <option value="3">Buổi tối (18h - 23h59)</option>
+                            <option value="4">Ban đêm (0h - 4h59)</option>
+                        </select>
+                    </div>
+                    <div class="fn-right-3">
+                        <select class="select-box select-box-3">
+                            <option value="1">Tất cả hạng vé</option>
+                            <option value="2">Tiết kiệm và phổ thông</option>
+                            <option value="3">Phổ thông linh hoạt</option>
+                            <option value="4">Thương gia</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            @foreach (var flight in Model.ReturnFlight)
+            {
+                var json = JsonConvert.SerializeObject(flight);
+
+                <div class="air-booking-item">
+                    <div class="ab-item-content1">
+                        <img src="@flight.FlightLogo" alt="@flight.Airline" />
+                        <div class="ab-item-code">@flight.FlightNumber</div>
+                    </div>
+                    <div class="ab-item-content2">
+                        <div class="ab-time">@flight.DepartureTime.Split(" ").First()</div>
+                        <div class="ab-time"><i class="fa-solid fa-arrow-right"></i></div>
+                        <div class="ab-time">@flight.ArrivalTime.Split(" ").First()</div>
+                    </div>
+                    <div class="ab-item-content3" id="ab-item-content3-col1">
+                        <a href="javascript:void(0);">
+                            <div class="ab-ticket-detail">Chi tiết vé</div>
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </a>
+                    </div>
+                    <div class="ab-item-content4">
+                        <div class="ab-airprice">
+                            <a href="javascript:void(0)" class="save-flight" data-model='@Html.Raw(json)' data-field="ReturnFlight">
+                                @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", flight.Price)
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="air-booking-content">
+                    <div class="ab-content-title">Lộ trình chuyến bay</div>
+                    <div class="ab-content-combo">
+                        <div class="ab-content-container">
+                            <div class="ab-content-1">
+                                <div class="ab-content-text-1">
+                                    Từ: <span>@flight.Departure</span>
+                                </div>
+                                <div class="ab-content-text-2">@flight.DepartureTime</div>
+                                <div class="ab-content-text-3">@flight.FlightNumber</div>
+                            </div>
+                            <div class="ab-content-2">
+                                <div class="ab-content-text-1">
+                                    Đến: <span>@flight.Arrival</span>
+                                </div>
+                                <div class="ab-content-text-2">@flight.ArrivalTime</div>
+                                <div class="ab-content-text-3">@flight.Airplane</div>
+                            </div>
+                        </div>
+                        <div class="ab-content-3">
+                            <div class="abr-item">
+                                <div class="abr-name">Giá vé:</div>
+                                <div class="abr-price">
+                                    @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", flight.Price)
+                                </div>
+                            </div>
+                            <div class="abr-item">
+                                <div class="abr-name">Thuế & Phí:</div>
+                                <div class="abr-price">
+                                    @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", flight.Tax)
+                                </div>
+                            </div>
+                            <div class="abr-total">
+                                <div class="abr-totalTitle">Tổng tiền:</div>
+                                <div class="abr-totalPrice">
+                                    @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", flight.TotalPrice)
+                                </div>
+                            </div>
+                            <div class="btn-air-booking"><a href="javascript:void(0)" class="save-flight-2" data-model='@Html.Raw(json)' data-field="ReturnFlight">Đặt ngay</a></div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            let outboundFlightId = "";
+            let returnFlightId = "";
+            const numberAdult = parseInt("@Context.Request.Query["ADT"]");
+            const numberChildren = parseInt("@Context.Request.Query["CHD"]");
+            const numberInfant = parseInt("@Context.Request.Query["INF"]");
+
+            $(document).on('click', '.save-flight', function () {
+                if ($(this).closest('.air-booking-item').hasClass('active')) {
+                    return; // Dừng lại nếu thẻ đã được click
+                }
+
+                $(this).closest('.air-booking-item').addClass('active').siblings().removeClass('active');
+
+                var modelJson = $(this).attr('data-model');
+                var modelData = JSON.parse(modelJson);
+
+                var field = $(this).data('field');
+
+                $.ajax({
+                    url: '@Url.Action("SaveFlightSession", "Home", new { field = "__field__" })'.replace('__field__', field),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(modelData),
+                    success: function (res) {
+                        if (field == "OutboundFlight"){
+                            outboundFlightId = res.data
+                            if (returnFlightId && returnFlightId != ""){
+                                window.location.href = `/ve-may-bay/order?ADT=${numberAdult}&CHD=${numberChildren}&INF=${numberInfant}`;
+                            } else {
+                                const target = document.getElementById('ReturnFlight');
+                                if (target) {
+                                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }
+
+                        } else {
+                            returnFlightId = res.data
+                            if (outboundFlightId && outboundFlightId != "") {
+                                window.location.href = `/ve-may-bay/order?ADT=${numberAdult}&CHD=${numberChildren}&INF=${numberInfant}`;
+                            } else {
+                                const target = document.getElementById('OutboundFlight');
+                                if (target) {
+                                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }
+                        }
+                    },
+                    error: function () {
+                        alert('Lỗi khi gửi dữ liệu.');
+                    }
+                });
+            });
+
+            $(document).on('click', '.save-flight-2', function () {
+                var $airBookingContent = $(this).closest('.air-booking-content');
+                var $airBookingItem = $airBookingContent.prev('.air-booking-item');
+                if ($airBookingItem.hasClass('active')) {
+                    return; // Dừng lại nếu thẻ đã được click
+                }
+
+                $airBookingItem.addClass('active').siblings().removeClass('active');
+
+                var modelJson = $(this).attr('data-model');
+                var modelData = JSON.parse(modelJson);
+
+                var field = $(this).data('field');
+
+                $.ajax({
+                    url: '@Url.Action("SaveFlightSession", "Home", new { field = "__field__" })'.replace('__field__', field),
+                    type: 'POST',
+                    contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(modelData),
+                    success: function (res) {
+                        if (field == "OutboundFlight"){
+                            outboundFlightId = res.data
+                            if (returnFlightId && returnFlightId != ""){
+                                window.location.href = `/ve-may-bay/order?ADT=${numberAdult}&CHD=${numberChildren}&INF=${numberInfant}`;
+                            } else {
+                                const target = document.getElementById('ReturnFlight');
+                                if (target) {
+                                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }
+                        } else {
+                            returnFlightId = res.data
+                            if (outboundFlightId && outboundFlightId != "") {
+                                window.location.href = `/ve-may-bay/order?ADT=${numberAdult}&CHD=${numberChildren}&INF=${numberInfant}`;
+                            } else {
+                                const target = document.getElementById('OutboundFlight');
+                                if (target) {
+                                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                }
+                            }
+                        }
+                    },
+                    error: function () {
+                        alert('Lỗi khi gửi dữ liệu.');
+                    }
+                });
+            });
+        });
+    </script>
+}

@@ -1,0 +1,165 @@
+﻿@model Bill
+
+@{
+    ViewData["Title"] = "Thông tin hóa đơn";
+}
+
+<div class="setting-main">
+    <div class="setting-container">
+        <div class="setting-wrapper">
+            <!-- Sidebar -->
+            <div class="setting-sidebar">
+                <ul class="setting-listItem">
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="InfoUser">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24"
+                                         data-rtl-flip="true"
+                                         width="18"
+                                         height="18">
+                                        <path d="M22.5 17.25a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0m1.5 0a6.75 6.75 0 1 0-13.5 0 6.75 6.75 0 0 0 13.5 0m-7.5-3v6a.75.75 0 0 0 1.5 0v-6a.75.75 0 0 0-1.5 0M14.25 18h6a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5M1.5 17.25a6.003 6.003 0 0 1 8.356-5.518.75.75 0 0 0 .588-1.38A7.504 7.504 0 0 0 0 17.25a.75.75 0 0 0 1.5 0m9.375-12.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0m1.5 0a4.875 4.875 0 1 0-9.75 0 4.875 4.875 0 0 0 9.75 0"></path>
+                                    </svg>
+                                </span>
+                                <div class="setting-titleItem">Thông tin cá nhân</div>
+                            </div>
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="SecurityUser">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24"
+                                         width="18"
+                                         height="18">
+                                        <path d="M19.5 16.5v5.25a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75v-10.5a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 .75.75zm1.5 0v-5.25A2.25 2.25 0 0 0 18.75 9H5.25A2.25 2.25 0 0 0 3 11.25v10.5A2.25 2.25 0 0 0 5.25 24h13.5A2.25 2.25 0 0 0 21 21.75zM7.5 9.75V6a4.5 4.5 0 0 1 9 0v3.75a.75.75 0 0 0 1.5 0V6A6 6 0 0 0 6 6v3.75a.75.75 0 0 0 1.5 0M12 15a1.125 1.125 0 1 0 .004 0h-.006a.75.75 0 0 0 .004 1.5H12a.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5"
+                                              fill=""></path>
+                                    </svg>
+                                </span>
+                                <div class="setting-titleItem">
+                                    An toàn và bảo mật
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="ServiceOrderHistory">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 128 128"
+                                         data-rtl-flip="true"
+                                         width="18"
+                                         height="18"
+                                         fill="#006CE4">
+                                        <path d="M116 0H28c-6.627 0-12 5.373-12 12v20a4 4 0 0 0 8 0h96v40a4 4 0 0 0 8 0V12c0-6.627-5.373-12-12-12M24 24V12a4 4 0 0 1 4-4h88a4 4 0 0 1 4 4v12zm76 20H12C5.373 44 0 49.373 0 56v60c0 6.627 5.373 12 12 12h88c6.627 0 12-5.373 12-12V56c0-6.627-5.373-12-12-12m-88 8h88a4 4 0 0 1 4 4v12H8V56a4 4 0 0 1 4-4m88 68H12a4 4 0 0 1-4-4V76h96v40a4 4 0 0 1-4 4M89.14 84.25h-23A5.88 5.88 0 0 0 60 89.859v12.261a5.88 5.88 0 0 0 6.09 5.63h23a5.89 5.89 0 0 0 6.1-5.63V89.88a5.89 5.89 0 0 0-6.05-5.63m-1.9 15.5H68v-7.5h19.24zM36 96a4 4 0 0 1-4 4H20a4 4 0 0 1 0-8h12a4 4 0 0 1 4 4"></path>
+                                    </svg>
+                                </span>
+                                <div class="setting-titleItem" style="color: #006ce4">Dịch vụ của bạn</div>
+                            </div>
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="LogOut">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <i class="fa-solid fa-door-open"></i>
+                                </span>
+                                <div class="setting-titleItem">Đăng xuất</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Sidebar End -->
+            <!-- Setting content -->
+            <div class="setting-content">
+                <h4>Thông tin hóa đơn</h4>
+                <hr />
+                <dl class="row">
+                    <dt class="col-sm-2">Họ tên khách hàng</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.UserName)
+                    </dd>
+                    <dt class="col-sm-2">Số điện thoại</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.PhoneNumber)
+                    </dd>
+                    <dt class="col-sm-2">Email</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Email)
+                    </dd>
+                    <dt class="col-sm-2">Yêu cầu đặc biệt</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.ContentRequest)
+                    </dd>
+                    <dt class="col-sm-2">Số lượng người lớn</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.NumberAdult)
+                    </dd>
+                    <dt class="col-sm-2">Số lượng trẻ em</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.NumberChildren)
+                    </dd>
+                    <dt class="col-sm-2">Số lượng em bé</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.NumberInfant)
+                    </dd>
+                    <dt class="col-sm-2">Kiểu dịch vụ</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.ServiceType)
+                    </dd>
+                    <dt class="col-sm-2">Tên dịch vụ</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.ServiceName)
+                    </dd>
+                    <dt class="col-sm-2">Giá dịch vụ</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Price)
+                    </dd>
+                    <dt class="col-sm-2">Thuế</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Tax)
+                    </dd>
+                    <dt class="col-sm-2">Giảm giá</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Discount)
+                    </dd>
+                    <dt class="col-sm-2">Tổng tiền</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.TotalPrice)
+                    </dd>
+                    <dt class="col-sm-2">Số lượng</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Quantity)
+                    </dd>
+                    <dt class="col-sm-2">Trạng thái hóa đơn</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.StatusBill)
+                    </dd>
+                    <dt class="col-sm-2">Ngày đặt</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.CheckInTime)
+                    </dd>
+                    <dt class="col-sm-2">Ngày kết thúc</dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.CheckOutTime)
+                    </dd>
+                </dl>
+                <div>
+                    <a asp-action="ServiceOrderHistory">Quay lại</a>
+                </div>
+            </div>
+            <!-- Setting content end -->
+        </div>
+    </div>
+</div>
+

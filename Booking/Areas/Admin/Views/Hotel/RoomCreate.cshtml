@@ -1,0 +1,149 @@
+﻿@model RoomDTO
+
+@{
+    ViewData["Title"] = "Create Room";
+    var hotels = ViewBag.Hotels as List<Hotel>;
+}
+
+<div class="content">
+    <h3>Thêm phòng</h3>
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills card-header-pills" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a href="#info-tab"
+                       class="nav-link active"
+                       data-bs-toggle="tab"
+                       role="tab"
+                       aria-selected="true">Thông tin chung</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a href="#image-tab"
+                       class="nav-link"
+                       data-bs-toggle="tab"
+                       role="tab"
+                       aria-selected="false">Hình ảnh</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body tab-content">
+            <div class="tab-pane active" id="info-tab" role="tabpanel">
+                <form asp-action="RoomCreate" method="post" id="formHotel">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="IdHotel" class="control-label"></label>
+                        <select asp-for="IdHotel" class="form-control" id="cities">
+                            <option value="">-- Khách sạn --</option>
+                            @foreach (var hotel in hotels ?? new List<Hotel>())
+                            {
+                                <option value="@hotel.Id">@hotel.HotelName</option>
+                            }
+                        </select>
+                        <span asp-validation-for="IdHotel" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="RoomName" class="control-label"></label>
+                        <input asp-for="RoomName" class="form-control" />
+                        <span asp-validation-for="RoomName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" type="number" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Discount" class="control-label"></label>
+                        <input asp-for="Discount" type="number" class="form-control" />
+                        <span asp-validation-for="Discount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PercentDeposit" class="control-label"></label>
+                        <select asp-for="PercentDeposit" class="form-control">
+                            <option value="0">Không cọc</option>
+                            <option value="20">20%</option>
+                            <option value="50">50%</option>
+                        </select>
+                        <span asp-validation-for="PercentDeposit" class="text-danger"></span>
+                    </div>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" asp-for="PriceShow" /> @Html.DisplayNameFor(model => model.PriceShow)
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Quantity" class="control-label"></label>
+                        <input asp-for="Quantity" type="number" class="form-control" />
+                        <span asp-validation-for="Quantity" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Images" type="hidden" class="form-control" id="imageInput" />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="AvatarId" type="hidden" class="form-control" id="avatarInput" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Area" class="control-label"></label>
+                        <input asp-for="Area" class="form-control" />
+                        <span asp-validation-for="Area" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AmountPeople" class="control-label"></label>
+                        <input asp-for="AmountPeople" class="form-control" />
+                        <span asp-validation-for="AmountPeople" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Direction" class="control-label"></label>
+                        <input asp-for="Direction" class="form-control" />
+                        <span asp-validation-for="Direction" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Bed" class="control-label"></label>
+                        <input asp-for="Bed" class="form-control" />
+                        <span asp-validation-for="Bed" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="BedMore" class="control-label"></label>
+                        <input asp-for="BedMore" class="form-control" />
+                        <span asp-validation-for="BedMore" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Tạo" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="image-tab" role="tabpanel">
+                <div>
+                    <button type="button" class="btn btn-success float-end mb-3" id="uploadButton">
+                        Tải ảnh
+                    </button>
+                    <input type="file" id="fileInput" multiple name="file" style="display:none;" />
+                </div>
+                <table class="table table-hover align-middle text-center table-create_product">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Ảnh</th>
+                            <th>Ảnh đại diện</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="imageTableBody">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="RoomIndex">Quay lại</a>
+</div>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_HandleImagePartial");
+    }
+}

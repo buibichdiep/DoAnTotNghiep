@@ -1,0 +1,261 @@
+﻿@model Room
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager
+
+@{
+    ViewData["Message"] = "Đặt khách sạn";
+    var userName = User.Identity?.Name ?? string.Empty;
+    var user = await userManager.FindByNameAsync(userName) ?? new User();
+    var hotel = ViewBag.Hotel as Hotel ?? new Hotel();
+    var hotelOrder = ViewBag.HotelOrder as HotelOrderDTO ?? new HotelOrderDTO();
+    var night = Convert.ToInt32(hotelOrder.CheckOutDate.Substring(0, 2)) - Convert.ToInt32(hotelOrder.CheckInDate.Substring(0, 2));
+    var price = Convert.ToInt32(Model.Discount ?? Model.Price);
+    var tax = Math.Round(price * 0.15 / 1000) * 1000 * night * hotelOrder.NumberRoom;
+}
+
+<!--procedure-->
+<div class="procedure">
+    <div class="procedure-container">
+        <div class="proceduce-item">
+            <div class="proceduce-number-1">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="proceduce-title-1">Xem giá phòng</div>
+        </div>
+        <hr>
+        <div class="proceduce-item">
+            <div class="proceduce-number-2">2</div>
+            <div class="proceduce-title-2">Chi tiết thanh toán</div>
+        </div>
+        <hr>
+        <div class="proceduce-item">
+            <div class="proceduce-number-3">3</div>
+            <div class="proceduce-title-3">Xác nhận</div>
+        </div>
+    </div>
+</div>
+<!--booking hotel detail-->
+<div class="booking-detail">
+    <div class="booking-container">
+        <div class="booking-title">Chi tiết đặt phòng</div>
+        <div class="booking-content">
+            <img src="@Model.Avatar" alt="@Model.RoomName">
+            <div class="booking-info">
+                <div class="info-name">@Model.RoomName</div>
+                <div class="info-location">
+                    <div class="info-location-1"><i class="fa-solid fa-location-dot"></i></div>
+                    <div class="info-location-2">@hotel.Address</div>
+                </div>
+                <div class="info-time">
+                    <div class="info-time-1"><i class="fa-solid fa-calendar"></i></div>
+                    <div class="info-time-2">Nhận phòng: @hotelOrder.CheckInDate - Trả phòng: @hotelOrder.CheckOutDate (@night đêm)</div>
+                </div>
+                @if (hotel.Tag != null)
+                {
+                    <div class="info-promotion-1">
+                        <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                        <div class="info-promotion-text">@hotel.Tag</div>
+                    </div>
+                }
+            </div>
+        </div>
+        <!--booking card-->
+        <div class="booking-card">
+            <div class="booking-card-above">
+                <div class="booking-above-item">
+                    <div class="booking-above-menu">Số đêm phòng</div>
+                    <div class="booking-above-text">@hotelOrder.NumberRoom phòng x @night đêm</div>
+                </div>
+                <div class="booking-above-item">
+                    <div class="booking-above-menu">Loại phòng</div>
+                    <div class="booking-above-text">
+                        <ul>
+                            <li>Phòng @Model.RoomName</li>
+                            <li>Diện tích @(Model.Area)m<sup>2</sup>, @Model.Bed</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="booking-above-item">
+                    <div class="booking-above-menu">Điều kiện phòng</div>
+                    <div class="booking-above-text">
+                        <ul>
+                            <li>@Model.AmountPeople</li>
+                            <li>Đã bao gồm ăn sáng. Chưa bao gồm thuế VAT và phí dịch vụ</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="booking-above-item">
+                    <div class="booking-above-menu">Giá phòng/đêm</div>
+                    <div class="booking-above-text">
+                        @if (Model.Discount != null)
+                        {
+                            <div class="above-text-1">
+                                @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Model.Price)
+                            </div>
+                            <div class="above-text-2">
+                                @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Model.Discount)
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="above-text-2">
+                                @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Model.Price)
+                            </div>
+                        }
+                    </div>
+                </div>
+
+            </div>
+            <div class="booking-card-below">
+                <div class="card-below-1">
+                    <div class="card-below-left">
+                        <div class="below-left-1">@hotelOrder.NumberRoom phòng @Model.RoomName</div>
+                        <div class="below-left-2">
+                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", price * night * hotelOrder.NumberRoom)
+                        </div>
+                    </div>
+                    @*<div class="card-below-center">
+                        <div class="below-center-1">Giảm giá</div>
+                        <div class="below-center-2">- 1.000.000đ</div>
+                    </div>*@
+                    <div class="card-below-right">
+                        <div class="below-right-1">Thuế & phí</div>
+                        <div class="below-right-2">
+                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", tax)
+                        </div>
+                    </div>
+                </div>
+                <div class="card-below-2">
+                    <input type="text" class="input-promotion" placeholder="Nhập mã giảm giá">
+                </div>
+                <div class="card-below-3">
+                    <div class="below-total">Tổng tiền: </div>
+                    <div class="below-price">
+                        @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", price * night * hotelOrder.NumberRoom + tax)
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--contact-info-->
+        <div class="contact-info">
+            <div class="contact-container">
+                <div class="contact-title">Thông tin liên hệ</div>
+                <div class="list-input">
+                    <div class="contact-left">
+                        <div class="input-name">
+                            <label for="fullname">Họ và Tên:</label>
+                            <input type="text" id="fullname" placeholder="Nhập họ và tên">
+                            <p id="name-error" class="error-message">Vui lòng nhập họ và tên.</p>
+                        </div>
+                        <div class="input-phone">
+                            <label for="phone">Số điện thoại:</label>
+                            <input type="text" id="phone" placeholder="Nhập số điện thoại">
+                            <p id="phone-error" class="error-message">Vui lòng nhập số điện thoại.</p>
+                            <p id="phone-format-error" class="error-message">Định dạng số điện thoại không đúng.</p>
+                        </div>
+                        <div class="input-email-contact">
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" placeholder="Để gửi thông tin vé , lịch trình, thanh toán">
+                            <p id="email-error" class="error-message">Vui lòng nhập email.</p>
+                            <p id="email-format-error" class="error-message">Định dạng email không đúng.</p>
+                        </div>
+                    </div>
+                    <div class="contact-right">
+                        <div class="contact-right-title">Nội dung yêu cầu</div>
+                        <textarea name="content-request" id="content-request"></textarea>
+                    </div>
+                </div>
+                <form id="form-order" style="text-align: center;">
+                    @if (Model.PercentDeposit != null && Model.PercentDeposit > 0)
+                    {
+                        <button type="submit" name="paymentMethod" value="percent" class="btn-request" onclick="validateForm()" style="display: inline-block; margin-right: 20px; background-color: transparent; color: #4caf50; border: 1px solid;">
+                            Thanh toán cọc (@Model.PercentDeposit% - <span id="percent-deposit">@String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", Math.Round((price * night * hotelOrder.NumberRoom + tax) / 100 * (Model.PercentDeposit ?? 100) / 1000) * 1000)</span>)
+                        </button>
+                    }
+                    <button type="submit" name="paymentMethod" value="full" class="btn-request" onclick="validateForm()" style="display: inline-block;">Thanh toán</button>
+                    @*<button class="btn-request" onclick="validateForm()">Gửi yêu cầu đặt phòng</button>*@
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+    <script>
+        $(function () {
+            const Toast = window.globalVariable;
+
+            $("#form-order").on('submit', function (e) {
+                e.preventDefault();
+
+                if ($(".contact-left input.invalid").length > 0) {
+                    Toast.fire({
+                        icon: 'error',
+                        text: 'Vui lòng nhập đầy đủ thông tin liên hệ'
+                    });
+
+                    return false;
+                }
+
+                const clickedButton = $(document.activeElement); // nút vừa được bấm
+		        const paymentMethod = clickedButton.val(); // bank hoặc cash
+
+                var formOrder = new FormData(this);
+
+                formOrder.append('NumberAdult', parseInt("@Context.Request.Query["ADT"]"));
+                formOrder.append('NumberChildren', parseInt("@Context.Request.Query["CHD"]"));
+                formOrder.append('NumberInfant', parseInt("@Context.Request.Query["INF"]"));
+                formOrder.append('CheckInDate', "@hotelOrder.CheckInDate");
+                formOrder.append('CheckOutDate', "@hotelOrder.CheckOutDate");
+                formOrder.append('NumberRoom', parseInt("@hotelOrder.NumberRoom"));
+                formOrder.append('UserName', $('#fullname').val());
+                formOrder.append('PhoneNumber', $('#phone').val());
+                formOrder.append('Email', $('#email').val());
+                formOrder.append('ContentRequest', $('#content-request').val());
+                formOrder.append('PaymentMethod', paymentMethod);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("HotelOrder", "Home")',
+                    data: formOrder,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function () {
+                        $("#loadingModal").show();
+                    },
+                    success: function (res) {
+                        if (!res.success) {
+                            Toast.fire({
+                                icon: 'error',
+                                text: res.message
+                            });
+
+                            return false;
+                        }
+
+                        // console.log(res);
+
+                        window.location.href = res.data;
+                    },
+                    complete: function () {
+                        $("#loadingModal").hide();
+                    },
+                    error: function (error) {
+                        $("#loadingModal").hide();
+                        Toast.fire({
+                            icon: 'error',
+                            text: 'Có lõi xảy ra'
+                        });
+                        console.log(error);
+                    }
+                });
+            });
+
+            $("#fullname").val("@user.FullName");
+            $("#phone").val("@user.PhoneNumber");
+            $("#email").val("@user.Email");
+        });
+    </script>
+}

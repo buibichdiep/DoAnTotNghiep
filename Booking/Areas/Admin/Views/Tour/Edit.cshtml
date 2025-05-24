@@ -1,0 +1,206 @@
+﻿@model TourDTO
+
+@{
+    ViewData["Title"] = "Edit";
+    var images = ViewBag.Images as List<Media> ?? new List<Media>();
+    int count = 1;
+}
+
+<div class="content">
+    <h3>Edit Tour</h3>
+    <div class="card">
+        <div class="card-header">
+            <ul class="nav nav-pills card-header-pills" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <a href="#info-tab"
+                       class="nav-link active"
+                       data-bs-toggle="tab"
+                       role="tab"
+                       aria-selected="true">Thông tin chung</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a href="#image-tab"
+                       class="nav-link"
+                       data-bs-toggle="tab"
+                       role="tab"
+                       aria-selected="false">Hình ảnh</a>
+                </li>
+            </ul>
+        </div>
+        <div class="card-body tab-content">
+            <div class="tab-pane active" id="info-tab" role="tabpanel">
+                <form asp-action="Edit" method="post" id="formHotel">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <div class="form-group">
+                        <label asp-for="IdCateTour" class="control-label"></label>
+                        <select asp-for="IdCateTour" class="form-control" asp-items="ViewBag.CateTour">
+                            <option value="">-- Không có --</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TourName" class="control-label"></label>
+                        <input asp-for="TourName" class="form-control" />
+                        <span asp-validation-for="TourName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="Images" type="hidden" class="form-control" id="imageInput" />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="AvatarId" type="hidden" class="form-control" id="avatarInput" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Duration" class="control-label"></label>
+                        <select asp-for="Duration" class="form-control">
+                            <option value="1N0D-Đi trong ngày">Đi trong ngày</option>
+                            <option value="2N1D-2 ngày 1 đêm">2 ngày 1 đêm</option>
+                            <option value="3N2D-3 ngày 2 đêm">3 ngày 2 đêm</option>
+                            <option value="4N3D-4 ngày 3 đêm">4 ngày 3 đêm</option>
+                            <option value="5N4D-5 ngày 4 đêm">5 ngày 4 đêm</option>
+                            <option value="6N5D-6 ngày 5 đêm">6 ngày 5 đêm</option>
+                            <option value="7N6D-7 ngày 6 đêm">7 ngày 6 đêm</option>
+                        </select>
+                        <span asp-validation-for="Duration" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Departure" class="control-label"></label>
+                        <input asp-for="Departure" class="form-control" />
+                        <span asp-validation-for="Departure" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Destination" class="control-label"></label>
+                        <input asp-for="Destination" class="form-control" />
+                        <span asp-validation-for="Destination" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Sightseeing" class="control-label"></label>
+                        <input asp-for="Sightseeing" class="form-control" />
+                        <span asp-validation-for="Sightseeing" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Vehicle" class="control-label"></label>
+                        <input asp-for="Vehicle" class="form-control" />
+                        <span asp-validation-for="Vehicle" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Tag" class="control-label"></label>
+                        <input asp-for="Tag" class="form-control" />
+                        <span asp-validation-for="Tag" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Price" class="control-label"></label>
+                        <input asp-for="Price" type="number" class="form-control" />
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Discount" class="control-label"></label>
+                        <input asp-for="Discount" type="number" class="form-control" />
+                        <span asp-validation-for="Discount" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PercentDeposit" class="control-label"></label>
+                        <select asp-for="PercentDeposit" class="form-control">
+                            <option value="0">Không cọc</option>
+                            <option value="20">20%</option>
+                            <option value="50">50%</option>
+                        </select>
+                        <span asp-validation-for="PercentDeposit" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Description" class="control-label"></label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Overview" class="control-label"></label>
+                        <textarea asp-for="Overview" class="form-control"></textarea>
+                        <span asp-validation-for="Overview" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ServiceInclude" class="control-label"></label>
+                        <textarea asp-for="ServiceInclude" class="form-control"></textarea>
+                        <span asp-validation-for="ServiceInclude" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ServiceNotInclude" class="control-label"></label>
+                        <textarea asp-for="ServiceNotInclude" class="form-control"></textarea>
+                        <span asp-validation-for="ServiceNotInclude" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="TravelSchedule" class="control-label"></label>
+                        <textarea asp-for="TravelSchedule" class="form-control" id="travel_schedule"></textarea>
+                        <span asp-validation-for="TravelSchedule" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane" id="image-tab" role="tabpanel">
+                <div>
+                    <button type="button" class="btn btn-success float-end mb-3" id="uploadButton">
+                        Tải ảnh
+                    </button>
+                    <input type="file" id="fileInput" multiple name="file" style="display:none;" />
+                </div>
+                <table class="table table-hover align-middle text-center table-create_product">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Ảnh</th>
+                            <th>Ảnh đại diện</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="imageTableBody">
+                        @foreach (var image in images)
+                        {
+                            string preview = "";
+                            if (image.MediaType == "Image")
+                            {
+                                preview = $"<img src=\"{image.MediaUrl}\" alt=\"\" style=\"width: 80px; height: auto\" />";
+                            }
+                            if (image.MediaType == "Video")
+                            {
+                                preview = $"<video src=\"{image.MediaUrl}\" style=\"width: 80px; height: auto\" controls></video>";
+                            }
+                            <tr>
+                                <th>@(count++)</th>
+                                <td>@Html.Raw(preview)</td>
+                                <td>
+                                    <input type="radio" name="avatar" @(image.IsAvatar ? "checked" : "") value="@image.Id" />
+                                </td>
+                                <td><button type="button" class="btn btn-danger delete-btn" value="@image.Id">Xóa</button></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+        await Html.RenderPartialAsync("_HandleImagePartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            new FroalaEditor('#travel_schedule', {
+                // pluginsEnabled: ['image', 'video', 'table'],  // Bật các plugins bạn muốn sử dụng
+                // toolbarButtons: ['bold', 'italic', 'underline', 'insertImage', 'insertVideo', 'insertTable'],
+                imageUploadURL: '/UploadImages',  // URL để tải lên hình ảnh (nếu cần)
+                videoUploadURL: '/UploadVideos',  // URL để tải lên video (nếu cần)
+                heightMin: 200
+            });
+        });
+    </script>
+}

@@ -1,0 +1,522 @@
+﻿@model IEnumerable<Tour>
+@{
+    ViewData["Title"] = "Tìm kiếm";
+    var slug = Context.Request.Query["slug"];
+}
+
+<!--body-->
+<div class="container-main">
+    <div class="navigation">
+        <div class="navigation-left"><a href="hotel.html">Khách sạn</a></div>
+        <div class="navigation-icon">
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+        <div class="navigation-center">Hải phòng</div>
+        <div class="navigation-icon">
+            <i class="fa-solid fa-chevron-right"></i>
+        </div>
+        <div class="navigation-center">Dream Dragon Resort</div>
+    </div>
+    <h2 class="title-main">Tour du lịch</h2>
+    <div class="content-main">
+        <div class="content-main-left">
+            <div class="filter-title-hotelitem">
+                <div class="filter-icon"><i class="fa-solid fa-filter"></i></div>
+                <div class="filter-name-hotelitem">Bộ lọc</div>
+            </div>
+            <div class="list-filter">
+                <div class="filter-item">
+                    <h3>Khởi hành</h3>
+                    <form class="form form-4">
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Hà Nội"
+                                   class="input-filter" />
+                            Hà Nội
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Hồ Chí Minh"
+                                   class="input-filter" />
+                            Hồ Chí Minh
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Đà Nẵng"
+                                   class="input-filter" />
+                            Đà Nẵng
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Nha Trang"
+                                   class="input-filter" />
+                            Nha Trang
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Phú Quốc"
+                                   class="input-filter" />
+                            Phú Quốc
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Huế"
+                                   class="input-filter" />
+                            Huế
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Cần Thơ"
+                                   class="input-filter" />
+                            Cần Thơ
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Đà Lạt"
+                                   class="input-filter" />
+                            Đà Lạt
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Quy Nhơn"
+                                   class="input-filter" />
+                            Quy Nhơn
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Hạ Long"
+                                   class="input-filter" />
+                            Hạ Long
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Departure"
+                                   value="Tây Nguyên"
+                                   class="input-filter" />
+                            Tây Nguyên
+                        </label><br />
+                    </form>
+                    <div class="seemore-hide toggleSeemoreHide">
+                        [+] Xem thêm
+                    </div>
+                </div>
+                <div class="filter-item">
+                    <h3>Thời gian</h3>
+                    <form class="form form-2">
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Duration"
+                                   value="1N0D-Đi trong ngày"
+                                   class="input-filter" />
+                            Đi trong ngày
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Duration"
+                                   value="2N1D-2 ngày 1 đêm"
+                                   class="input-filter" />
+                            2 ngày 1 đêm
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Duration"
+                                   value="3N2D-3 ngày 2 đêm"
+                                   class="input-filter" />
+                            3 ngày 2 đêm
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Duration"
+                                   value="4N3D-4 ngày 3 đêm"
+                                   class="input-filter" />
+                            4 ngày 3 đêm
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Duration"
+                                   value="5N4D-5 ngày 4 đêm"
+                                   class="input-filter" />
+                            5 ngày 4 đêm
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Duration"
+                                   value="6N5D-6 ngày 5 đêm"
+                                   class="input-filter" />
+                            6 ngày 5 đêm
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Duration"
+                                   value="7N6D-7 ngày 6 đêm"
+                                   class="input-filter" />
+                            7 ngày 6 đêm
+                        </label><br />
+                    </form>
+                </div>
+                <div class="filter-item">
+                    <h3>Mức giá trong khoảng</h3>
+                    <form class="form form-3">
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Price"
+                                   value="0"
+                                   class="input-filter" />
+                            Từ 1 triệu đến 5 triệu
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Price"
+                                   value="1"
+                                   class="input-filter" />
+                            Từ 5 triệu đến 10 triệu
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Price"
+                                   value="2"
+                                   class="input-filter" />
+                            Từ 10 triệu đến 15 triệu
+                        </label><br />
+                        <label class="label-input">
+                            <input type="checkbox"
+                                   name="Price"
+                                   value="3"
+                                   class="input-filter" />
+                            Trên 15 triệu
+                        </label><br />
+                    </form>
+                </div>
+                @* <div class="filter-item">
+                <h3>Điểm đến</h3>
+                <form class="form form-4">
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Hà Nội"
+                class="input-filter" />
+                Hà Nội
+                </label><br />
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Hồ Chí Minh"
+                class="input-filter" />
+                Hồ Chí Minh
+                </label><br />
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Đà Nẵng"
+                class="input-filter" />
+                Đà Nẵng
+                </label><br />
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Nha Trang"
+                class="input-filter" />
+                Nha Trang
+                </label><br />
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Phú Quốc"
+                class="input-filter" />
+                Phú Quốc
+                </label><br />
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Huế"
+                class="input-filter" />
+                Huế
+                </label><br />
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Cần Thơ"
+                class="input-filter" />
+                Cần Thơ
+                </label><br />
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Đà Lạt"
+                class="input-filter" />
+                Đà Lạt
+                </label><br />
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Quy Nhơn"
+                class="input-filter" />
+                Quy Nhơn
+                </label><br />
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Hạ Long"
+                class="input-filter" />
+                Hạ Long
+                </label><br />
+                <label class="label-input">
+                <input type="checkbox"
+                name="Destination"
+                value="Tây Nguyên"
+                class="input-filter" />
+                Tây Nguyên
+                </label><br />
+                </form>
+                <div class="seemore-hide toggleSeemoreHide">
+                [+] Xem thêm
+                </div>
+                </div> *@
+            </div>
+        </div>
+        <div class="content-main-right">
+            <div class="arrange">
+                <div class="arrange-name">Sắp xếp</div>
+                <div class="arrange-item active">DiepTourist đề xuất</div>
+                <div class="arrange-item">Giá: Thấp đến cao</div>
+                <div class="arrange-item">Giá: Cao đến thấp</div>
+                <div class="arrange-item">Đánh giá cao nhất</div>
+            </div>
+            <div class="list-card">
+                @foreach (var tour in Model)
+                {
+                    <div class="card-item">
+                        <div class="card-img">
+                            <a asp-action="TourDetails" asp-route-slug="@tour.Slug">
+                                <img src="@tour.Avatar" alt="@tour.TourName" />
+                            </a>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-title">
+                                <div class="card-name">
+                                    <a asp-action="TourDetails" asp-route-slug="@tour.Slug">@tour.TourName</a>
+                                </div>
+                            </div>
+                            <div class="card-evaluate">
+                                <div class="evaluate1">
+                                    <a asp-action="TourDetails" asp-route-slug="@tour.Slug"><span>9.0</span>Tuyệt vời</a>
+                                </div>
+                                <div class="evaluate2">
+                                    <a asp-action="TourDetails" asp-route-slug="@tour.Slug"><span>- 0</span>đánh giá</a>
+                                </div>
+                            </div>
+                            <div class="card-location">
+                                <i class="fa-solid fa-location-dot"></i>
+                                <div class="location-text">@tour.Sightseeing</div>
+                            </div>
+                            <div class="card-location">
+                                <i class="fa-regular fa-calendar-days"></i>
+                                <div class="location-text">Khởi hành: @tour.Departure</div>
+                            </div>
+                            @if (tour.Tag != null)
+                            {
+                                <div class="tour-hot-endow endow-1">
+                                    <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                    <div class="endow-text">@tour.Tag</div>
+                                </div>
+                            }
+                            <div class="highlights">
+                                <div class="highlights-title">
+                                    <div class="hl-name-hotelitem">Điểm nổi bật</div>
+                                    <i id="rotateIcon" class="fa-solid fa-chevron-down"></i>
+                                </div>
+                                <div class="highlights-content">
+                                    @foreach (var item in tour.Overview.Split("\r\n"))
+                                    {
+                                        <div class="highlight-content-item">
+                                            <i class="fa-solid fa-check"></i>
+                                            <div class="item-text">
+                                                @item
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="card-price justify-content-between">
+                                <div class="tour-hot-time">@tour.Duration.Split("-").First()</div>
+                                <div class="price-original">
+                                    @if (tour.Discount == null)
+                                    {
+                                        <a asp-action="TourDetails" asp-route-slug="@tour.Slug">
+                                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", tour.Price)
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-decoration-line-through me-2">
+                                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", tour.Price)
+                                        </span>
+                                        <a asp-action="TourDetails" asp-route-slug="@tour.Slug">
+                                            @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", tour.Discount)
+                                        </a>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <button id="toggleButtonItems">Xem thêm</button>
+        </div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+    <script>
+        $(function () {
+            const Toast = window.globalVariable;
+
+            $(".input-filter").change(function () {
+                var queryString = "Slug:@Context.Request.Query["slug"]";
+                $(".input-filter:checked").each(function () {
+                    var nameInput = $(this).attr('name');
+                    var valueInput = $(this).val();
+
+                    queryString = queryString == "null"
+                        ? `${nameInput}:${valueInput}`
+                        : queryString + `;${nameInput}:${valueInput}`;
+                });
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("TourFilterHandle", "Home")',
+                    data: { filter: queryString },
+                    beforeSend: function () {
+                        // Hiển thị modal trước khi gọi AJAX
+                        $("#loadingModal").show();
+                    },
+                    success: function (res) {
+                        if (!res.success) {
+                            Toast.fire({
+                                icon: `error`,
+                                text: res.message
+                            });
+                            return;
+                        }
+
+                        var listCard = $(".list-card");
+                        listCard.empty();
+
+                        $.each(JSON.parse(res.data), function (index, tour) {
+                            var outstanding = "";
+                            $.each(tour.Overview.split("\r\n"), function (index, item) {
+                                outstanding += `
+                                                                <div class="highlight-content-item">
+                                                                    <i class="fa-solid fa-check"></i>
+                                                                    <div class="item-text">${item}</div>
+                                                                </div>
+                                                                `;
+                            });
+
+                            var price = "";
+
+                            if (tour.Discount == null) {
+                                price = `<a href="/tour/${tour.Slug}">${tour.Price.toLocaleString('vi-VN')} đ</a>`
+                            } else {
+                                price = `<span class="text-decoration-line-through me-2">${tour.Price.toLocaleString('vi-VN')} đ</span>
+                                    <a href="/tour/${tour.Slug}">${tour.Discount.toLocaleString('vi-VN')} đ</a>`
+                            }
+
+                            var tag = "";
+                            if(tour.Tag != null){
+                                tag = `
+                                    <div class="tour-hot-endow endow-1">
+                                        <i class="fa-solid fa-circle-dollar-to-slot"></i>
+                                        <div class="endow-text">${tour.Tag}</div>
+                                    </div>
+                                    `;
+                            }
+
+                            var tourEle = `
+                                                <div class="card-item">
+                                                    <div class="card-img">
+                                                                <a href="/tour/${tour.Slug}">
+                                                            <img src="${tour.Avatar}" alt="${tour.TourName}" />
+                                                        </a>
+                                                    </div>
+                                                    <div class="card-info">
+                                                        <div class="card-title">
+                                                            <div class="card-name">
+                                                                        <a href="/tour/${tour.Slug}">${tour.TourName}</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-evaluate">
+                                                            <div class="evaluate1">
+                                                                        <a href="/tour/${tour.Slug}"><span>9.0</span>Tuyệt vời</a>
+                                                            </div>
+                                                            <div class="evaluate2">
+                                                                        <a href="/tour/${tour.Slug}"><span>- 0</span>đánh giá</a>
+                                                            </div>
+                                                        </div>
+                                                        <div class="card-location">
+                                                            <i class="fa-solid fa-location-dot"></i>
+                                                            <div class="location-text">${tour.Sightseeing}</div>
+                                                        </div>
+                                                        <div class="card-location">
+                                                            <i class="fa-regular fa-calendar-days"></i>
+                                                            <div class="location-text">Khởi hành: ${tour.Departure}</div>
+                                                        </div>
+                                                        ${tag}
+                                                        <div class="highlights">
+                                                            <div class="highlights-title">
+                                                                <div class="hl-name-hotelitem">Điểm nổi bật</div>
+                                                                <i id="rotateIcon" class="fa-solid fa-chevron-down"></i>
+                                                            </div>
+                                                            <div class="highlights-content">${outstanding}</div>
+                                                        </div>
+                                                        <div class="card-price justify-content-between">
+                                                            <div class="tour-hot-time">${tour.Duration.split("-")[0]}</div>
+                                                            <div class="price-original">${price}</div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                `;
+
+                            listCard.append(tourEle);
+                        });
+                    },
+                    complete: function () {
+                        // Ẩn modal khi hoàn thành
+                        $("#loadingModal").hide();
+                    },
+                    error: function (xhr, status, error) {
+                        $("#loadingModal").hide();
+                        Toast.fire({
+                            icon: `error`,
+                            text: `Có lỗi xảy ra`
+                        });
+
+                        // Xử lý lỗi
+                        console.error('Lỗi: ' + error);
+                        console.error('Mã trạng thái: ' + xhr.status);
+                        console.error('Chi tiết lỗi: ' + xhr.responseText);
+                    }
+                });
+            });
+        });
+    </script>
+    <script>
+        $(function () {
+            $(document).on('click', '.highlights-title', function (event) {
+                $(this).next().toggleClass('shrink');
+            });
+        });
+    </script>
+}

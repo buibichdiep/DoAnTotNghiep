@@ -1,0 +1,168 @@
+﻿<script>
+    $(function () {
+        const Toast = window.globalVariable;
+
+        var count = $('#imageTableBody input[name="avatar"]').length;
+
+        // Khi nhấp vào nút Upload File
+        $('#uploadButton').click(function () {
+            // Kích hoạt thẻ input file
+            $('#fileInput').click();
+        });
+
+        // Khi người dùng chọn file
+        $('#fileInput').change(function () {
+            var formData = new FormData();
+            var files = $('#fileInput')[0].files;
+
+            // Thêm tất cả các file đã chọn vào formData
+            for (var i = 0; i < files.length; i++) {
+                formData.append('files', files[i]);
+            }
+
+            // Gửi AJAX request để upload các file
+            $.ajax({
+                url: '@Url.Action("UploadMedia", "Hotel")',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                beforeSend: function () {
+                    // Hiển thị modal trước khi gọi AJAX
+                    $("#loadingModal").show();
+                },
+                success: function (response) {
+                    response.forEach(image => {
+                        var preview;
+                        if (image.type == 'Image') {
+                            preview = '<img src="' + image.url + '" alt="" style="width: 80px; height: auto"/>';
+                        } else if (image.type == 'Video') {
+                            preview = '<video src="' + image.url + '" style="width: 80px; height: auto" controls></video>';
+                        }
+
+                        var newRow = '<tr>' +
+                            '<th>' + (++count) + '</th>' +
+                            '<td>' + preview + '</td>' +
+                            '<td><input type="radio" name="avatar" value="' + image.id + '"' + (count == 1 ? "checked" : "") + '/></td>' +
+                            '<td><button type="button" class="btn btn-danger delete-btn" value="' + image.id + '">Xóa</button></td>' +
+                            '</tr>';
+                        $('#imageTableBody').append(newRow);
+                    });
+                },
+                complete: function () {
+                    // Ẩn modal khi hoàn thành
+                    $("#loadingModal").hide();
+                },
+                error: function (error) {
+                    $("#loadingModal").hide();
+                    Toast.fire({
+                        icon: `error`,
+                        text: `Có lỗi xảy ra`
+                    });
+
+                    console.log(error);
+                }
+            });
+        });
+
+        $("form .form-group input.btn").click(function () {
+            var avatar = $('#imageTableBody input[name="avatar"]:checked').val();
+            var listId = $("#imageTableBody input[type=radio]").map(function () {
+                return $(this).val();
+            }).get();
+            var travelSchedule = $("#show-schedule li").map(function() {
+                return $(this).val();
+            }).get();
+
+            // Gán giá trị cho thẻ input ẩn
+            $('#imageInput').val(listId.join(";"));
+            $("#avatarInput").val(avatar);
+            $("#travel_schedule").val(travelSchedule.join(";"))
+        });
+
+        $("#formHotel").on('submit', function (event) {
+            // event.preventDefault();
+            var avatar = $('#imageTableBody input[name="avatar"]:checked').val();
+            var listId = $("#imageTableBody input[type=radio]").map(function() {
+                return $(this).val();
+            }).get();
+            var travelSchedule = $("#show-schedule li").map(function() {
+                return $(this).attr('value');
+            }).get();
+
+            // Gán giá trị cho thẻ input ẩn
+            $('#imageInput').val(listId.join(";"));
+            $("#avatarInput").val(avatar);
+            $("#travel_schedule").val(travelSchedule.join(";"))
+        });
+
+        $('#imageTableBody input[name="avatar"]').click(function () {
+            $("#avatarInput").val($(this).val());
+        });
+
+        // Delete image
+        $('#imageTableBody').on('click', 'button.delete-btn', function (item) {
+            var isAvatar = $(item.currentTarget).closest('tr').find("input[name=avatar]:checked");
+
+            if (isAvatar.length > 0) {
+                Toast.fire({
+                    icon: `error`,
+                    text: `Không thể xóa ảnh đại diện`
+                });
+                return;
+            }
+
+            Swal.fire({
+                title: "Bạn chắc chứ?",
+                text: "Thao tác này sẽ không được hoàn lại!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Đồng ý",
+                cancelButtonText: "Không"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: "DELETE",
+                        url: "@Url.Action("DeleteMediaById", "Hotel")",
+                        data: { id: $(this).val() },
+                        beforeSend: function () {
+                            $("#loadingModal").show();
+                        },
+                        success: function (res) {
+                            if (!res.success) {
+                                Toast.fire({
+                                    icon: `error`,
+                                    text: res.message
+                                });
+                                return;
+                            }
+
+                            $(item.currentTarget).closest('tr').fadeOut(300, function () {
+                                $(this).remove(); // Xóa phần tử khỏi DOM sau khi hiệu ứng ẩn hoàn thành
+
+                                // Cập nhật lại STT sau khi hàng bị xóa
+                                $('#imageTableBody tr').each(function (index) {
+                                    $(this).find('th').text(++index); // Cập nhật STT
+                                });
+                            });
+                        },
+                        complete: function () {
+                            $("#loadingModal").hide();
+                        },
+                        error: function (error) {
+                            Toast.fire({
+                                icon: `error`,
+                                text: `Có lỗi xảy ra`
+                            });
+
+                            console.log(error);
+                        }
+                    });
+                }
+            });
+        });
+    });
+</script>

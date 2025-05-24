@@ -1,0 +1,32 @@
+﻿@model HotelDTO
+
+@{
+    ViewData["Title"] = Model.HotelName;
+}
+
+<h1>Thông tin khách sạn</h1>
+
+<p>Hình ảnh:</p>
+<ul>
+    @foreach(var image in Model.Images?.Split(";"))
+    {
+        <li>@image</li>
+    }
+</ul>
+<p>Tên: @Model.HotelName</p>
+<p>Địa chỉ: @Model.Address</p>
+<p>Tag: @Model.Tag</p>
+<p>Tiện ích:</p>
+<ul>
+    @foreach (var utility in Model.Utilities ?? new List<Utility>())
+    {
+        <li>@Html.Raw(utility.Icon) <span>@utility.UtilityName</span></li>
+    }
+</ul>
+<p>Điểm nổi bật:</p>
+<ul>
+    @foreach(var item in Model.Outstanding.Split("\r\n"))
+    {
+        <li>@item</li>
+    }
+</ul>

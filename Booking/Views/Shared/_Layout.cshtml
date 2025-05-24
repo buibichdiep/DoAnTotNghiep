@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@(ViewData["Title"] == null ? "Booking" : ViewData["Title"])</title>
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css">
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+</head>
+<body>
+    <!--Header-->
+    <header class="header-main sticky" id="headerMain">
+        <div class="header-main-logo">
+            <a href="/"><img src="~/images/logo.png" width="170px" alt=""></a>
+        </div>
+        <div class="header-main-sidebar">
+            <ul class="menu">
+                @*<li class="items"><a asp-controller="Home" asp-action="Flight"><i class="fa-solid fa-plane"></i>Vé máy bay</a></li>*@
+                <li class="items"><a asp-controller="Home" asp-action="Hotel"><i class="fa-solid fa-hotel"></i>Khách sạn</a></li>
+                <li class="items"><a asp-controller="Home" asp-action="Tour"><i class="fa-solid fa-location-dot"></i>Tour du lịch</a></li>
+                <li class="items" id="fixedItem">
+                </li>
+                <li class="dropdown-menu">
+                    <i class="fa-solid fa-ellipsis dropdown-toggle" onclick="toggleDropdown(event)"></i>
+                    <div class="dropdown-menu-content">
+                        <a class="items" href="#" data-text="Vinpearl" data-icon="fa-brands fa-vine" onclick="swapItems(event, 'Vinpearl', 'fa-brands fa-vine')">
+                            <i class="fa-brands fa-vine"></i>Vinpearl
+                        </a>
+                        <a class="items" href="#" data-text="Combo khuyến mãi" data-icon="fa-solid fa-percent" onclick="swapItems(event, 'Combo khuyến mãi', 'fa-solid fa-percent')">
+                            <i class="fa-solid fa-percent"></i>Combo khuyến mãi
+                        </a>
+                        <a class="items" href="#" data-text="Vé vui chơi" data-icon="fa-solid fa-ticket" onclick="swapItems(event, 'Vé vui chơi', 'fa-solid fa-ticket')">
+                            <i class="fa-solid fa-ticket"></i>Vé vui chơi
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        @await Html.PartialAsync("_LoginPartial")
+    </header>
+    <main>
+        @RenderBody()
+    </main>
+    <!--Footer-->
+    <Footer class="footer">
+        <div class="footer-container-1">
+            <div class="footer-1">
+                <div class="footer-left">
+                    <div class="title-1">
+                       
+                    </div>
+                    <div class="title-2">Tập đoàn DiepTourist</div>
+                    <div class="title-3">
+                        <div class="title-3-name">Công ty Cổ Phần Công nghệ Du Lịch DiepTourist</div>
+                        <div class="title-3-text">
+                            <div class="content">
+                                <img src="~/images/footer2.png" alt="">
+                                <div class="text"><a href="https://maps.app.goo.gl/Lp5KAXdmTcRAPX1Q9">57 Trần Quốc Toản, phường Trần Hưng Đạo, quận Hoàn Kiếm, Hà Nội. (024) 7307 2605</a></div>
+                            </div>
+                            <div class="content">
+                                <img src="~/images/footer2.png" alt="">
+                                <div class="text"><a href="https://maps.app.goo.gl/e52wgXkZHd2dBYew6">Số 32, đường 208, Cái Tắt, An Đồng, An Dương, Hải Phòng. (024) 7307 2605</a></div>
+                            </div>
+                            <div class="content">Giấy phép kinh doanh số: 0104679428. Ngày cấp: 26/05/2010. Nơi cấp: Sở KH & ĐT TP Hà Nội.</div>
+                        </div>
+                    </div>
+                    <div class="title-3 title3-cover">
+                        <div class="title-3-name">Công ty Cổ phần Du lịch DiepTourist Việt Nam</div>
+                        <div class="title-3-text">
+                            <div class="content">
+                                <img src="~/images/footer2.png" alt="">
+                                <div class="text"><a href="https://maps.app.goo.gl/QCDL48Z3Ag9EmZdg7">21 Bùi Thị Xuân, Phường Bến Thành, Quận 1, Hồ Chí Minh. (028) 7307 2605</a></div>
+                            </div>
+                            <div class="content">Giấy phép kinh doanh số: 0318483750. Ngày cấp: 29/05/2024 Nơi cấp: Sở KH & ĐT TP HCM</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-right">
+                    <div class="footer-right-1">
+                        <div class="footer-right-item"><a href="">Vé máy bay</a></div>
+                        <div class="footer-right-item"><a href="">Khách sạn</a></div>
+                        <div class="footer-right-item"><a href="">Tour du lịch</a></div>
+                        <div class="footer-right-item"><a href="">Vinpearl</a></div>
+                        <div class="footer-right-item"><a href="">Combo du lịch</a></div>
+                        <div class="footer-right-item"><a href="">Du thuyền Hạ Long</a></div>
+                        <div class="footer-right-item"><a href="">Vé vui chơi</a></div>
+                    </div>
+                    <div class="footer-right-2">
+                        <div class="footer-right-item"><a href="">Về chúng tôi</a></div>
+                        <div class="footer-right-item"><a href="">Liên hệ</a></div>
+                        <div class="footer-right-item"><a href="">Chính sách riêng tư</a></div>
+                        <div class="footer-right-item"><a href="">Điều khoản và điều kiện</a></div>
+                        <div class="footer-right-item"><a href="">Hình thức thanh toán</a></div>
+                        <div class="footer-right-item"><a href="">DiepTourist với báo chí</a></div>
+                        <div class="footer-right-item"><a href="">Chứng nhận và giải thưởng</a></div>
+                        <div class="footer-right-item"><a href="">Cẩm nang du lịch</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-container-2">
+            <div class="footer-2">
+                <div class="footer-2-item footer-2-text">các thương hiệu cùng tập đoàn DiepTourist:</div>
+                <div class="footer-2-item"><img src="~/images/footer3.png" alt=""></div>
+                <div class="footer-2-item"><img src="~/images/footer4.png" alt=""></div>
+                <div class="footer-2-item"><img src="~/images/footer5.png" alt=""></div>
+                <div class="footer-2-item"><img src="~/images/footer6.png" alt=""></div>
+            </div>
+        </div>
+        <div class="form-promotion">
+            <div class="content">
+                <div class="image"><img src="~/images/footer7.png" alt=""></div>
+                <div class="text-ft">
+                    <div class="text-1-ft">Cơ hội giảm giá tới <span>50%</span></div>
+                    <div class="text-2">Hãy đăng ký ngay để nhận ưu đãi bí mật từ DiepTourist nhé!</div>
+                </div>
+
+            </div>
+        </div>
+    </Footer>
+
+    <script src="~/js/jquery-3.7.1.js"></script>
+    <script src="~/js/bootstrap.min.js"></script>
+    <script src="~/lib/sweetalert2/sweetalert2.all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="~/js/app.js"></script>
+    <script src="~/js/site.js"></script>
+    <script>
+        $(function () {
+            window.globalVariable = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                showCloseButton: true,
+                timer: 5000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                },
+                customClass: {
+                  popup: 'custom-toast' // thêm class tùy chỉnh
+                }
+            });
+        });
+    </script>
+    @await Html.PartialAsync("_ToastPartial")
+    @await RenderSectionAsync("Scripts", required: false)
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+</body>
+</html>

@@ -1,0 +1,70 @@
+﻿@model FlightDTO
+
+@{
+    ViewData["Title"] = "Oder Flight";
+}
+
+<h4>Book Flight</h4>
+<hr />
+<div class="row">
+    <div class="col-md-6">
+        @* <form asp-action="Oder" asp-controller="Flight" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="DepartureId" class="control-label"></label>
+                <select asp-for="DepartureId" class="form-control" asp-items="ViewBag.CityCode">
+                    <option value="">-- Không có --</option>
+                </select>
+                <span asp-validation-for="DepartureId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ArrivalId" class="control-label"></label>
+                <select asp-for="ArrivalId" class="form-control" asp-items="ViewBag.CityCode">
+                    <option value="">-- Không có --</option>
+                </select>
+                <span asp-validation-for="ArrivalId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OutboundDate" class="control-label"></label>
+                <input asp-for="OutboundDate" class="form-control" />
+                <span asp-validation-for="OutboundDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReturnDate" class="control-label"></label>
+                <input asp-for="ReturnDate" class="form-control" />
+                <span asp-validation-for="ReturnDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TravelClass" class="control-label"></label>
+                <select asp-for="TravelClass" class="form-control">
+                    <option value="1">Tiết kiệm & phổ thông</option>
+                    <option value="2">Phổ thông linh hoạt</option>
+                    <option value="3">Thương gia</option>
+                </select>
+                <span asp-validation-for="TravelClass" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberAdults" class="control-label"></label>
+                <input asp-for="NumberAdults" class="form-control" />
+                <span asp-validation-for="NumberAdults" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberChildren" class="control-label"></label>
+                <input asp-for="NumberChildren" class="form-control" />
+                <span asp-validation-for="NumberChildren" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="NumberInfants" class="control-label"></label>
+                <input asp-for="NumberInfants" class="form-control" />
+                <span asp-validation-for="NumberInfants" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form> *@
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

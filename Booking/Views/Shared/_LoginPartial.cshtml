@@ -1,0 +1,31 @@
+﻿<div class="btn-login-signin">
+    @if (!User.Identity!.IsAuthenticated)
+    {
+        <div class="btn-log btn-logIn">
+            <a asp-area="Accounts" asp-controller="Account" asp-action="Login">Đăng nhập</a>
+        </div>
+        <div class="btn-log btn-signIn">
+            <a asp-area="Accounts" asp-controller="Account" asp-action="Register">Đăng ký</a>
+        </div>
+    }
+    else
+    {
+        <div class="info-user me-4 position-relative">
+            <a href="javascript:void(0)"><img src="~/images/user-avatar-placeholder.png" alt="Avatar" /></a>
+            <ul class="user-menu position-absolute">
+                <li>
+                    <a asp-area="Accounts" asp-controller="Account" asp-action="InfoUser">
+                        <i class="fa-solid fa-user"></i>
+                        Thông tin cá nhân
+                    </a>
+                </li>
+                <li>
+                    <a asp-area="Accounts" asp-controller="Account" asp-action="Logout">
+                        <i class="fa-solid fa-right-from-bracket"></i>
+                        Đăng xuất
+                    </a>
+                </li>
+            </ul>
+        </div>
+    }
+</div>

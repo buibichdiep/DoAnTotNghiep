@@ -1,0 +1,247 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager
+
+@{
+    ViewData["Message"] = "Đặt vé máy bay";
+    var outboundFlight = ViewBag.OutboundFlight as FlightVM ?? new FlightVM();
+    var returnFlight = ViewBag.ReturnFlight as FlightVM ?? new FlightVM();
+    var userName = User.Identity?.Name ?? string.Empty;
+    var user = await userManager.FindByNameAsync(userName) ?? new User();
+    var hotel = ViewBag.Hotel as Hotel ?? new Hotel();
+}
+
+<!--procedure-->
+<div class="procedure">
+    <div class="procedure-container">
+        <div class="proceduce-item">
+            <div class="proceduce-number-1">
+                <i class="fa-solid fa-check"></i>
+            </div>
+            <div class="proceduce-title-1">Chọn vé</div>
+        </div>
+        <hr>
+        <div class="proceduce-item">
+            <div class="proceduce-number-2">2</div>
+            <div class="proceduce-title-2">Thông tin hành khách</div>
+        </div>
+        <hr>
+        <div class="proceduce-item">
+            <div class="proceduce-number-3">3</div>
+            <div class="proceduce-title-3">Xác nhận</div>
+        </div>
+    </div>
+</div>
+<div class="airTicket-box">
+    <div class="airTicket-box-Container">
+        <div class="airTicket-box-left">
+            <div class="abl-title">Thông tin chuyến bay</div>
+            <div class="abl-trip">
+                <div class="abl-trip-1">
+                    <div class="abl-trip-left-1">
+                        <div class="abl-trip-title">Chiều đi: </div>
+                        <div class="abl-trip-nameAir">
+                            <img src="@outboundFlight.FlightLogo" alt="">
+                            <div class="nameAir">@outboundFlight.Airline (@outboundFlight.FlightNumber)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="abl-trip-2">
+                    <div class="abl-trip-left-2">
+                        <div class="abl-trip-province">@outboundFlight.Departure</div>
+                        <div class="abl-trip-time">@outboundFlight.DepartureTime</div>
+                    </div>
+                    <div class="abl-trip-center-2"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="abl-trip-right-2">
+                        <div class="abl-trip-province">@outboundFlight.Arrival</div>
+                        <div class="abl-trip-time">@outboundFlight.ArrivalTime</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="abl-return">
+                <div class="abl-return-1">
+                    <div class="abl-return-left-1">
+                        <div class="abl-return-title">Chiều về: </div>
+                        <div class="abl-return-nameAir">
+                            <img src="@returnFlight.FlightLogo" alt="">
+                            <div class="nameAir">@returnFlight.Airline (@returnFlight.FlightNumber)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="abl-return-2">
+                    <div class="abl-return-left-2">
+                        <div class="abl-return-province">@returnFlight.Departure</div>
+                        <div class="abl-return-time">@returnFlight.DepartureTime</div>
+                    </div>
+                    <div class="abl-return-center-2"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="abl-return-right-2">
+                        <div class="abl-return-province">@returnFlight.Arrival</div>
+                        <div class="abl-return-time">@returnFlight.ArrivalTime</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="airTicket-box-right">
+            <div class="abr-title">Chi tiết thanh toán</div>
+            <div class="abr-item">
+                <div class="abr-name">Giá vé:</div>
+                <div class="abr-price">
+                    @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", outboundFlight.Price + returnFlight.Price)
+                </div>
+            </div>
+            <div class="abr-item">
+                <div class="abr-name">Thuế & phí:</div>
+                <div class="abr-price">
+                    @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", outboundFlight.Tax + returnFlight.Tax)
+                </div>
+            </div>
+            <div class="abr-input"><input type="text" name="text" placeholder="Nhập mã giảm giá (nếu có)"></div>
+            <div class="abr-total">
+                <div class="abr-totalTitle">Tổng tiền: </div>
+                <div class="abr-totalPrice">
+                    @String.Format(new System.Globalization.CultureInfo("vi-VN"), "{0:C0}", outboundFlight.Price + outboundFlight.Tax + returnFlight.Price + returnFlight.Tax)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--INFORMATION GUEST-->
+@*<div class="inf-guest">
+    <div class="inf-guest-container">
+        <div class="inf-guest-title">Thông tin hành khách</div>
+        <div class="inf-guestItem">
+            <div class="guestItem-name">Người lớn 1, Họ và tên <span>*</span></div>
+            <div class="guestItem-input"><input type="text" class="inf-guest-input1" placeholder="Ví dụ: Nguyen Van An"></div>
+        </div>
+        <div class="inf-guestItem">
+            <div class="guestItem-name">Trẻ em 2, Họ và tên <span>*</span></div>
+            <div class="guestItem-input"><input type="text" class="inf-guest-input2" placeholder="Ví dụ: Nguyen Van An"></div>
+        </div>
+        <div class="inf-guestItem">
+            <div class="guestItem-name">Em bé 3, Họ và tên <span>*</span></div>
+            <div class="guestItem-input"><input type="text" class="inf-guest-input3" placeholder="Ví dụ: Nguyen Van An"></div>
+        </div>
+    </div>
+</div>*@
+<!--contact-info-->
+<div class="contact-info-air">
+    <div class="contact-container-air">
+        <div class="contact-title">Thông tin liên hệ</div>
+        <div class="list-input">
+            <div class="contact-left">
+                <div class="input-name">
+                    <label for="fullname">Họ và Tên:</label>
+                    <input type="text" id="fullname" placeholder="Nhập họ và tên">
+                    <p id="name-error" class="error-message">Vui lòng nhập họ và tên.</p>
+                </div>
+                <div class="input-phone">
+                    <label for="phone">Số điện thoại:</label>
+                    <input type="text" id="phone" placeholder="Nhập số điện thoại">
+                    <p id="phone-error" class="error-message">Vui lòng nhập số điện thoại.</p>
+                    <p id="phone-format-error" class="error-message">Định dạng số điện thoại không đúng.</p>
+                </div>
+                <div class="input-email-contact">
+                    <label for="email">Email:</label>
+                    <input type="text" id="email" placeholder="Để gửi thông tin vé , lịch trình, thanh toán">
+                    <p id="email-error" class="error-message">Vui lòng nhập email.</p>
+                    <p id="email-format-error" class="error-message">Định dạng email không đúng.</p>
+                </div>
+            </div>
+            <div class="contact-right">
+                <div class="contact-right-title">Nội dung yêu cầu</div>
+                <textarea name="content-request" id="content-request"></textarea>
+            </div>
+        </div>
+        <form id="form-order">
+            <button class="btn-request" onclick="validateForm()">Gửi yêu cầu đặt vé</button>
+        </form>
+        <!-- Thông báo thanh trượt -->
+        <div id="notification" class="notification">Successfully !</div>
+    </div>
+</div>
+
+@await Html.PartialAsync("_LoadingPartial")
+
+@section Scripts {
+    <script>
+        $(function () {
+            const Toast = window.globalVariable;
+
+            $("#form-order").on('submit', function (e) {
+                e.preventDefault();
+
+                if ($(".contact-left input.invalid").length > 0) {
+                    Toast.fire({
+                        icon: 'error',
+                        text: 'Vui lòng nhập đầy đủ thông tin liên hệ'
+                    });
+
+                    return false;
+                }
+
+                var formOrder = new FormData(this);
+                let departure = "@Html.Raw(outboundFlight.Departure)";
+                let departureTime = "@outboundFlight.DepartureTime";
+                let arrival = "@Html.Raw(outboundFlight.Arrival)";
+                let arrivalTime = "@outboundFlight.ArrivalTime";
+                departureTime = departureTime.split(',')[1].trim();
+                arrivalTime = arrivalTime.split(',')[1].trim();
+
+                formOrder.append('NumberAdult', parseInt("@Context.Request.Query["ADT"]"));
+                formOrder.append('NumberChildren', parseInt("@Context.Request.Query["CHD"]"));
+                formOrder.append('NumberInfant', parseInt("@Context.Request.Query["INF"]"));
+                formOrder.append('UserName', $('#fullname').val());
+                formOrder.append('PhoneNumber', $('#phone').val());
+                formOrder.append('Email', $('#email').val());
+                formOrder.append('ContentRequest', $('#content-request').val());
+                formOrder.append('Price', "@(outboundFlight.Price + returnFlight.Price)");
+                formOrder.append('Tax', "@(outboundFlight.Tax + returnFlight.Tax)");
+                formOrder.append('TotalPrice', "@(outboundFlight.Price + outboundFlight.Tax + returnFlight.Price + returnFlight.Tax)");
+                formOrder.append('Departure', departure);
+                formOrder.append('DepartureTime', departureTime);
+                formOrder.append('Arrival', arrival);
+                formOrder.append('ArrivalTime', arrivalTime);
+
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("FlightOrder", "Home")',
+                    data: formOrder,
+                    contentType: false,
+                    processData: false,
+                    beforeSend: function () {
+                        $("#loadingModal").show();
+                    },
+                    success: function (res) {
+                        if (!res.success) {
+                            Toast.fire({
+                                icon: 'error',
+                                text: res.message
+                            });
+
+                            return false;
+                        }
+
+                        // console.log(res);
+
+                        window.location.href = res.data;
+                    },
+                    complete: function () {
+                        $("#loadingModal").hide();
+                    },
+                    error: function (error) {
+                        $("#loadingModal").hide();
+                        Toast.fire({
+                            icon: 'error',
+                            text: 'Có lõi xảy ra'
+                        });
+                        console.log(error);
+                    }
+                });
+            });
+
+            $("#fullname").val("@user.FullName");
+            $("#phone").val("@user.PhoneNumber");
+            $("#email").val("@user.Email");
+        });
+    </script>
+}

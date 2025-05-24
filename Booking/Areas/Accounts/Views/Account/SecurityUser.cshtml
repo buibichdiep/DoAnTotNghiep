@@ -1,0 +1,288 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject UserManager<User> userManager
+
+@{
+    ViewData["Title"] = "An toàn và bảo mật";
+    var userName = User.Identity?.Name ?? string.Empty;
+    var user = await userManager.FindByNameAsync(userName) ?? new User();
+}
+
+<div class="setting-main">
+    <div class="setting-container">
+        <div class="setting-wrapper">
+            <!-- Sidebar -->
+            <div class="setting-sidebar">
+                <ul class="setting-listItem">
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="InfoUser">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24"
+                                         data-rtl-flip="true"
+                                         width="18"
+                                         height="18">
+                                        <path d="M22.5 17.25a5.25 5.25 0 1 1-10.5 0 5.25 5.25 0 0 1 10.5 0m1.5 0a6.75 6.75 0 1 0-13.5 0 6.75 6.75 0 0 0 13.5 0m-7.5-3v6a.75.75 0 0 0 1.5 0v-6a.75.75 0 0 0-1.5 0M14.25 18h6a.75.75 0 0 0 0-1.5h-6a.75.75 0 0 0 0 1.5M1.5 17.25a6.003 6.003 0 0 1 8.356-5.518.75.75 0 0 0 .588-1.38A7.504 7.504 0 0 0 0 17.25a.75.75 0 0 0 1.5 0m9.375-12.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0m1.5 0a4.875 4.875 0 1 0-9.75 0 4.875 4.875 0 0 0 9.75 0"></path>
+                                    </svg>
+                                </span>
+                                <div class="setting-titleItem">Thông tin cá nhân</div>
+                            </div>
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="SecurityUser">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 24 24"
+                                         width="18"
+                                         height="18"
+                                         fill="#006CE4">
+                                        <path d="M19.5 16.5v5.25a.75.75 0 0 1-.75.75H5.25a.75.75 0 0 1-.75-.75v-10.5a.75.75 0 0 1 .75-.75h13.5a.75.75 0 0 1 .75.75zm1.5 0v-5.25A2.25 2.25 0 0 0 18.75 9H5.25A2.25 2.25 0 0 0 3 11.25v10.5A2.25 2.25 0 0 0 5.25 24h13.5A2.25 2.25 0 0 0 21 21.75zM7.5 9.75V6a4.5 4.5 0 0 1 9 0v3.75a.75.75 0 0 0 1.5 0V6A6 6 0 0 0 6 6v3.75a.75.75 0 0 0 1.5 0M12 15a1.125 1.125 0 1 0 .004 0h-.006a.75.75 0 0 0 .004 1.5H12a.375.375 0 1 1 0-.75.375.375 0 0 1 0 .75.75.75 0 0 0 0-1.5"
+                                              fill=""></path>
+                                    </svg>
+                                </span>
+                                <div class="setting-titleItem" style="color: #006ce4">
+                                    An toàn và bảo mật
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="ServiceOrderHistory">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <svg xmlns:xlink="http://www.w3.org/1999/xlink"
+                                         xmlns="http://www.w3.org/2000/svg"
+                                         viewBox="0 0 128 128"
+                                         data-rtl-flip="true"
+                                         width="18"
+                                         height="18">
+                                        <path d="M116 0H28c-6.627 0-12 5.373-12 12v20a4 4 0 0 0 8 0h96v40a4 4 0 0 0 8 0V12c0-6.627-5.373-12-12-12M24 24V12a4 4 0 0 1 4-4h88a4 4 0 0 1 4 4v12zm76 20H12C5.373 44 0 49.373 0 56v60c0 6.627 5.373 12 12 12h88c6.627 0 12-5.373 12-12V56c0-6.627-5.373-12-12-12m-88 8h88a4 4 0 0 1 4 4v12H8V56a4 4 0 0 1 4-4m88 68H12a4 4 0 0 1-4-4V76h96v40a4 4 0 0 1-4 4M89.14 84.25h-23A5.88 5.88 0 0 0 60 89.859v12.261a5.88 5.88 0 0 0 6.09 5.63h23a5.89 5.89 0 0 0 6.1-5.63V89.88a5.89 5.89 0 0 0-6.05-5.63m-1.9 15.5H68v-7.5h19.24zM36 96a4 4 0 0 1-4 4H20a4 4 0 0 1 0-8h12a4 4 0 0 1 4 4"></path>
+                                    </svg>
+                                </span>
+                                <div class="setting-titleItem">Dịch vụ của bạn</div>
+                            </div>
+                        </a>
+                    </li>
+                    <hr />
+                    <li>
+                        <a asp-area="Accounts" asp-controller="Account" asp-action="LogOut">
+                            <div class="setting-item">
+                                <span class="setting-iconItem">
+                                    <i class="fa-solid fa-door-open"></i>
+                                </span>
+                                <div class="setting-titleItem">Đăng xuất</div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <!-- Sidebar End -->
+            <!-- Setting content -->
+            <div class="setting-content">
+                <div style="display: flex; margin-bottom: 20px">
+                    <div>
+                        <h1>An toàn và bảo mật</h1>
+                        <p style="margin-top: 8px; color: #595959">
+                            Thay đổi thiết lập bảo mật, cài đặt xác thực bổ sung hoặc xóa
+                            tài khoản của Quý vị.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="setting-edit-wrapper">
+                    <!-- Mật khẩu -->
+                    @if (user.PasswordHash != null)
+                    {
+                        <div class="setting-row">
+                            <input type="checkbox" id="password" hidden />
+
+                            <div class="setting-col">
+                                <label for="password" class="btn btn_fix">Cài lại</label>
+                                <label for="password" class="btn btn_cancel position-absolute">Hủy</label>
+                            </div>
+                            <div class="setting-grow">
+                                <div class="edit-title">
+                                    <h2>Mật khẩu</h2>
+                                </div>
+                                <div class="edit-element">
+                                    <p>
+                                        Đổi mật khẩu thường xuyên để giữ tài khoản của bạn được
+                                        bảo mật
+                                    </p>
+                                    <form class="form-name" style="width: 95%; gap: 0" asp-action="ChangePassword" method="post">
+                                        <div class="form-group">
+                                            <label for="firstName">Mật khẩu cũ<span class="required">*</span></label>
+                                            <input class="form-input"
+                                                   type="password"
+                                                   id="firstName"
+                                                   name="oldPassword" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="firstName">Mật khẩu mới<span class="required">*</span></label>
+                                            <input class="form-input"
+                                                   type="password"
+                                                   id="firstName"
+                                                   name="newPassword" />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="firstName">Nhập lại mật khẩu mới<span class="required">*</span></label>
+                                            <input class="form-input"
+                                                   type="password"
+                                                   id="firstName"
+                                                   name="confirmNewPassword" />
+                                        </div>
+                                        <button for="displayName" class="btn_save"> Lưu </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <!-- Xác thực 2 yếu tố -->
+                    <div class="setting-row">
+                        <input type="checkbox" id="factor" hidden />
+
+                        <div class="setting-col">
+                            <label for="factor" class="btn btn_fix">Thiết lập</label>
+                            <label for="factor" class="btn btn_cancel">Hủy</label>
+                        </div>
+                        <div class="setting-grow">
+                            <div class="edit-title">
+                                <h2>Xác thực 2 yếu tố</h2>
+                            </div>
+                            <div class="edit-element">
+                                <p>
+                                    Tăng độ bảo mật cho tài khoản bằng cách thiết thập xác
+                                    thực 2 yếu tố.
+                                </p>
+                                <p class="text_none" style="color: #1a1a1a">
+                                    1. Tải ứng dụng xác thực
+                                </p>
+                                <p class="text_none" style="width: 81%">
+                                    Nếu Quý vị không có ứng dụng xác thực, vui lòng tải về.
+                                    Chúng tôi khuyến khích Quý vị sử dụng Google Authenticator
+                                    hoặc Microsoft Authenticator.
+                                </p>
+                            </div>
+                            <label for="factor" class="btn_save" style="width: 94px">
+                                Kế tiếp
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Các phiên truy cập -->
+                    <div class="setting-row">
+                        <input type="checkbox" id="password" hidden />
+
+                        <div class="setting-col">
+                            <label for="" class="btn btn_fix">Đăng xuất</label>
+                            <label for="password" class="btn btn_cancel">Hủy</label>
+                        </div>
+                        <div class="setting-grow">
+                            <div class="edit-title">
+                                <h2>Các phiên truy cập đang có hiệu lực</h2>
+                            </div>
+                            <div class="edit-element">
+                                <!-- <div style="display: flex; gap: 8px; margin-bottom: 5px">
+                                  <p>thanhdatttlim2@gmail.com</p>
+                                  <span>Xác thực</span>
+                                </div> -->
+                                <p>
+                                    Khi chọn "Đăng xuất", bạn sẽ đăng xuất khỏi tất cả các
+                                    thiết bị trừ thiết bị này và có thể mất đến 10 phút.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Xóa tài khoản -->
+                    <div class="setting-row">
+                        <input type="checkbox" id="delete-acc" hidden />
+
+                        <div class="setting-col">
+                            <label for="delete-acc" class="btn btn_fix">Xóa tài khoản</label>
+                            <label for="delete-acc" class="btn btn_cancel">Hủy</label>
+                        </div>
+                        <div class="setting-grow">
+                            <div class="edit-title">
+                                <h2>Xóa tài khoản</h2>
+                            </div>
+                            <div class="edit-element">
+                                <p>Xóa tài khoản DiepTourist.com vĩnh viễn</p>
+                                <div class="text_none">
+                                    <input type="radio" name="delele-account" id="f1" hidden />
+                                    <input type="radio" name="delele-account" id="f2" hidden />
+                                    <input type="radio" name="delele-account" id="f3" hidden />
+                                    <p class="text_none">Vì sao bạn muốn xóa tài khoản của mình</p>
+                                    <div class="delete-contentw">
+                                        <div>
+                                            <label for="f1" class="lb-delete">
+                                                <span class="check-radio"></span>
+                                                <span class="delete-content">
+                                                    <div>
+                                                        Tôi nhận được quá nhiều email từ DiepTourist.com
+                                                    </div>
+                                                    <div>
+                                                        Nếu muốn tiếp tục tận hưởng lợi ích từ tài khoản
+                                                        mà không nhận email marketing, bạn có thể hủy
+                                                        đăng ký nhận email.
+                                                    </div>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="delete-contentw">
+                                        <div>
+                                            <label for="f2" class="lb-delete">
+                                                <span class="check-radio"></span>
+                                                <span class="delete-content">
+                                                    <div>
+                                                        Tôi muốn dùng email khác cho tài khoản của mình
+                                                    </div>
+                                                    <div>
+                                                        Có cách nhanh hơn để thực hiện điều này! Thay
+                                                        đổi email của bạn bất cứ lúc nào trong cài đặt
+                                                        "Thông tin cá nhân".
+                                                    </div>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="delete-contentw">
+                                        <div>
+                                            <label for="f3" class="lb-delete">
+                                                <span class="check-radio"></span>
+                                                <span class="delete-content">
+                                                    <div>Tôi muốn xóa tất cả dữ liệu của mình</div>
+                                                    <div>
+                                                        Sau khi tài khoản DiepTourist.com của bạn bị xóa,
+                                                        bạn sẽ không thể tiếp tục truy cập dữ liệu tài
+                                                        khoản, dữ liệu đơn đặt trong quá khứ, danh sách
+                                                        chỗ nghỉ yêu thích hoặc trạng thái Genius của
+                                                        bạn.Để biết thêm thông tin về việc thực thi
+                                                        <a href="#" style="color: #006ce4">quyền của chủ thể dữ liệu</a>, vui lòng xem
+                                                        <a href="#" style="color: #006ce4">Chính sách bảo mật</a>
+                                                        dành cho Khách hàng của chúng tôi.
+                                                    </div>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <label for="delete-acc"
+                                   class="btn_save"
+                                   style="width: 590px; padding: 8px 10px;margin-top: 275px;">
+                                Chỉnh sửa địa chỉ email
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Setting content end -->
+        </div>
+    </div>
+</div>

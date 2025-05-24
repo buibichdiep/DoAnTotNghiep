@@ -1,0 +1,796 @@
+﻿﻿@{
+    ViewData["Title"] = "Home Page";
+    var codeIATA = ViewBag.CodeIATA as List<CityCodeIATA> ?? new List<CityCodeIATA>();
+    var listCateHotel = ViewBag.ListCateHotel as List<CategoryHotel> ?? new List<CategoryHotel>();
+    var listCateTour = ViewBag.ListCateTour as List<CategoryTour> ?? new List<CategoryTour>();
+}
+
+<div class="wrapper">
+    <!--Slide-->
+    <div class="slide-show">
+        <div class="list-images">
+            <img class="imgs" src="./images/slide1.jpg" alt="">
+            <img class="imgs" src="./images/slide2.jpg" alt="">
+            <img class="imgs" src="./images/slide3.jpg" alt="">
+            <img class="imgs" src="./images/slide4.jpg" alt="">
+        </div>
+        <div class="arrow">
+            <div class="arrow-left btns"><i class="fa-solid fa-chevron-left"></i></div>
+            <div class="arrow-right btns"><i class="fa-solid fa-chevron-right"></i></div>
+        </div>
+        <div class="index-images">
+            <div class="index-item index-item-0 active"></div>
+            <div class="index-item index-item-1"></div>
+            <div class="index-item index-item-2"></div>
+            <div class="index-item index-item-3"></div>
+        </div>
+    </div>
+    <!--Filter search-->
+    <div class="filter-search-index">
+        <div class="wrapper-filter-index">
+            <div class="filter-menu-index">
+                <ul class="list-menu-index">
+                    <li class="menu-item-index" id="itemIndex1" onclick="showContainer(1)">Vé máy bay</li>
+                    <li class="menu-item-index" id="itemIndex2" onclick="showContainer(2)">Khách sạn</li>
+                    <li class="menu-item-index" id="itemIndex3" onclick="showContainer(3)">Tour du lịch</li>
+                </ul>
+            </div>
+            <div class="filter-content-index">
+                <div id="containerIndex1" class="container-index active">
+                    <div class="filter-air-1">
+                        <div class="content-left">
+                            <div class="content-left-1">
+                                <div class="departure-point" onclick="toggleSelector('departureSelector')">
+                                    <div class="icon"><i class="fa-solid fa-plane-departure"></i></div>
+                                    <div class="text">
+                                        <div class="text1">Điểm đi</div>
+                                        <div class="swaptext1" id="swaptext1">Chọn địa điểm</div>
+                                    </div>
+                                </div>
+                                <div class="swap" id="swap-air"><i class="fa-solid fa-right-left"></i></div>
+                                <div class="arrival-point" onclick="toggleSelector('arrivalSelector')">
+                                    <div class="icon"><i class="fa-solid fa-plane-arrival"></i></div>
+                                    <div class="text">
+                                        <div class="text1">Điểm đến</div>
+                                        <div class="swaptext2" id="swaptext2">Chọn địa điểm</div>
+                                    </div>
+                                </div>
+
+                                <!-- Bảng chọn địa điểm cho điểm đi -->
+                                <div class="location-selector" id="departureSelector">
+                                    <div class="location-selector-title">Chọn điểm đi</div>
+                                    <div class="location-selector-content">
+                                        <div class="location-categories">
+                                            <div class="location-category" onclick="showOptions('departure', 'vietnam')">Việt Nam</div>
+                                            <div class="location-category" onclick="showOptions('departure', 'asean')">Đông Nam Á</div>
+                                            <div class="location-category" onclick="showOptions('departure', 'asia')">Châu Á</div>
+                                            <div class="location-category" onclick="showOptions('departure', 'europe')">Châu Âu</div>
+                                            <div class="location-category" onclick="showOptions('departure', 'oceania')">Châu Úc</div>
+                                            <div class="location-category" onclick="showOptions('departure', 'americas')">Châu Mỹ</div>
+                                        </div>
+                                        <div class="location-options show" id="departure-vietnam">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "VN")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <div class="location-options" id="departure-asean">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "DNA")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <div class="location-options" id="departure-asia">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CA")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <div class="location-options" id="departure-europe">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CAU")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <div class="location-options" id="departure-oceania">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CU")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <div class="location-options" id="departure-americas">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CM")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext1', 'departureSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <!-- Thêm các nhóm tùy chọn cho các khu vực khác -->
+                                    </div>
+                                </div>
+
+                                <!-- Bảng chọn địa điểm cho điểm đến -->
+                                <div class="location-selector" id="arrivalSelector">
+                                    <div class="location-selector-title">Chọn điểm đi</div>
+                                    <div class="location-selector-content">
+                                        <div class="location-categories">
+                                            <div class="location-category" onclick="showOptions('arrival', 'vietnam')">Việt Nam</div>
+                                            <div class="location-category" onclick="showOptions('arrival', 'asean')">Đông Nam Á</div>
+                                            <div class="location-category" onclick="showOptions('arrival', 'asia')">Châu Á</div>
+                                            <div class="location-category" onclick="showOptions('arrival', 'europe')">Châu Âu</div>
+                                            <div class="location-category" onclick="showOptions('arrival', 'oceania')">Châu Úc</div>
+                                            <div class="location-category" onclick="showOptions('arrival', 'americas')">Châu Mỹ</div>
+                                        </div>
+                                        <div class="location-options show" id="arrival-vietnam">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "VN")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <div class="location-options" id="arrival-asean">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "DNA")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <div class="location-options" id="arrival-asia">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CA")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <div class="location-options" id="arrival-europe">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CAU")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <div class="location-options" id="arrival-oceania">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CU")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                        <div class="location-options" id="arrival-americas">
+                                            @foreach (var city in codeIATA.FirstOrDefault(c => c.CodeIATA == "CM")!.CityCodeIATAChildren)
+                                            {
+                                                <div class="option" data-code="@city.CodeIATA" onclick="selectOption('swaptext2', 'arrivalSelector')">@city.CityName (@city.CodeIATA)</div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-left-2">
+                                <div class="picker-container" id="departureDatePicker">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                    <div class="picker-content">
+                                        <div class="picker-name">Ngày Đi</div>
+                                        <span id="departureDateText">Chọn ngày</span>
+                                    </div>
+                                </div>
+
+                                <div class="picker-container" id="returnDatePicker">
+                                    <i class="fa-solid fa-calendar-days"></i>
+                                    <div class="picker-content">
+                                        <div class="picker-name">Ngày Về</div>
+                                        <span id="returnDateText">Chọn ngày</span>
+                                    </div>
+                                </div>
+
+                                <div class="picker-container" id="guestPickerContainer">
+                                    <i class="fa-solid fa-user"></i>
+                                    <div class="picker-content">
+                                        <div class="picker-name">Số Khách</div>
+                                        <span id="guestCount">1 khách</span>
+                                    </div>
+                                </div>
+                                <!-- Dropdowns -->
+                                <div class="dropdown guest-dropdown"
+                                     style="width: 230px; position: absolute; top: 90%; left: 70%;" id="guestDropdown">
+                                    <div class="guest-item">
+                                        <label>
+                                            Người lớn
+                                            <br />
+                                            <span>(> 12 tuổi)</span>
+                                        </label>
+                                        <div class="select-quantity">
+                                            <button class="counter-btn" id="adultMinus"><i class="fa-solid fa-minus"></i></button>
+                                            <span class="counter-value" id="adultCount">1</span>
+                                            <button class="counter-btn" id="adultPlus"><i class="fa-solid fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="guest-item">
+                                        <label>
+                                            Trẻ em
+                                            <br />
+                                            <span>(2-12 tuổi)</span>
+                                        </label>
+                                        <div class="select-quantity">
+                                            <button class="counter-btn" id="childMinus"><i class="fa-solid fa-minus"></i></button>
+                                            <span class="counter-value" id="childCount">0</span>
+                                            <button class="counter-btn" id="childPlus"><i class="fa-solid fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <div class="guest-item">
+                                        <label>
+                                            Em bé
+                                            <br />
+                                            <span>(&lt;2 tuổi)</span>
+                                        </label>
+                                        <div class="select-quantity">
+                                            <button class="counter-btn" id="infantMinus"><i class="fa-solid fa-minus"></i></button>
+                                            <span class="counter-value" id="infantCount">0</span>
+                                            <button class="counter-btn" id="infantPlus"><i class="fa-solid fa-plus"></i></button>
+                                        </div>
+                                    </div>
+                                    <hr />
+                                    <div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="TravelClass" id="thrifty" value="1" checked>
+                                            <label class="form-check-label" for="thrifty">
+                                                Tiết kiệm & phổ thông
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="TravelClass" id="universal" value="2">
+                                            <label class="form-check-label" for="universal">
+                                                Phổ thông linh hoạt
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="TravelClass" id="merchant" value="3">
+                                            <label class="form-check-label" for="merchant">
+                                                Thương gia
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content-right">
+                            <div class="content-right-1">
+                                <div class="btn-check">
+                                    <input type="checkbox" id="check">
+                                    <label for="check" class="button-check"></label>
+                                </div>
+                                <div class="ticket-cheap">Tìm vé rẻ nhất</div>
+                            </div>
+                            <div class="content-right-2">
+                                <div class="find-flights"><a href="">Tìm chuyến bay</a></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="containerIndex2" class="container-index">
+                    <div id="container2" class="container">
+                        <div class="filter-content-2">
+                            <div class="content-left">
+                                <div class="left-1">
+                                    <div class="location-all">
+                                        <div class="location-icon">
+                                            <i class="fa-solid fa-location-dot"></i>
+                                        </div>
+                                        <div class="location-main-text">
+                                            <div class="location-main-text1">Địa điểm</div>
+                                            <div class="location-main-text2" id="locationText2">
+                                                Thành phố, địa danh, khách sạn...
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="left-2">
+                                    <div class="picker-container" id="departureDatePicker">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                        <div class="picker-content">
+                                            <div class="picker-name">Ngày Đi</div>
+                                            <span id="departureDateText2">Chọn ngày</span>
+                                        </div>
+                                    </div>
+                                    <div class="picker-container" id="returnDatePicker">
+                                        <i class="fa-solid fa-calendar-days"></i>
+                                        <div class="picker-content">
+                                            <div class="picker-name">Ngày Về</div>
+                                            <span id="returnDateText2">Chọn ngày</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="content-right">
+                                <div class="find-hotels">
+                                    <div class="btn-findHotels">
+                                        <a asp-controller="Home" asp-action="HotelFilter">Tìm khách sạn</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Dropdown hotel -main 1 -->
+                        <div class="location-dropdown" id="locationDropdown2">
+                            <div class="dropdown-title">Địa điểm nổi bật</div>
+                            <div class="dropdown-section">
+                                @foreach (var cateHotel in listCateHotel.Where(ch => ch.IsOutstanding))
+                                {
+                                    <div class="dropdown-item" data-location="@cateHotel.Name" data-slug="@cateHotel.Slug">
+                                        <img src="@cateHotel.Avatar" alt="@cateHotel.Name" />
+                                        <div class="dd-hotel-main">
+                                            <span class="dd-name">@cateHotel.Name</span>
+                                            <div class="dd-hotel-text">@cateHotel.Hotels.Count khách sạn</div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="dropdown-title">Điểm đến ưa thích</div>
+                            <div class="dropdown-section">
+                                @foreach (var cateHotel in listCateHotel.Where(ch => !ch.IsOutstanding))
+                                {
+                                    <div class="dropdown-item dropdown-item-name"
+                                         data-location="@cateHotel.Name" data-slug="@cateHotel.Slug">
+                                        @cateHotel.Name
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="containerIndex3" class="container-index">
+                    <div id="container3" class="container">
+                        <div class="filter-content-3">
+                            <div class="place">
+                                <div class="icon"><i class="fa-solid fa-location-dot"></i></div>
+                                <div class="place-text">
+                                    <div class="place-text1">Địa điểm</div>
+                                    <div class="place-text2" id="place-text2" data-slug="">Bạn muốn đi đâu</div>
+                                </div>
+                            </div>
+                            <div class="departure-location">
+                                <div class="dl-icon"><i class="fa-solid fa-location-dot"></i></div>
+                                <div class="dl-text">
+                                    <div class="dl-text1">Khởi hành từ</div>
+                                    <div class="dl-text2" id="dl-text2" data-departure="">Vui lòng chọn</div>
+                                </div>
+                            </div>
+                            <div class="find-now">
+                                <div class="btn-findNow"><a asp-controller="Home" asp-action="TourFilter">Tìm ngay</a></div>
+                            </div>
+                        </div>
+                        <div class="dropdown-please" id="dropdownPlease">
+                            <ul>
+                                <li data-value="Hồ Chí Minh">Hồ Chí Minh</li>
+                                <li data-value="Hà Nội">Hà Nội</li>
+                                <li data-value="Đà Nẵng">Đà Nẵng</li>
+                                <li data-value="Nha Trang">Nha Trang</li>
+                                <li data-value="Phú Quốc">Phú Quốc</li>
+                                <li data-value="Huế">Huế</li>
+                                <li data-value="Cần Thơ">Cần Thơ</li>
+                                <li data-value="Đà Lạt">Đà Lạt</li>
+                                <li data-value="Quy Nhơn">Quy Nhơn</li>
+                                <li data-value="Hạ Long">Hạ Long</li>
+                                <li data-value="Tây Nguyên">Tây Nguyên</li>
+                            </ul>
+                        </div>
+                        <!-- Dropdown -->
+                        <div class="dropdown-container" id="dropdownContainer">
+
+                            <div class="tour-dropdown">
+                                <div class="dropdown-title">Địa điểm nổi bật</div>
+                                <div class="dropdown-section dropdown-section-1">
+                                    @foreach (var cateTour in listCateTour.Where(ct => ct.IsOutstanding).Take(6))
+                                    {
+                                        <div class="dropdowns-item d-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug" data-slug="@cateTour.Slug">
+                                            <img src="@cateTour.Avatar" alt="@cateTour.Name">
+                                            <div class="dd-hotel-main">
+                                                <span class="dd-name">@cateTour.Name</span>
+                                                <div class="dd-hotel-text">@cateTour.Tours.Count tour</div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                            <div class="travel-all">
+                                <!--Du lịch trong nước và nước ngoài -->
+                                <div class="dropdown-section-2">
+                                    <div class="dropdown-items toggle-section" onclick="toggleSubMenu('domestic')">
+                                        <i class="fa fa-chevron-right arrow-icon" id="arrow-international"></i>Du lịch trong nước
+                                    </div>
+                                    <div class="sub-options" id="domestic">
+                                        <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('north')">
+                                            <i class="fa fa-chevron-right arrow-icon" id="arrow-north"></i> Miền Bắc
+                                        </div>
+                                        <div class="sub-options-inner" id="north">
+                                            @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "mien-bac")?.CateTourChildren!)
+                                            {
+                                                <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                            }
+                                        </div>
+                                        <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('central')">
+                                            <i class="fa fa-chevron-right arrow-icon" id="arrow-central"></i> Miền Trung
+                                        </div>
+                                        <div class="sub-options-inner" id="central">
+                                            @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "mien-trung")?.CateTourChildren!)
+                                            {
+                                                <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                            }
+                                        </div>
+                                        <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('south')">
+                                            <i class="fa fa-chevron-right arrow-icon" id="arrow-south"></i> Miền Nam
+                                        </div>
+                                        <div class="sub-options-inner" id="south">
+                                            @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "mien-nam")?.CateTourChildren!)
+                                            {
+                                                <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-section-2">
+                                    <div class="dropdown-items toggle-section" onclick="toggleSubMenu('international')">
+                                        <i class="fa fa-chevron-right arrow-icon" id="arrow-international"></i> Du lịch nước ngoài
+                                    </div>
+                                    <div class="sub-options" id="international">
+                                        <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('southeast-asia')">
+                                            <i class="fa fa-chevron-right arrow-icon" id="arrow-southeast-asia"></i> Đông Nam Á
+                                        </div>
+                                        <div class="sub-options-inner" id="southeast-asia">
+                                            @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "dong-nam-a")?.CateTourChildren!)
+                                            {
+                                                <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                            }
+                                        </div>
+                                        <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('asia')">
+                                            <i class="fa fa-chevron-right arrow-icon" id="arrow-asia"></i> Châu Á
+                                        </div>
+                                        <div class="sub-options-inner" id="asia">
+                                            @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "chau-a")?.CateTourChildren!)
+                                            {
+                                                <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                            }
+                                        </div>
+                                        <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('europe')">
+                                            <i class="fa fa-chevron-right arrow-icon" id="arrow-europe"></i> Châu Âu
+                                        </div>
+                                        <div class="sub-options-inner" id="europe">
+                                            @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "chau-au")?.CateTourChildren!)
+                                            {
+                                                <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                            }
+                                        </div>
+                                        <div class="dropdown-items toggle-submenu" onclick="toggleSubMenu('australia')">
+                                            <i class="fa fa-chevron-right arrow-icon" id="arrow-australia"></i> Châu Úc
+                                        </div>
+                                        <div class="sub-options-inner" id="australia">
+                                            @foreach (var cateTour in listCateTour.FirstOrDefault(ct => ct.Slug == "chau-uc")?.CateTourChildren!)
+                                            {
+                                                <div class="dropdowns-item" data-location="@cateTour.Name" data-slug="@cateTour.Slug">@cateTour.Name</div>
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Brand-->
+    <div class="brand-index">
+        <div class="list-brand">
+            <div class="journey">
+                <img class="journey-img" src="../images/14-nam.png" alt="">
+                <div class="journey-text">
+                    <div class="journey-text-1">14 năm chặng đường</div>
+                    <div class="journey-text-2">chinh phục một niềm tin</div>
+                </div>
+            </div>
+            <div class="achievement">
+                <div class="achievement-content">
+                    <img class="achievement-img" src="../images/thuonghieu1.png" alt="">
+                    <div class="achievement-text">Luôn có giá tốt</div>
+                </div>
+                <div class="achievement-content">
+                    <img class="achievement-img" src="../images/thuonghieu2.png" alt="">
+                    <div class="achievement-text">Công ty du lịch hàng đầu Việt Nam</div>
+                </div>
+                <div class="achievement-content">
+                    <img class="achievement-img" src="../images/thuonghieu3.png" alt="">
+                    <div class="achievement-text">99% khách hàng hài lòng</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--menu-small-->
+<div class="menu-small">
+    <div class="list-menusmall">
+        <div class="menusmall-items">
+            <a href="airlineTicket.html"><img class="menusmall-img" src="./images/menusmall1.svg" alt=""></a>
+            <div class="menusmall-text">Vé máy bay</div>
+        </div>
+        <div class="menusmall-items">
+            <a href="hotel.html"><img class="menusmall-img" src="./images/menusmall2.svg" alt=""></a>
+            <div class="menusmall-text">Khách sạn</div>
+        </div>
+        <div class="menusmall-items">
+            <a href="tour.html"><img class="menusmall-img" src="./images/menusmall3.svg" alt=""></a>
+            <div class="menusmall-text">Tour du lịch</div>
+        </div>
+        <div class="menusmall-items">
+            <a href="#"><img class="menusmall-img" src="./images/menusmall4.svg" alt=""></a>
+            <div class="menusmall-text">Combo khuyến mãi</div>
+        </div>
+        <div class="menusmall-items">
+            <a href="#"><img class="menusmall-img" src="./images/menusmall5.svg" alt=""></a>
+            <div class="menusmall-text">Du thuyền Hạ Long</div>
+        </div>
+        <div class="menusmall-items">
+            <a href="#"><img class="menusmall-img" src="./images/menusmall6.svg" alt=""></a>
+            <div class="menusmall-text">Nghỉ dưỡng Vinpearl</div>
+        </div>
+        <div class="menusmall-items">
+            <a href="#"><img class="menusmall-img" src="./images/menusmall7.svg" alt=""></a>
+            <div class="menusmall-text">Vé vui chơi</div>
+        </div>
+    </div>
+</div>
+<div class="hot-promotion">
+    <div class="list-hot-promotion">
+        <div class="title">Khuyến mãi <span>Hot</span> tại DiepTourist</div>
+        <div class="content">
+            <a href="#"><img class="hp-img" src="./images/hot-promotion1.jpg" alt=""></a>
+            <a href="#"><img class="hp-img" src="./images/hot-promotion2.jpg" alt=""></a>
+            <a href="#"><img class="hp-img" src="./images/hot-promotion3.jpg" alt=""></a>
+        </div>
+    </div>
+</div>
+<!--partner-->
+<!--airline-partner-->
+<div class="airline-partner">
+    <div class="airline-partner-content">
+        <div class="airline-partner-left">
+            <div class="title">Đối tác hàng không</div>
+            <div class="text">
+                Với hệ thống tìm kiếm và so sánh giá linh hoạt,
+                khách hàng sẽ đặt được vé máy bay giá rẻ nhất
+            </div>
+        </div>
+        <div class="airline-partner-right">
+            <a href=""><img src="./images/airline-partner-1.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-2.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-3.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-4.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-5.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-6.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-7.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-8.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-9.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-10.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-11.png" alt=""></a>
+            <a href=""><img src="./images/airline-partner-12.png" alt=""></a>
+        </div>
+    </div>
+</div>
+<!--hotel-partner-->
+<div class="hotel-partner">
+    <div class="hotel-partner-content">
+        <div class="hotel-partner-left">
+            <div class="title">Đối tác khách sạn hàng đầu</div>
+            <div class="text">
+                Chúng tôi liên kết chọn lọc với những đối
+                tác uy tín, chất lượng để mang đến bạn những trải nghiệm tuyệt vời.
+            </div>
+        </div>
+        <div class="hotel-partner-right">
+            <a href=""><img src="./images/hotel-partner-1.png" alt=""></a>
+            <a href=""><img src="./images/hotel-partner-2.png" alt=""></a>
+            <a href=""><img src="./images/hotel-partner-3.png" alt=""></a>
+            <a href=""><img src="./images/hotel-partner-4.png" alt=""></a>
+            <a href=""><img src="./images/hotel-partner-5.png" alt=""></a>
+            <a href=""><img src="./images/hotel-partner-6.png" alt=""></a>
+            <a href=""><img src="./images/hotel-partner-7.png" alt=""></a>
+            <a href=""><img src="./images/hotel-partner-8.png" alt=""></a>
+            <a href=""><img src="./images/hotel-partner-9.png" alt=""></a>
+            <a href=""><img src="./images/hotel-partner-10.png" alt=""></a>
+        </div>
+    </div>
+</div>
+<!--About Website-->
+<div class="aboutWeb">
+    <div class="aboutWeb-content">
+        <div class="title">Giới thiệu về DiepTourist</div>
+        <iframe class="video-about" src="https://www.youtube.com/embed/-pP-Ycnxnrg?si=I9d9RnLCDsd3e0-j"
+                title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+</div>
+<!--Awards-->
+<div class="awards">
+    <div class="awards-content">
+        <div class="awards-title">Thành tựu & giải thưởng</div>
+        <div class="list-awards">
+            <div class="awards-item">
+                <img src="./images/awards-1.png" alt="">
+                <div class="text">Top 10 Dịch vụ du lịch được yêu thích nhất</div>
+            </div>
+            <div class="awards-item">
+                <img src="./images/awards-2.png" alt="">
+                <div class="text">Công ty có khách đặt tour trực tiếp nhiều nhất năm</div>
+            </div>
+            <div class="awards-item">
+                <img src="./images/awards-3.png" alt="">
+                <div class="text">Chứng nhận Traveler's Choice từ Tripadvisor</div>
+            </div>
+            <div class="awards-item">
+                <img src="./images/awards-4.png" alt="">
+                <div class="text">Đối tác chiến lược hàng đầu của Vinpearl</div>
+            </div>
+            <div class="awards-item">
+                <img src="./images/awards-5.png" alt="">
+                <div class="text">Top đại lý xuất sắc của các hãng hàng không</div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--Overview-->
+<div class="overview">
+    <div class="overview-content">
+        <div class="list-overview">
+            <div class="overview-title">Du lịch nước ngoài</div>
+            <div class="overview-items">
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Du lịch Thái Lan</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Du lịch Nhật Bản</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Du lịch Hàn Quốc</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Du lịch Úc</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Du lịch Singapore</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Du lịch Trung Quốc</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Du lịch Đài Loan</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Du lịch Mỹ</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Du lịch Phượng Hoàng Cổ Trấn</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="nuoc-ngoai">Du lịch Dubai</a></div>
+            </div>
+        </div>
+        <div class="list-overview">
+            <div class="overview-title">Du lịch trong nước</div>
+            <div class="overview-items">
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Du lịch Sa Pa</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Du lịch Đà Nẵng</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Du lịch Nha Trang</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Du lịch Ninh Bình</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Du lịch Hạ Long</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Du lịch Đà Lạt</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Du lịch Quy Nhơn</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Du lịch Phú Quốc</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Du lịch Đông Tây Bắc</a></div>
+                <div class="item"><a asp-action="TourFilter" asp-route-slug="trong-nuoc">Du lịch Miền Tây</a></div>
+            </div>
+        </div>
+        <div class="list-overview">
+            <div class="overview-title">Khách sạn</div>
+            <div class="overview-items">
+                <div class="item"><a asp-action="HotelFilter">Khách sạn Sa Pa</a></div>
+                <div class="item"><a asp-action="HotelFilter">Khách sạn Đà Nẵng</a></div>
+                <div class="item"><a asp-action="HotelFilter">Khách sạn Nha Trang</a></div>
+                <div class="item"><a asp-action="HotelFilter">Khách sạn Ninh Bình</a></div>
+                <div class="item"><a asp-action="HotelFilter">Khách sạn Hạ Long</a></div>
+                <div class="item"><a asp-action="HotelFilter">Khách sạn Đà Lạt</a></div>
+                <div class="item"><a asp-action="HotelFilter">Khách sạn Quy Nhơn</a></div>
+                <div class="item"><a asp-action="HotelFilter">Khách sạn Phú Quốc</a></div>
+                <div class="item"><a asp-action="HotelFilter">Khách sạn Hà Giang</a></div>
+                <div class="item"><a asp-action="HotelFilter">Khách sạn Hà Nội</a></div>
+            </div>
+        </div>
+        <div class="list-overview">
+            <div class="overview-title">Du thuyền Hạ Long</div>
+            <div class="overview-items">
+                <div class="item"><a href="javascripts:void(0)">Du thuyền Ambassador 1 ngày</a></div>
+                <div class="item"><a href="javascripts:void(0)">Du thuyền Mon Cheri</a></div>
+                <div class="item"><a href="javascripts:void(0)">Du thuyền Amethyst 1 ngày</a></div>
+                <div class="item"><a href="javascripts:void(0)">Du thuyền Scarlet Pearl</a></div>
+                <div class="item"><a href="javascripts:void(0)">Du thuyền Rosy</a></div>
+                <div class="item"><a href="javascripts:void(0)">Du thuyền Ambassador</a></div>
+                <div class="item"><a href="javascripts:void(0)">Du thuyền Paradise Delight</a></div>
+                <div class="item"><a href="javascripts:void(0)">Du thuyền Light 1 ngày</a></div>
+                <div class="item"><a href="javascripts:void(0)">Du thuyền Sea Octopus 1 ngày </a></div>
+                <div class="item"><a href="javascripts:void(0)">Du thuyền Peony</a></div>
+            </div>
+        </div>
+        <div class="list-overview">
+            <div class="overview-title">Vé máy bay đi</div>
+            <div class="overview-items">
+                <div class="item"><a href="javascripts:void(0)">Vé máy bay đi Hà Nội</a></div>
+                <div class="item"><a href="javascripts:void(0)">Vé máy bay đi Hồ Chí Minh</a></div>
+                <div class="item"><a href="javascripts:void(0)">Vé máy bay đi Đà Nẵng</a></div>
+                <div class="item"><a href="javascripts:void(0)">Vé máy bay đi Nha Trang</a></div>
+                <div class="item"><a href="javascripts:void(0)">Vé máy bay đi Phú Quốc</a></div>
+                <div class="item"><a href="javascripts:void(0)">Vé máy bay đi Thái Lan</a></div>
+                <div class="item"><a href="javascripts:void(0)">Vé máy bay đi Nhật Bản</a></div>
+                <div class="item"><a href="javascripts:void(0)">Vé máy bay đi Hàn Quốc</a></div>
+                <div class="item"><a href="javascripts:void(0)">Vé máy bay đi Úc</a></div>
+                <div class="item"><a href="javascripts:void(0)">Vé máy bay đi Singapore</a></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@{
+    List<CategoryTour> RenderCateTour(List<CategoryTour> cateTours, bool isOutstanding = false)
+    {
+        var newCateTour = new List<CategoryTour>();
+        foreach (var item in cateTours)
+        {
+            if (item.CateTourChildren.Count > 0)
+            {
+                newCateTour.AddRange(RenderCateTour(item.CateTourChildren.ToList(), isOutstanding));
+                continue;
+            }
+
+            if (isOutstanding)
+            {
+                if (item.IsOutstanding)
+                    newCateTour.Add(item);
+            }
+            else
+            {
+                newCateTour.Add(item);
+            }
+
+        }
+
+        return newCateTour;
+    }
+}
+
+@section Scripts {
+    <script>
+        $(function () {
+            const Toast = window.globalVariable;
+
+            $(".find-flights > a").click(function (event) {
+                event.preventDefault();
+                var departure = $("#swaptext1").attr("data-code");
+                var destination = $("#swaptext2").attr("data-code");
+                var departureDate = $("#departureDateText").attr("data-date");
+                var returnDate = $("#returnDateText").attr("data-date") ?? "";
+                var numberAdult = $("#adultCount").text();
+                var numberChildren = $("#childCount").text();
+                var numberInfant = $("#infantCount").text();
+                var travelClass = $(".form-check .form-check-input:checked").val();
+
+                if (departure == undefined || destination == undefined || departureDate == undefined) {
+                    Swal.fire({
+                        title: "Thiếu thông tin!",
+                        text: "Vui lòng chọn điểm đi, điểm đến, ngày đi",
+                        icon: "warning",
+                    });
+
+                    return;
+                }
+
+                if (departure == destination) {
+                    Swal.fire({
+                        title: "Sai thông tin!",
+                        text: "Điểm đến và điểm đi không thể cùng một nơi",
+                        icon: "warning",
+                    });
+
+                    return;
+                }
+
+                var url = "@Url.Action("FlightSearch")" +
+                    `?From=${departure}&To=${destination}&DepartDate=${departureDate}&ReturnDate=${returnDate}&ADT=${numberAdult}&CHD=${numberChildren}&INF=${numberInfant}&TravelClass=${travelClass}`;
+
+                console.log(url);
+
+                window.location.href = url;
+            });
+
+            $(".btn-findHotels a").click(function () {
+                const slug = $("#locationText2").attr("data-slug");
+                $(this).attr("href", "@Url.Action("HotelFilter")" + `?slug=${slug}`);
+            });
+
+            $(".find-now .btn-findNow a").click(function () {
+                var slug = $("#place-text2").attr("data-slug");
+                var departure = $("#dl-text2").attr("data-departure");
+                $(this).attr("href", "@Url.Action("TourFilter")" + `?slug=${slug}&departure=${departure}`);
+            });
+        });
+    </script>
+}
